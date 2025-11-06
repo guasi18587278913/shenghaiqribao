@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "张三",
+      "phone": "13800138000",
+      "planetNumber": "12345678",
+      "role": "user"
+    },
+    {
+      "name": "李四",
+      "phone": "13900139000",
+      "planetNumber": "87654321",
+      "role": "user"
+    },
+    {
+      "name": "王五",
+      "phone": "15800158000",
+      "planetNumber": "11223344",
+      "role": "user"
+    }
+  ]
+}

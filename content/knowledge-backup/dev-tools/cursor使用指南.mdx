@@ -1,0 +1,57 @@
+---
+title: Cursor使用指南
+description: Cursor、Claude Code、GitHub 等开发工具配置
+category: 开发工具
+tags: ["出海开发"]
+importance: 3
+---
+
+# Cursor使用指南
+
+### 定位与订阅策略
+- “新手最友好的 AI 编程工具”——群友普遍共识。
+- 订阅方式：官网 $20/月（支持支付宝、国内单标 VISA/Mastercard）、淘宝/闲鱼月号 30–100 元、教育账号（约 199 元/年，但使用 Max 模式会秒封）。
+- 建议：买 1 个月体验即可，30 天后重点转向 Claude Code / Codex；Pro+ 无须考虑。
+
+### 使用体验与常见问题
+- **内存泄漏**：Mac M1 16GB 用户约一周会爆内存，重启即可；小排老师也遇到相同问题。
+- **模型选择**：
+  - 推荐：Claude 4.5 Sonnet（无思考图标）、GPT-5 High。
+  - 避免：Claude 3.7、带“思考”标记的模型（更慢更贵）。
+- **速度波动**：16:00–18:00 高峰期可能卡顿；对话轮数太多也会拖慢，建议新开会话。
+
+### 项目管理与操作流程
+1. **从文件夹开始**：`File → Open Folder` 选定项目目录，确保终端路径正确（周尹、田超的踩坑案例）。
+2. **运行流程**：
+   ```bash
+   npm run dev
+   ```
+   终端输出 `http://localhost:3000` 即成功。
+3. **Windows 用户**：优先使用 PowerShell / Windows Terminal，必要时用 Git Bash。
+4. **终端密码**：部分操作需输入系统密码，终端无回显属正常；如电脑原本无密码，重试即可（汐桐案例）。
+
+### 网络与配置
+- 必须开启 TUN 模式并安装组件（出现垃圾桶图标为成功）；节点建议美国，尽量避免香港。
+- 遇到 “This model provider doesn't serve your region” 时，按王小义的实测流程处理：重装 TUN 组件 → Cursor Settings 中将 Network 协议改为 HTTP/1.1 → 重启 Cursor → 更换纯净节点。
+- 提醒：不要长期使用全局模式，日常以规则模式即可，支付等敏感操作再开全局。
+- 与 GLM 联动：GLM 接入 Cursor 需走终端配置，插件内自带 API 容易“降智”。
+
+### 与其他工具协同
+- **Cursor × Codex**：ChatGPT Plus → 启用 Codex → 在 Cursor 导入使用；但撤销功能存在已知 bug，建议结合 Git。
+- **Cursor × V0**：用 V0 生成初版 UI，导出后在 Cursor 细化逻辑。
+- **Cursor × Claude Code**：可在 Cursor 内直接调用 Claude Code，当 IDE 更简洁。
+- **Cursor vs Trae vs Claude Code**：
+  | 工具 | 速度 | 准确度 | 自动执行 | 适合人群 | 推荐度 |
+  | --- | --- | --- | --- | --- | --- |
+  | Cursor | 快 | 高 | 支持 | 新手–专家 | ★★★★★ |
+  | Claude Code | 最快 | 最高 | 支持 | 有基础者 | ★★★★★ |
+  | Codex | 慢 | 高 | 支持 | 有基础者 | ★★★☆☆ |
+  | Trae | 中 | 中 | 支持 | 入门者 | ★★☆☆☆ |
+
+### 快捷键与效率技巧
+- `Cmd/Ctrl + I`：唤起 AI 对话框。
+- `Ctrl + `` (反引号)`：打开/关闭终端。
+- `F12`：浏览器开发者工具（配合调试）。
+- 遇到撤销问题、节点限制时及时查看终端提示或重启。
+
+---

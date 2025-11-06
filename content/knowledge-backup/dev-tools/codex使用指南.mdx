@@ -1,0 +1,29 @@
+---
+title: Codex使用指南
+description: Cursor、Claude Code、GitHub 等开发工具配置
+category: 开发工具
+tags: ["出海开发"]
+importance: 3
+---
+
+# Codex使用指南
+
+### 工具定位
+- OpenAI 官方 IDE，与 Claude Code 并列；可搭配 GPT Team 账号（闲鱼 10–30 元/月）。
+- 逻辑强、速度稍慢；界面不如 Cursor，但条理清晰。
+
+### 安装与登录
+- VS Code 插件市场搜索 “codex” 安装官方插件，使用 ChatGPT 账号登录（注意不要装错同名插件）。
+- 终端命令：`/logout` → `/login` 可解决大部分登录异常。
+
+### 模型切换与自动化
+- `cc-switch` 工具可在 Claude 与 GLM 间快速切换。
+- VS Code、Cursor 中的 Codex 配置一致，建议开启联网模式直接问 GPT 获取最新指南。
+- VPS 上使用时可以在设置里关闭重复 `Approve` 的确认步骤（通过配置文件）。
+
+### 常见问题
+- 撤销报错：等待官方修复，建议结合 Git 版本控制。
+- Node.js 版本过老：让 Codex 给出升级指令或手动运行；不要无限点击 Run。
+- 隐藏字问题：少数 UI Bug，不影响代码，可忽略。
+
+---

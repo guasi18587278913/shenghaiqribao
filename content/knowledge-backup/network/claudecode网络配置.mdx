@@ -1,0 +1,33 @@
+---
+title: ClaudeCode网络配置
+description: 网络环境配置、代理选择、IP 风险检测
+category: 网络与代理
+tags: ["网络", "设备配置"]
+importance: 3
+---
+
+# ClaudeCode网络配置
+
+Claude Code 依赖系统网络环境，如果终端或 VSCode 没有走代理，会出现“网页能用、编辑器连不上”的情况。
+
+### VSCode 配置
+```json
+{
+  "http.proxy": "http://127.0.0.1:7890",   // 替换为实际端口
+  "http.proxyStrictSSL": false
+}
+```
+- 需在 VSCode 设置中手动加入上述配置，确保编辑器请求走代理。
+
+### 终端配置
+- 临时设置：
+  ```bash
+  export https_proxy=http://127.0.0.1:7890
+  export http_proxy=http://127.0.0.1:7890
+  ```
+- 永久设置：把上述变量写入 `~/.zshrc`、`~/.bashrc`。
+- Windows PowerShell 可用 `$Env:http_proxy`、`$Env:https_proxy`。
+
+### TUN 模式的重要性
+- 如果仍无法连接，大概率是客户端未开启 TUN 模式。Clash Verge、Clash for Windows、Surge 均可一键开启。
+- 开启后注意节点地区：部分 TUN 节点默认走香港，Claude Code 会直接拒绝。

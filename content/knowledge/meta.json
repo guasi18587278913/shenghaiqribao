@@ -1,0 +1,19 @@
+{
+  "title": "知识库",
+  "description": "AI 出海开发知识库 - 系统化的经验总结",
+  "icon": "BookOpen",
+  "root": true,
+  "pages": [
+    "index",
+    "---分类---",
+    "account",
+    "network",
+    "payment",
+    "dev-tools",
+    "project",
+    "product-growth",
+    "community",
+    "learning",
+    "cost"
+  ]
+}

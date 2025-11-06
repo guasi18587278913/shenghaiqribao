@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "name": "张三",
+      "email": "zhangsan@example.com",
+      "role": "user",
+      "image": null
+    },
+    {
+      "name": "李四",
+      "email": "lisi@example.com",
+      "role": "user",
+      "image": null
+    },
+    {
+      "name": "王五",
+      "email": "wangwu@example.com",
+      "role": "user",
+      "image": null
+    },
+    {
+      "name": "管理员",
+      "email": "admin@example.com",
+      "role": "admin",
+      "image": null
+    }
+  ]
+}

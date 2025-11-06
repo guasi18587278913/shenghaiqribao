@@ -1,0 +1,13 @@
+
+> mksaas-template@0.1.0 dev /Users/liyadong/Documents/GitHub/日报网站-mksaas/mksaas_template/mksaas_template-main
+> next dev --hostname 0.0.0.0 --port 3000
+
+[MDX] updated map file in 8.532832999999982ms
+[MDX] started dev server
+   ▲ Next.js 15.2.1
+   - Local:        http://localhost:3000
+   - Network:      http://0.0.0.0:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1764ms

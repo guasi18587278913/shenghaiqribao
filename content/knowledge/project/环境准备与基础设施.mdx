@@ -1,0 +1,36 @@
+---
+title: 环境准备与基础设施
+description: 项目规划、开发流程、部署上线
+category: 项目执行
+tags: ["出海开发"]
+importance: 3
+---
+
+# 环境准备与基础设施
+
+### Node.js / npm
+- **安装与验证**：
+
+> **Note (info):** - Mac：直接下载官方 pkg，安装后 `node -v`、`npm -v` 验证；若系统弹出 Xcode 提示，可顺带安装 `xcode-select --install` 获得 Git。
+  - Windows：新版安装程序会自动写入 PATH；打开 CMD 输入 `node -v`、`npm -v` 即可。版本不同不会影响课程。
+
+> **Note (warning):** - **常见报错**：Cursor 提示 “版本太老” 时，不要反复点 Run，手动去官网安装最新 LTS，再重启 IDE。
+- **切换 npm 镜像（加速 create-next-app）**：
+  ```bash
+  npm config set registry [registry.npmmirror.com](https://registry.npmmirror.com)
+  ```bash
+
+### Git 与版本控制
+- Git 是后续推送 GitHub、查看变更、部署 Vercel 的基础。Mac 直接 `xcode-select --install`，Windows 安装 Git for Windows。
+
+> **Note (info):** - 遇到提示输入密码但界面无回显属系统安全机制，直接输入后回车即可。
+
+### 目录结构与项目文件夹
+- 80% 的 “npm run dev 找不到 package.json” 都是因为**没先打开项目文件夹**。
+- 标准流程：提前创建 `D:/AI_Projects/day01` → Cursor `File > Open Folder` → 再让 AI 写代码。这样生成的文件都会在该目录下，便于 Git 管理。
+
+> **Note (info):** ### 快捷提示
+- 任何安装/配置报错：截图 + 完整错误输出交给 AI，通常能一步步教你解决。
+- 先问 AI 远远快于在群里等回答，这是助教 repeatedly 强调的“万事先问 AI”原则。
+
+---

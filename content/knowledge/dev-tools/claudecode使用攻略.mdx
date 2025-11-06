@@ -1,0 +1,96 @@
+---
+title: ClaudeCode使用攻略
+description: Cursor、Claude Code、GitHub 等开发工具配置
+category: 开发工具
+tags: ["出海开发"]
+importance: 3
+---
+
+# ClaudeCode使用攻略
+
+### 适用场景与优势
+- 专业级 AI 编程 IDE，承担复杂代码生成、文件修改、命令执行等；群友评价 “跟 Claude 网页版不是一个等级”。
+
+> **Note (info):** 
+> **Note (info):** - 常见切换信号：当 Cursor 无法精准理解需求或改动过大时，意味着可以转向 Claude Code（小明/舒未读的建议）。
+- 优劣对比：
+  | 特性 | Claude Code | Cursor |
+  | --- | --- | --- |
+  | 代码生成 | 更强，逻辑严谨 | 强，偏易用 |
+  | 网络要求 | 极其严格，需 TUN + 纯净美国住宅 IP | 一般 |
+  | 支付方式 | 官方订阅难、国内卡不易过审 | 支持支付宝、国内卡 |
+
+> **Note (warning):** 
+> **Note (warning):** | 封号风险 | 高，需准备备份账号 | 低 |
+  | 新手友好度 | 中等偏上 | 高 |
+
+### ⚡ 获取与订阅方案
+
+> **Note (warning):** 
+> **Note (warning):** - **方案 A 官方订阅**：需要干净静态住宅 IP + 海外手机号；风险是注册难、封号无法申诉。
+
+> **Note (info):** 
+> **Note (info):** - **方案 B 中转服务（推荐入门）**：
+  - 春秋中转 `[aicodewith.com](https://aicodewith.com/?invitation=UFAV6EW`：稳定，正版号易封情况下更安全。)
+
+> **Note (info):** 
+> **Note (info):** - AnyRouter 公益中转 `[anyrouter.top](https://anyrouter.top/register?aff=KOmR`：每日签到送) 25 美金额度，按 API 计费，注意用量。
+
+> **Note (info):** 
+> **Note (info):** - **方案 C 替代模型**：GLM-4.6 Lite/Pro（大模型国产线路）。常清悟静给出的 YOLO 模式教程可省钱，但写关键代码仍建议回到 Claude 4.5。
+- **其他补充**：
+  - Augment Code：同样基于 Claude Sonnet 4.5，内置 Sequential Thinking，部分代码场景优于官方 IDE。
+  - Droid、CodeBuddy 等平台支持，Droid 邀请链接 `[app.factory.ai](https://app.factory.ai/r/T429S35Q`（邀请双方各得) 40 刀），但被反馈偶有宕机。
+
+### 🔧 安装与基础配置
+- 全平台支持（Mac / Linux / Windows）。
+- 全局安装命令：
+  ```bash
+  npm install -g @anthropic-ai/claude-code
+  ```bash
+- 配置文件：`C:/Users/你的用户名/.claude/config.json`（Windows）；`~/.claude/config.json`（Mac/Linux）。模板：
+  ```json
+  {
+    "primaryApiKey": "yourkey"
+  }
+  ```bash
+- 终端命令 `/IDE` 可直接连接 VS Code；也可在命令行运行 `claude` 与项目对话。
+
+### 网络与风控要求
+
+> **Note (info):** 
+> **Note (warning):** 
+> **Note (info):** 
+> **Note (warning):** - **纯净 IP**：建议美国住宅节点，使用 `[scamalytics.com](https://scamalytics.com/`、`[ping0.cc](https://ping0.cc/`)) 先自测风险值。
+
+> **Note (info):** 
+> **Note (info):** - **TUN 模式必开**：Clash Pro、Clash Verge、Surge 均可；Clash X 不支持 TUN，需升级客户端。开启后如仍提示 “This model provider doesn't serve your region”，说明 TUN 组件未装或节点不合规。
+- **多账号隔离**：同一 IP 上的多个账号需完全隔离（不同系统用户/虚拟机）；频繁换节点会触发封禁。
+- **常见错误**：
+  - `401 Invalid bearer token`：检查配置文件是否残留旧 token (`anthropic_token` 等路径)，清理后重试或换节点（日本成功率高）。
+  - `Unable to verify`/连接超时：TUN 未启用或 IP 不干净。
+  - “SyntaxError: Unexpected token 'C'”：官方插件 bug，新开对话或回退版本（2.0.08/2.0.10），也可尝试 2.0.17。
+
+> **Note (info):** 
+> **Note (info):** - WSL 配置困难：多数人花数天仍失败，建议直接使用 Mac 或开 TUN 后走全局代理。
+  - iOS 找不到 Codex 入口：需关注移动端 UI 变动，Claude App 经常调整菜单。
+- **封号经验**：来自陈宇强等多位同学的统计：官方号、第三方购买号均有大量封禁案例；关键动作是稳定 IP、不使用中文大段对话（存疑）、准备多个备份账号。
+
+### 进阶玩法
+- **YOLO 改装版**：社区逆向升级版本，官方出问题时可作为临时替换。
+- **cc-switch**：GitHub `[github.com](https://github.com/farion1231/cc-switch/releases`，一键切换) Claude 与 GLM，支持全局。
+- **命令行别名（银河星游）**：
+  ```bash
+  function glm() {
+    export ANTHROPIC_BASE_URL="[open.bigmodel.cn](https://open.bigmodel.cn/api/anthropic")
+    export ANTHROPIC_AUTH_TOKEN="your_key"
+    export API_TIMEOUT_MS=3000000
+    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+    export Z_AI_MODE=ZHIPU
+    export Z_AI_API_KEY=$ANTHROPIC_AUTH_TOKEN
+    claude --dangerously-skip-permissions
+  }
+  ```bash
+- **与浏览器/MCP 联动**：Browser MCP 可自动打开网页、抓取数据；Sequential-thinking MCP 增强推理能力（详见文末 MCP 部分）。
+
+---
