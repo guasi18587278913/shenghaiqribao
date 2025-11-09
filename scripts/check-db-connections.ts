@@ -35,7 +35,7 @@ async function checkDatabaseConnections() {
     const connections = await db.execute(connectionsQuery);
     const duration2 = Date.now() - startTime2;
     console.log(`✅ Query successful! Duration: ${duration2}ms`);
-    console.log('Connection Stats:', connections.rows[0]);
+    console.log('Connection Stats:', connections);
     console.log('');
 
     // Test 3: Check connection pool settings
@@ -52,8 +52,10 @@ async function checkDatabaseConnections() {
 
     const settings = await db.execute(settingsQuery);
     console.log('✅ Database settings:');
-    for (const row of settings.rows) {
-      console.log(`  - ${row.name}: ${row.setting} ${row.unit || ''}`);
+    if (Array.isArray(settings)) {
+      for (const row of settings) {
+        console.log(`  - ${row.name}: ${row.setting} ${row.unit || ''}`);
+      }
     }
     console.log('');
 
@@ -74,11 +76,12 @@ async function checkDatabaseConnections() {
     `;
 
     const longQueries = await db.execute(longQueriesQuery);
-    if (longQueries.rows.length === 0) {
+    const queryResults = Array.isArray(longQueries) ? longQueries : [];
+    if (queryResults.length === 0) {
       console.log('✅ No long-running queries found');
     } else {
       console.log('⚠️  Found long-running queries:');
-      for (const row of longQueries.rows) {
+      for (const row of queryResults) {
         console.log(`  - PID: ${row.pid}, Duration: ${row.duration}, State: ${row.state}`);
         console.log(`    Query: ${row.query?.substring(0, 100)}...`);
       }
