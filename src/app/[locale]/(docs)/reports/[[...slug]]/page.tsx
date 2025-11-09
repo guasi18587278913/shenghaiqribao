@@ -83,7 +83,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
         <article className="prose prose-slate dark:prose-invert prose-chinese max-w-none">
           <h1>{t('title')}</h1>
           <p className="text-xl text-muted-foreground">
-            {t('description')}
+            {t('subtitle')}
           </p>
           <div className="mt-8 space-y-6">
             {allReports
