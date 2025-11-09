@@ -1,6 +1,6 @@
 'use server'
 
-import { db } from '@/db/db'
+import { db } from '@/db'
 import { dailyReport, dailyTopic, knowledgeCollection, collectionTopic, categoryStats } from '@/db/schema'
 import { eq, and, desc, asc, sql, inArray } from 'drizzle-orm'
 import { format } from 'date-fns'
