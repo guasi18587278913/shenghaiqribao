@@ -1,0 +1,29 @@
+---
+title: Git与协作流程
+description: 项目规划、开发流程、部署上线
+category: 项目执行
+tags: ["出海开发"]
+importance: 3
+---
+
+### 🔧 .gitignore 的必要配置
+- 让 Cursor 生成 `.gitignore`，至少包含 `node_modules/`、`build/`、`.env*`、`.DS_Store`。
+- 不确定哪些要忽略，可让 AI 打印目录树并逐项判断。
+
+### Git 操作骨架
+```bash
+git init
+git add .
+git commit -m "feat: init project"
+git branch -M main
+git remote add origin https://github.com/you/repo.git
+git push -u origin main
+```
+
+- 日常更新：`git add .` → `git commit` → `git push`。保持一次 commit 做一件事，方便回退。
+
+<Callout type="info" title="心态提示">
+- 迭代从“简单 → 复杂 → 再简化”是常态；遇到卡点重开项目不丢人，关键是每次卡点都学到东西（袁锐钦、补丁的真实经历）。
+</Callout>
+
+---

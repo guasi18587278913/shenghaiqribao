@@ -5,24 +5,13 @@
 // Report Status
 export type ReportStatus = 'draft' | 'published' | 'archived';
 
-// Topic Category
+// Topic Category (using slugs from REPORT_CATEGORIES)
 export type TopicCategory =
-  | '技术教程' // Technical Tutorial
-  | '产品案例' // Product Case
-  | '出海经验' // Overseas Experience
-  | '工具推荐' // Tool Recommendation
-  | '行业动态' // Industry News
-  | '问答精选' // Q&A Selection
-  | '账号与设备' // Account & Devices
-  | '网络与代理' // Network & Proxy
-  | '支付与订阅' // Payment & Subscription
-  | '开发工具' // Development Tools
-  | '项目执行' // Project Execution
-  | '产品与增长' // Product & Growth
-  | '社群与学习' // Community & Learning
-  | '学习认知与避坑' // Learning & Pitfalls
-  | '成本规划' // Cost Planning
-  | '设备与环境'; // Device & Environment
+  | 'overseas-experience' // 出海经验 - Overseas Experience
+  | 'qa-selection' // 问答精选 - Q&A Selection
+  | 'industry-trends' // 行业动态 - Industry Trends
+  | 'network-proxy' // 网络与代理 - Network & Proxy
+  | 'tech-tools'; // 技术工具 - Tech Tools
 
 // Knowledge Item Type
 export type KnowledgeItemType = 'tool' | 'article' | 'case' | 'qa';

@@ -61,10 +61,11 @@ export async function updateCategoryStats(categoryName: string) {
       name: categoryName,
       slug,
       count,
+      icon: '📁',
       firstSeen: new Date(),
       lastSeen: new Date(),
       isFeatured: false,
-      displayOrder: 0,
+      order: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -117,7 +118,7 @@ export async function getAllCategories(
     firstSeen: cat.firstSeen.toISOString(),
     lastSeen: cat.lastSeen.toISOString(),
     isFeatured: cat.isFeatured,
-    displayOrder: cat.displayOrder,
+    order: cat.order,
     createdAt: cat.createdAt.toISOString(),
     updatedAt: cat.updatedAt.toISOString(),
   }));
@@ -132,7 +133,7 @@ export async function getAllCategories(
 export async function getFeaturedCategories(): Promise<CategoryStat[]> {
   const results = await db.query.categoryStats.findMany({
     where: eq(categoryStats.isFeatured, true),
-    orderBy: [desc(categoryStats.displayOrder), desc(categoryStats.count)],
+    orderBy: [desc(categoryStats.order), desc(categoryStats.count)],
   });
 
   // Serialize Date objects to strings for React Server Components
@@ -144,7 +145,7 @@ export async function getFeaturedCategories(): Promise<CategoryStat[]> {
     firstSeen: cat.firstSeen.toISOString(),
     lastSeen: cat.lastSeen.toISOString(),
     isFeatured: cat.isFeatured,
-    displayOrder: cat.displayOrder,
+    order: cat.order,
     createdAt: cat.createdAt.toISOString(),
     updatedAt: cat.updatedAt.toISOString(),
   }));
@@ -170,11 +171,13 @@ export async function getCategoryBySlug(
     id: result.id,
     name: result.name,
     slug: result.slug,
+    icon: result.icon,
+    description: result.description,
     count: result.count,
+    order: result.order,
     firstSeen: result.firstSeen.toISOString(),
     lastSeen: result.lastSeen.toISOString(),
     isFeatured: result.isFeatured,
-    displayOrder: result.displayOrder,
     createdAt: result.createdAt.toISOString(),
     updatedAt: result.updatedAt.toISOString(),
   };

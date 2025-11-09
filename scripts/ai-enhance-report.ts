@@ -168,7 +168,7 @@ async function getReportWithTopics(reportId: string) {
 
   const topics = await db.query.dailyTopic.findMany({
     where: eq(dailyTopic.reportId, reportId),
-    orderBy: (topics, { asc }) => [asc(topics.order)],
+    orderBy: (topics, { asc }) => [asc(topics.sortOrder)],
   });
 
   console.log(`✅ 找到 ${topics.length} 个话题`);
@@ -277,7 +277,7 @@ async function main() {
     // 重新获取话题（因为已经更新了摘要）
     const updatedTopics = await db.query.dailyTopic.findMany({
       where: eq(dailyTopic.reportId, reportId),
-      orderBy: (topics, { asc }) => [asc(topics.order)],
+      orderBy: (topics, { asc }) => [asc(topics.sortOrder)],
     });
 
     const reportSummary = await enhanceReportSummary(report, updatedTopics);

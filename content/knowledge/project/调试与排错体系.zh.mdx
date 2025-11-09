@@ -1,0 +1,39 @@
+---
+title: 调试与排错体系
+description: 项目规划、开发流程、部署上线
+category: 项目执行
+tags: ["出海开发"]
+importance: 3
+---
+
+### 浏览器 DevTools（F12 大法）
+1. F12 打开开发者工具 → 切到 Network。
+2. 勾选 `Preserve log`，重现错误。
+3. 找红色请求，查看 `Status / Request / Response / Headers`。
+4. 复制响应内容给 AI，或自己根据状态码（401/403/500/…）定位问题。
+
+### Console 调试
+- 善用 `console.log` / `console.error` / `console.table` 追踪变量。
+- Ctrl+L 清空控制台，保持输出干净。
+
+### 常见问题速查
+| 问题 | 可能原因 | 解决方案 |
+| --- | --- | --- |
+| `localhost:3000` 空白/404 | 服务器未启动或路由错误 | 确认终端是否 `Ready on [localhost:3000`，检查](http://localhost:3000`，检查) `pages`/`app` 目录 |
+| `Cannot find module 'xxx'` | 依赖未安装/导入路径错 | `npm install`；必要时删除 `node_modules` + `package-lock.json` 后重装 |
+| `Port 3000 is already in use` | 端口被占用 | Windows `netstat -ano | findstr :3000` + `taskkill`; Mac `lsof -i :3000` + `kill -9`；或 `npm run dev -- -p 3001` |
+| `npm ERR! enoent ... package.json` | 没在项目根目录执行 | `cd` 到正确目录或重新创建项目 |
+| `EACCES: permission denied` | npm 全局权限问题 | 切换到用户级目录 `~/.npm-global`，更新 PATH |
+| API 一直 loading/报 401 | Key 错误、未传 Header、额度用尽 | 检查 Authorization，确认已充值、Key 有效，必要时换平台 |
+| 样式不生效 | CSS 文件/类名/优先级问题 | 在 Elements 面板查看 Computed 样式，排查是否被覆盖 |
+
+### 提问模板
+- “运行 `npm run dev` 报错：`完整错误日志`。系统 Windows11，Node18.19.0，刚执行 create-next-app。已尝试 `npm install` 仍失败。”——提供操作、环境、日志、尝试过的方案，AI 才能高效回答。
+
+### 调试日志习惯
+
+<Callout type="warning">
+- 记录“问题 → 现象 → 操作 → 解决”四项，可避免重复踩坑，也便于复盘。
+</Callout>
+
+---

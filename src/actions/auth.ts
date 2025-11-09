@@ -46,6 +46,7 @@ export async function loginWithPhonePlanet(
     const sessionId = nanoid();
     const sessionToken = nanoid(32);
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+    const now = new Date();
 
     await db.insert(session).values({
       id: sessionId,
@@ -54,6 +55,8 @@ export async function loginWithPhonePlanet(
       expiresAt,
       ipAddress: null,
       userAgent: null,
+      createdAt: now,
+      updatedAt: now,
     });
 
     // Set cookie

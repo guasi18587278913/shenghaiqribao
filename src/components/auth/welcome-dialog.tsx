@@ -7,9 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { SparklesText } from '@/components/magicui/sparkles-text';
+import { ShimmerButton } from '@/components/magicui/shimmer-button';
+import { Confetti } from '@/components/magicui/confetti';
 import { cn } from '@/lib/utils';
 import { Sparkles, XIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export interface WelcomeDialogProps {
   open: boolean;
@@ -30,11 +33,22 @@ export function WelcomeDialog({
   message,
 }: WelcomeDialogProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const confettiRef = useRef<any>(null);
 
   useEffect(() => {
     if (open) {
       // 延迟显示，创造更流畅的体验
-      const timer = setTimeout(() => setIsVisible(true), 100);
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+        // 触发彩带效果
+        setTimeout(() => {
+          confettiRef.current?.fire({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        }, 300);
+      }, 100);
       return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
@@ -52,8 +66,16 @@ export function WelcomeDialog({
   const displayMessage = message || defaultMessage;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
+    <React.Fragment>
+      {/* 彩带效果 */}
+      <Confetti
+        ref={confettiRef}
+        className="fixed inset-0 pointer-events-none z-[100]"
+        manualstart
+      />
+
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
         className={cn(
           'max-w-lg p-0 overflow-hidden border-0',
           // 毛玻璃效果 - 苹果风格
@@ -99,11 +121,18 @@ export function WelcomeDialog({
               <Sparkles className="h-8 w-8 text-white" />
             </div>
 
-            {/* 标题 - 千人千面 */}
+            {/* 标题 - 千人千面 - 带闪烁星星效果 */}
             <DialogTitle className="text-center">
-              <div className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent">
+              <SparklesText
+                className="text-2xl font-bold"
+                colors={{
+                  first: '#3b82f6',
+                  second: '#a855f7',
+                }}
+                sparklesCount={8}
+              >
                 你好，{userName}！
-              </div>
+              </SparklesText>
             </DialogTitle>
           </DialogHeader>
 
@@ -127,30 +156,27 @@ export function WelcomeDialog({
               </div>
             </div>
 
-            {/* 行动按钮 */}
+            {/* 行动按钮 - 闪光按钮效果 */}
             <div className="mt-6 flex justify-center">
-              <Button
+              <ShimmerButton
                 onClick={() => onOpenChange(false)}
-                size="lg"
-                className={cn(
-                  'relative overflow-hidden',
-                  'bg-gradient-to-r from-blue-500 to-purple-500',
-                  'hover:from-blue-600 hover:to-purple-600',
-                  'text-white font-medium',
-                  'shadow-lg shadow-blue-500/30',
-                  'transition-all duration-200',
-                  'hover:shadow-xl hover:shadow-blue-500/40',
-                  'hover:scale-105 active:scale-95'
-                )}
+                className="px-8 py-3 text-base font-medium"
+                shimmerColor="#ffffff"
+                shimmerSize="0.1em"
+                shimmerDuration="2s"
+                borderRadius="12px"
+                background="linear-gradient(to right, #3b82f6, #a855f7)"
               >
-                <span className="relative z-10">开始探索</span>
-                {/* 按钮光效 */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              </Button>
+                <span className="relative z-10 flex items-center gap-2">
+                  <Sparkles className="h-5 w-5" />
+                  开始探索
+                </span>
+              </ShimmerButton>
             </div>
           </div>
         </div>
       </DialogContent>
     </Dialog>
+    </React.Fragment>
   );
 }

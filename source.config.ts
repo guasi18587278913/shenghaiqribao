@@ -123,3 +123,28 @@ export const knowledge = defineDocs({
     }),
   },
 });
+
+/**
+ * Daily Reports
+ *
+ * Daily community chat highlights and practical tutorials
+ */
+export const reports = defineDocs({
+  dir: 'content/reports',
+  docs: {
+    schema: frontmatterSchema.extend({
+      date: z.coerce.string(),
+      author: z.string(),
+      readingTime: z.string().optional(),
+      tags: z.array(z.string()).optional(),
+      categories: z.array(z.string()).optional(),
+      published: z.boolean().default(true),
+    }),
+  },
+  meta: {
+    schema: metaSchema.extend({
+      description: z.string().optional(),
+      icon: z.string().optional(),
+    }),
+  },
+});

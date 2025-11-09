@@ -3,7 +3,7 @@
   "description": "Google、Claude、GitHub 等核心账号的注册、养号与风控",
   "icon": "User",
   "pages": [
-    "账号注册与风控",
+    "claude-账号注册与风控",
     "账号配置",
     "账号养成与防封",
     "其他平台账号指南",

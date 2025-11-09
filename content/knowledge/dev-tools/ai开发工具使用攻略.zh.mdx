@@ -1,0 +1,385 @@
+---
+title: AI开发工具使用攻略
+description: Cursor、Claude Code、GitHub 等开发工具配置
+category: 开发工具
+tags: ["出海开发"]
+importance: 3
+---
+
+## 工具选型路线图
+
+- **阶段性思路**：前 30 天用 Cursor 建立基础和项目意识，搭配 Codex 辅助；熟练后切换到 Claude Code + Codex 组合（助教小明的路径）。
+- **核心组合**：`Cursor（IDE）` + `Claude/Codex（大模型）` + `Dia/Comet（调研浏览器）` + `NotebookLM、沉浸式翻译` 等效率工具。
+- **国产备选**：GLM-4.6 Lite/Pro、豆包 TRAE、Augment Code 等都可作为 Claude Code 的临时替代方案；预算有限先上国产，关键项目再回到 Claude 4.5。
+- **常见疑问**：
+  - “已经用 VS Code 了还要换 Cursor 吗？” → 要换，操作体验几乎相同，但 Cursor 原生集成 AI。
+  - “Codex 和 Claude Code 差别大吗？” → Claude Code（Sonnet 4.5）逻辑最强，Codex 稍慢但稳定且便宜，两者互补。
+  - “我应该先买哪款？” → 先保证稳定的工具链，再考虑省钱：GPT-4/Cursor Pro/中转服务为基础，随后再看 Claude Pro 或国产付费。
+
+---
+
+## Claude Code
+
+### 适用场景与优势
+- 专业级 AI 编程 IDE，承担复杂代码生成、文件修改、命令执行等；群友评价 “跟 Claude 网页版不是一个等级”。
+
+<Callout type="info">
+- 常见切换信号：当 Cursor 无法精准理解需求或改动过大时，意味着可以转向 Claude Code（小明/舒未读的建议）。
+</Callout>
+- 优劣对比：
+  | 特性 | Claude Code | Cursor |
+  | --- | --- | --- |
+  | 代码生成 | 更强，逻辑严谨 | 强，偏易用 |
+  | 网络要求 | 极其严格，需 TUN + 纯净美国住宅 IP | 一般 |
+  | 支付方式 | 官方订阅难、国内卡不易过审 | 支持支付宝、国内卡 |
+
+<Callout type="warning">
+| 封号风险 | 高，需准备备份账号 | 低 |
+</Callout>
+  | 新手友好度 | 中等偏上 | 高 |
+
+### ⚡ 获取与订阅方案
+
+<Callout type="warning">
+- **方案 A 官方订阅**：需要干净静态住宅 IP + 海外手机号；风险是注册难、封号无法申诉。
+</Callout>
+
+<Callout type="info">
+- **方案 B 中转服务（推荐入门）**：
+</Callout>
+  - 春秋中转 `[aicodewith.com](https://aicodewith.com/?invitation=UFAV6EW`：稳定，正版号易封情况下更安全。)
+
+<Callout type="info">
+- AnyRouter 公益中转 `[anyrouter.top](https://anyrouter.top/register?aff=KOmR`：每日签到送) 25 美金额度，按 API 计费，注意用量。
+</Callout>
+
+<Callout type="info">
+- **方案 C 替代模型**：GLM-4.6 Lite/Pro（大模型国产线路）。常清悟静给出的 YOLO 模式教程可省钱，但写关键代码仍建议回到 Claude 4.5。
+</Callout>
+- **其他补充**：
+  - Augment Code：同样基于 Claude Sonnet 4.5，内置 Sequential Thinking，部分代码场景优于官方 IDE。
+  - Droid、CodeBuddy 等平台支持，Droid 邀请链接 `[app.factory.ai](https://app.factory.ai/r/T429S35Q`（邀请双方各得) 40 刀），但被反馈偶有宕机。
+
+### 🔧 安装与基础配置
+- 全平台支持（Mac / Linux / Windows）。
+- 全局安装命令：
+  ```bash
+  npm install -g @anthropic-ai/claude-code
+  ```
+- 配置文件：`C:/Users/你的用户名/.claude/config.json`（Windows）；`~/.claude/config.json`（Mac/Linux）。模板：
+  ```json
+  {
+    "primaryApiKey": "yourkey"
+  }
+  ```
+- 终端命令 `/IDE` 可直接连接 VS Code；也可在命令行运行 `claude` 与项目对话。
+
+### 网络与风控要求
+
+<Callout type="info">
+**纯净 IP**：建议美国住宅节点，使用 `[scamalytics.com](https://scamalytics.com/`、`https://ping0.cc/`) 先自测风险值。
+</Callout>
+
+<Callout type="info">
+- **TUN 模式必开**：Clash Pro、Clash Verge、Surge 均可；Clash X 不支持 TUN，需升级客户端。开启后如仍提示 “This model provider doesn't serve your region”，说明 TUN 组件未装或节点不合规。
+</Callout>
+- **多账号隔离**：同一 IP 上的多个账号需完全隔离（不同系统用户/虚拟机）；频繁换节点会触发封禁。
+- **常见错误**：
+  - `401 Invalid bearer token`：检查配置文件是否残留旧 token (`anthropic_token` 等路径)，清理后重试或换节点（日本成功率高）。
+  - `Unable to verify`/连接超时：TUN 未启用或 IP 不干净。
+  - “SyntaxError: Unexpected token 'C'”：官方插件 bug，新开对话或回退版本（2.0.08/2.0.10），也可尝试 2.0.17。
+
+<Callout type="info">
+- WSL 配置困难：多数人花数天仍失败，建议直接使用 Mac 或开 TUN 后走全局代理。
+</Callout>
+  - iOS 找不到 Codex 入口：需关注移动端 UI 变动，Claude App 经常调整菜单。
+- **封号经验**：来自陈宇强等多位同学的统计：官方号、第三方购买号均有大量封禁案例；关键动作是稳定 IP、不使用中文大段对话（存疑）、准备多个备份账号。
+
+### 进阶玩法
+- **YOLO 改装版**：社区逆向升级版本，官方出问题时可作为临时替换。
+- **cc-switch**：GitHub `[github.com](https://github.com/farion1231/cc-switch/releases`，一键切换) Claude 与 GLM，支持全局。
+- **命令行别名（银河星游）**：
+  ```bash
+  function glm() {
+    export ANTHROPIC_BASE_URL="[open.bigmodel.cn](https://open.bigmodel.cn/api/anthropic")
+    export ANTHROPIC_AUTH_TOKEN="your_key"
+    export API_TIMEOUT_MS=3000000
+    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+    export Z_AI_MODE=ZHIPU
+    export Z_AI_API_KEY=$ANTHROPIC_AUTH_TOKEN
+    claude --dangerously-skip-permissions
+  }
+  ```
+- **与浏览器/MCP 联动**：Browser MCP 可自动打开网页、抓取数据；Sequential-thinking MCP 增强推理能力（详见文末 MCP 部分）。
+
+---
+
+## Cursor
+
+### 定位与订阅策略
+- “新手最友好的 AI 编程工具”——群友普遍共识。
+- 订阅方式：官网 $20/月（支持支付宝、国内单标 VISA/Mastercard）、淘宝/闲鱼月号 30–100 元、教育账号（约 199 元/年，但使用 Max 模式会秒封）。
+
+<Callout type="info">
+- 建议：买 1 个月体验即可，30 天后重点转向 Claude Code / Codex；Pro+ 无须考虑。
+</Callout>
+
+### 使用体验与常见问题
+- **内存泄漏**：Mac M1 16GB 用户约一周会爆内存，重启即可；小排老师也遇到相同问题。
+- **模型选择**：
+
+<Callout type="info">
+- 推荐：Claude 4.5 Sonnet（无思考图标）、GPT-5 High。
+</Callout>
+
+<Callout type="warning">
+- 避免：Claude 3.7、带“思考”标记的模型（更慢更贵）。
+</Callout>
+
+<Callout type="info">
+- **速度波动**：16:00–18:00 高峰期可能卡顿；对话轮数太多也会拖慢，建议新开会话。
+</Callout>
+
+### 项目管理与操作流程
+1. **从文件夹开始**：`File → Open Folder` 选定项目目录，确保终端路径正确（周尹、田超的踩坑案例）。
+2. **运行流程**：
+   ```bash
+   npm run dev
+   ```
+   终端输出 `[localhost:3000`](http://localhost:3000`) 即成功。
+3. **Windows 用户**：优先使用 PowerShell / Windows Terminal，必要时用 Git Bash。
+4. **终端密码**：部分操作需输入系统密码，终端无回显属正常；如电脑原本无密码，重试即可（汐桐案例）。
+
+### 🔧 网络与配置
+
+<Callout type="info">
+必须开启 TUN 模式并安装组件（出现垃圾桶图标为成功）；节点建议美国，尽量避免香港。
+</Callout>
+- 遇到 “This model provider doesn't serve your region” 时，按王小义的实测流程处理：重装 TUN 组件 → Cursor Settings 中将 Network 协议改为 HTTP/1.1 → 重启 Cursor → 更换纯净节点。
+
+<Callout type="warning">
+- 提醒：不要长期使用全局模式，日常以规则模式即可，支付等敏感操作再开全局。
+</Callout>
+- 与 GLM 联动：GLM 接入 Cursor 需走终端配置，插件内自带 API 容易“降智”。
+
+### 与其他工具协同
+
+<Callout type="info">
+- **Cursor × Codex**：ChatGPT Plus → 启用 Codex → 在 Cursor 导入使用；但撤销功能存在已知 bug，建议结合 Git。
+</Callout>
+- **Cursor × V0**：用 V0 生成初版 UI，导出后在 Cursor 细化逻辑。
+- **Cursor × Claude Code**：可在 Cursor 内直接调用 Claude Code，当 IDE 更简洁。
+- **Cursor vs Trae vs Claude Code**：
+
+<Callout type="info">
+| 工具 | 速度 | 准确度 | 自动执行 | 适合人群 | 推荐度 |
+</Callout>
+  | --- | --- | --- | --- | --- | --- |
+  | Cursor | 快 | 高 | 支持 | 新手–专家 | ★★★★★ |
+  | Claude Code | 最快 | 最高 | 支持 | 有基础者 | ★★★★★ |
+  | Codex | 慢 | 高 | 支持 | 有基础者 | ★★★☆☆ |
+  | Trae | 中 | 中 | 支持 | 入门者 | ★★☆☆☆ |
+
+### 快捷键与效率技巧
+- `Cmd/Ctrl + I`：唤起 AI 对话框。
+- `Ctrl + `` (反引号)`：打开/关闭终端。
+- `F12`：浏览器开发者工具（配合调试）。
+
+<Callout type="info">
+- 遇到撤销问题、节点限制时及时查看终端提示或重启。
+</Callout>
+
+---
+
+## Codex
+
+### 工具定位
+- OpenAI 官方 IDE，与 Claude Code 并列；可搭配 GPT Team 账号（闲鱼 10–30 元/月）。
+- 逻辑强、速度稍慢；界面不如 Cursor，但条理清晰。
+
+### 安装与登录
+
+<Callout type="info">
+VS Code 插件市场搜索 “codex” 安装官方插件，使用 ChatGPT 账号登录（注意不要装错同名插件）。
+</Callout>
+- 终端命令：`/logout` → `/login` 可解决大部分登录异常。
+
+### 模型切换与自动化
+- `cc-switch` 工具可在 Claude 与 GLM 间快速切换。
+
+<Callout type="info">
+- VS Code、Cursor 中的 Codex 配置一致，建议开启联网模式直接问 GPT 获取最新指南。
+</Callout>
+- VPS 上使用时可以在设置里关闭重复 `Approve` 的确认步骤（通过配置文件）。
+
+### 常见问题
+
+<Callout type="info">
+- 撤销报错：等待官方修复，建议结合 Git 版本控制。
+</Callout>
+
+<Callout type="warning">
+- Node.js 版本过老：让 Codex 给出升级指令或手动运行；不要无限点击 Run。
+</Callout>
+- 隐藏字问题：少数 UI Bug，不影响代码，可忽略。
+
+---
+
+## 快速原型工具：Bolt、V0、Lovable 等
+
+### Bolt.new
+- **额度与费用**：免费版每日 5 次对话；付费版闲鱼年卡约 203 元。官方额度逐渐收紧，新号可体验流程但不宜依赖。
+
+<Callout type="info">
+**使用建议**：提前写好提示词，一次生成一个简单前端页面 3–5 天够用；下载代码后交给 Cursor 精修。Vercel 部署失败时手动上传 GitHub。
+</Callout>
+- **常见问题**：
+  - 登录失败 `Failed to authenticate` → 切换到美国节点、开启 TUN 或清缓存。
+  - Token 用完 → 分步拆需求或改用 V0。
+  - 免费额度提示耗尽 → 新建账号或充值。
+  - 多轮迭代超过 v9 效果急速下降。
+
+### V0.dev（Vercel 出品）
+- **优势**：界面与代码质量高、生成速度快、免费额度相对宽松；Next.js 表现优于 Bolt。
+- **导出方法**：右上角 `Code → Export`，或点击小猫图标同步到 GitHub；导出后在 Cursor 中 `npm install` / `npm run dev`。
+- **价格**：正式套餐 30 美元/月，闲鱼一年账号 200 元左右。
+- **策略**：注册即送 5 美元额度，足够多次迭代。新手期做 UI，后期仍需 Cursor/Claude Code 打磨。
+
+### Lovable
+- **定位**：UI 设计最强，页面美观度普遍优于 V0/Bolt（学员松果案例 `[bubble-body-talk.lovable.app](https://bubble-body-talk.lovable.app/`）。)
+- **限制**：不支持 Next.js；适合 React 项目。先做好界面，再在 Cursor/Claude Code 中补全逻辑。
+
+### 工具横向对比
+| 工具 | 优势 | 劣势 | 结论 |
+| --- | --- | --- | --- |
+| V0 | 质量高、速度快、可直接部署 | 免费额度有限，持续需付费 | 快速原型首选 |
+| Bolt | 上手简单、界面直观 | 免费额度极少，复杂需求易失败 | 体验流程即可 |
+| Lovable | UI 漂亮、易用 | 不支持 Next.js，需要后续打磨 | 用于视觉设计 |
+| Stitch / Orchids / Trickle / Figma Make | 可与 Bolt/V0 替换互补 | 功能各异需探索 | 探索阶段可尝试 |
+
+---
+
+## 辅助浏览器与效率工具
+
+### Dia 浏览器
+- **硬件要求**：仅支持 Mac M 系列芯片；Intel Mac、Windows 无法运行。
+- **注册与下载**：`[www.diabrowser.com](https://www.diabrowser.com/`，当前无需邀请码。)
+- **中文体验**：安装 “沉浸式翻译” 插件；Personalization 中设置 “请使用简体中文作答”。
+- **功能**：AI 自动搜索总结、截图提问、网页内容问答；书签支持 Pin/Bookmark 分类。
+- **常见问题**：
+
+<Callout type="info">
+- 打不开应用 → 检查芯片（Intel 不支持）与系统版本（建议 macOS 13+），“隐私与安全性” 中选择 “仍要打开”。
+</Callout>
+  - Windows/Intel Mac 替代 → 豆包浏览器、Comet、Monica/Sider 插件等。
+  - Dia 仅做辅助调研工具，翻译仍用沉浸式翻译效率更高。
+
+### OpenAI ChatGPT Atlas
+- 2024/10/21 发布，macOS（M 系列）专用 AI 浏览器，包含在 GPT 订阅内；与 ChatGPT 数据互通。
+- 优势：原生整合，无需额外付费。劣势：仅 Mac、初期卡顿过度思考。
+
+### Comet 浏览器（Windows 福音）
+- 邀请链接注册可获 1 个月 Pro；可从 Chrome 无缝迁移标签和书签。
+- 实测总结准确、风格理工；支持 agent 与 pplx，闲鱼年费约 200 元。
+
+### 豆包浏览器
+- 字节出品，Windows 平台首选的 Dia 平替；配合豆包桌面悬浮窗、QQ 浏览器等都可完成日常调研。
+
+### 翻译与效率工具
+
+<Callout type="info">
+- **沉浸式翻译**：Chrome 插件，完全免费；推荐翻译引擎 “Bing 翻译”，快捷键 `Alt + A`。
+</Callout>
+- **微信截图翻译**：Alt + A 截图 → 点击翻译。
+- **Mac 工具**：Paste（剪贴板管理）、CleanShot（高级截图）。
+- **调试工具**：Chrome DevTools（`F12`），Elements 选中元素替代 Stagewise。
+
+### 其他调研资源
+- Toolify、AIGC 排行榜、TAAFT 等 AI 导航。
+- NotebookLM：谷歌推出的文档/视频总结工具，完全免费。
+- Raindrop.io：跨平台书签管理。
+
+---
+
+## MCP（Model Context Protocol）拓展
+
+- **定义**：Claude 的插件协议，让 AI 调用外部工具完成自动化任务。
+- **Browser MCP**：自动打开网页、填写表单、截屏；安装步骤：
+  1. 在 Cursor/VS Code 搜索 “Stagewise” 或 “Browser MCP” 插件。
+  2. 命令面板运行 `Stagewise: Start Server`，若失败执行 `pnpm dlx stagewise@latest -b`。
+  3. 访问 `[localhost:3100](http://localhost:3100/`，右下角缩小至侧边栏；在对话中输入) `@browser` 召唤。
+- **Sequential-thinking MCP**：增强推理，适合复杂算法设计、疑难调试。
+- **配置示例**：
+  ```json
+  {
+    "mcps": {
+      "browser": {
+        "command": "pnpm",
+        "args": ["dlx", "stagewise", "-b"],
+        "port": 3100
+      },
+      "sequential-thinking": {
+        "command": "npx",
+        "args": ["sequential-thinking-mcp"],
+        "port": 3101
+      }
+    }
+  }
+  ```
+
+<Callout type="info">
+**性能提示**：Browser MCP 占用约 200MB 内存；Sequential-thinking MCP 约 100MB，可常驻。不要同时运行过多 MCP，明确告诉 AI 使用哪一个。
+</Callout>
+- **常见问题**：端口被占用、命令无响应 → 检查是否重复启动或查看控制台错误，按需更换端口并重启。
+
+---
+
+## 免费资源与省钱技巧
+
+1. **智谱 AI Coding Plan**：`[bigmodel.cn](https://bigmodel.cn/activity/glm-coding-1024`，邀请码) `FP2MQ8SPL0`。1024 程序员节活动可抽月卡，中奖后 0.01 元绑卡激活，记得立即取消自动续费。
+   - Claude Code 自定义配置示例：
+     ```json
+     {
+       "claude-code.apiProvider": "custom",
+       "claude-code.apiKey": "你的智谱AI key",
+       "claude-code.apiBase": "[open.bigmodel.cn](https://open.bigmodel.cn/api/paas/v4/",)
+       "claude-code.model": "glm-4"
+     }
+     ```
+
+- **GPT Pro 限时优惠**：常见于黑五、程序员节等节日，新用户可 133 美元/年（原价 200 美元）。
+
+- 
+<Callout type="info">
+**Bolt/V0 免费版**：日常用于出原型即可，不推荐付费。
+</Callout>
+
+- 
+<Callout type="warning">
+**教育优惠**：闲鱼可购 Gemini 教育套餐 10–30 元/月；共享账号存在风险，适合学习测试。
+</Callout>
+
+- **日常羊毛时间表**：每日刷 Claude/Gemini 免费额度、NotebookLM；每周关注优惠、活动；节假日重点留意黑五/双十一/程序员节。
+
+- **Claude 官方免费额度**：每天消息上限有限，可通过新建对话、多个账号轮换缓解。
+
+---
+
+## 常见 FAQ 与杂项
+
+- **GSC 索引未更新**：删除页面后需返回 404，再提交新 sitemap 并在 GSC 手动请求移除，2–4 周自动刷新。
+- **Dia 界面英文**：安装沉浸式翻译插件即可；Sky 同学实测成功。
+- **Monica 是否等于 Claude Code？**：不是，Monica 等套壳只是 Claude 网页版；真正的开发能力需 Claude Code。
+- **有 Codex 还需要 Claude 吗？**：需要，Codex 逻辑强但速度慢；当你感受到 Codex 不够时再切回 Claude 4.5。
+
+<Callout type="info">
+- **Windows 能否完成课程？**：可以，环境配置比 Mac 繁琐一些；推荐豆包浏览器 + Cursor + VS Code。
+</Callout>
+- **快捷查询技巧**：群内搜索 `#举手`、`助教`、工具名、`破冰`，快速定位历史讨论；提问时先写清楚场景再贴截图。
+
+---
+
+<Callout type="info">
+以上内容整合了群聊精华的全部细节、链接与实战经验，保持原始信息完整，同时按工具类型与场景重新组织，便于快速查阅。遇到新版本变化，建议优先查看官方文档或让 AI 基于实时搜索继续补充。
+</Callout>
+

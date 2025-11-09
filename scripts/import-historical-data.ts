@@ -50,7 +50,7 @@ const historicalData: HistoricalReport[] = [
 ### 重点2
 ...
         `.trim(),
-        category: '产品Idea',
+        category: 'overseas-experience',
         tags: ['AI', '出海', '产品'],
         importance: 4,
         editorNote: '这个讨论非常有价值，建议重点关注',
@@ -59,7 +59,7 @@ const historicalData: HistoricalReport[] = [
         title: '账号注册问题解决方案',
         summary: '分享了几种有效的账号注册方案...',
         content: '详细内容...',
-        category: '账号注册',
+        category: 'tech-tools',
         tags: ['注册', '验证'],
         importance: 3,
       },
@@ -73,6 +73,17 @@ const historicalData: HistoricalReport[] = [
 
 async function importHistoricalData() {
   console.log('🚀 开始导入历史数据...\n');
+
+  // 获取一个真实的用户 ID
+  console.log('👤 查找用户...');
+  const existingUser = await db.query.user.findFirst();
+
+  if (!existingUser) {
+    console.error('❌ 错误：数据库中没有用户，请先注册一个用户！');
+    process.exit(1);
+  }
+
+  console.log(`✅ 使用用户：${existingUser.email || existingUser.id}\n`);
 
   let reportCount = 0;
   let topicCount = 0;
@@ -110,6 +121,7 @@ async function importHistoricalData() {
           views: 0,
           likes: 0,
           commentCount: 0,
+          createdBy: existingUser.id,
           createdAt: new Date(),
           updatedAt: new Date(),
         })
@@ -134,7 +146,6 @@ async function importHistoricalData() {
           importance: topicData.importance || 3,
           sortOrder: i,
           editorNote: topicData.editorNote,
-          sourceUrl: topicData.sourceUrl,
           views: 0,
           likes: 0,
           commentCount: 0,

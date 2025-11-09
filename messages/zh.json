@@ -3,7 +3,8 @@
     "name": "Idea to Business",
     "title": "MkSaaS - 最好的 AI SaaS 模板",
     "description": "MkSaaS 是构建 AI SaaS 的最佳模板，使用 MkSaaS 可以在几天内轻松构建您的 AI SaaS，简单且毫不费力。",
-    "knowledge": "知识库"
+    "knowledge": "知识库",
+    "reports": "日报"
   },
   "Common": {
     "premium": "付费文章",
@@ -300,6 +301,13 @@
     "title": "知识库",
     "homepage": "首页",
     "reports": "日报"
+  },
+  "ReportsPage": {
+    "title": "日报",
+    "description": "AI产品出海社群每日精华整理",
+    "subtitle": "社群精华内容,每日更新",
+    "homepage": "首页",
+    "knowledge": "知识库"
   },
   "PremiumContent": {
     "title": "解锁付费内容",

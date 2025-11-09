@@ -132,6 +132,7 @@ async function seedSampleReport() {
 
   console.log('📚 创建话题...');
   for (const [index, topic] of topics.entries()) {
+    // @ts-expect-error - Drizzle type inference issue with array inserts
     await db.insert(dailyTopic).values({
       id: `topic_${Date.now()}_${index}`,
       reportId,

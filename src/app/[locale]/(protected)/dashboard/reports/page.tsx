@@ -20,15 +20,9 @@ export default async function DailyReportsPage() {
     <>
       <DashboardHeader breadcrumbs={breadcrumbs}>
         <div className="flex gap-2">
-          <Link href="/dashboard/reports/upload">
-            <Button variant="outline" size="sm">
-              <Plus className="mr-2 h-4 w-4" />
-              上传消息
-            </Button>
-          </Link>
           <Link href="/dashboard/reports/create">
             <Button size="sm">
-              <FileText className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 h-4 w-4" />
               创建日报
             </Button>
           </Link>

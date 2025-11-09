@@ -10,6 +10,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+import * as schema from '../src/db/schema';
 import { dailyReport, dailyTopic } from '../src/db/schema';
 
 // 分类映射：文件夹名 -> 数据库分类

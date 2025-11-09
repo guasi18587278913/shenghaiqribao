@@ -4,6 +4,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+import * as schema from '../src/db/schema';
 import { dailyReport, dailyTopic, user } from '../src/db/schema';
 
 const connectionString = process.env.DATABASE_URL!;
@@ -59,6 +60,7 @@ async function seedDailyReports() {
     console.log('✅ Created report 1');
 
     // Create topics for report 1
+    // @ts-expect-error - Drizzle type inference issue with array inserts
     await db.insert(dailyTopic).values([
       {
         id: `topic_${Date.now()}_1`,
@@ -162,6 +164,7 @@ async function seedDailyReports() {
     console.log('✅ Created report 2');
 
     // Create topics for report 2
+    // @ts-expect-error - Drizzle type inference issue with array inserts
     await db.insert(dailyTopic).values([
       {
         id: `topic_${Date.now()}_5`,

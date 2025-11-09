@@ -1,0 +1,102 @@
+---
+title: 样式测试页面
+description: 对比不同的提示框样式效果
+category: 测试
+---
+
+## 当前使用的 Note 样式 (Markdown blockquote)
+
+> **Note (warning):** ### 风险与前置条件
+- **封号几乎不可逆**：志愿者欣霖、SuperEric 多次提醒，一旦环境异常会立即封禁，只能重新注册。
+- **纯净静态住宅 IP 是底线**：注册前先用 `ping0.cc`、`https://scamalytics.com/` 检测风险值；Medium/High Risk 的节点一律换掉。
+
+> **Note (info):** 这是一个普通信息提示框的示例文本。
+
+---
+
+## 方案1: Fumadocs Callout 组件
+
+<Callout type="warning" title="风险与前置条件">
+- **封号几乎不可逆**：志愿者欣霖、SuperEric 多次提醒，一旦环境异常会立即封禁，只能重新注册。
+- **纯净静态住宅 IP 是底线**：注册前先用 `ping0.cc`、`https://scamalytics.com/` 检测风险值；Medium/High Risk 的节点一律换掉。
+</Callout>
+
+<Callout type="info" title="普通信息">
+这是一个普通信息提示框的示例文本，使用 Fumadocs 的 Callout 组件。
+</Callout>
+
+<Callout type="note" title="注意事项">
+这是一个注意事项提示框，使用 note 类型。
+</Callout>
+
+<Callout type="tip" title="小贴士">
+这是一个技巧提示框，使用 tip 类型，适合分享有用的技巧和建议。
+</Callout>
+
+<Callout type="important" title="重要提醒">
+这是一个重要提示框，使用 important 类型，用于强调关键信息。
+</Callout>
+
+---
+
+## 方案2: 不带标题的 Callout
+
+<Callout type="warning">
+**封号几乎不可逆**：志愿者欣霖、SuperEric 多次提醒，一旦环境异常会立即封禁，只能重新注册。
+</Callout>
+
+<Callout type="info">
+这是一个没有标题的信息提示框，内容会直接显示。
+</Callout>
+
+---
+
+## 方案3: 组合使用 - 列表内容
+
+<Callout type="warning" title="多重风险提示">
+1. **环境隔离**：同一套 IP、浏览器指纹、操作系统只绑定一个账号
+2. **节点选择**：必须使用纯净的住宅IP
+3. **账号管理**：不同账号要在虚拟机/不同用户下隔离
+</Callout>
+
+---
+
+## 方案4: 嵌套代码块
+
+<Callout type="tip" title="配置建议">
+推荐使用以下配置检测IP质量：
+
+```bash
+# 检测IP风险
+curl https://ping0.cc
+curl https://scamalytics.com/
+```
+
+确保风险值在 0-25 之间。
+</Callout>
+
+---
+
+## 对比总结
+
+### 优点对比
+
+**Fumadocs Callout:**
+- ✅ 有明确的类型图标
+- ✅ 标题样式统一美观
+- ✅ 颜色区分明显
+- ✅ 支持嵌套内容（列表、代码块）
+
+**Markdown Note:**
+- ❌ 样式单调，不够醒目
+- ❌ 需要手动写标题格式
+- ❌ 没有图标辅助识别
+- ❌ 排版不够精致
+
+### 推荐方案
+
+建议使用 **Fumadocs Callout** 组件，选择理由：
+1. 样式更现代、更专业
+2. 类型区分更清晰
+3. 用户体验更好
+4. 维护更方便

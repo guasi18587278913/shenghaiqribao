@@ -1,14 +1,28 @@
+import { routing } from '@/i18n/routing';
+import createMiddleware from 'next-intl/middleware';
 import { type NextRequest, NextResponse } from 'next/server';
 
+// Create the next-intl middleware
+const intlMiddleware = createMiddleware(routing);
+
 export async function middleware(request: NextRequest) {
+  // First, handle internationalization
+  const intlResponse = intlMiddleware(request);
+
+  // Get the pathname after locale has been processed
+  const { pathname } = request.nextUrl;
   const sessionToken = request.cookies.get('session-token')?.value;
 
-  const isProtectedRoute =
-    request.nextUrl.pathname.startsWith('/reports') ||
-    request.nextUrl.pathname.startsWith('/knowledge') ||
-    request.nextUrl.pathname.startsWith('/announcements');
+  // Check if the route (after locale) is protected
+  // Match both /reports and /[locale]/reports patterns
+  const pathWithoutLocale = pathname.replace(/^\/(en|zh)/, '') || '/';
 
-  const isAuthRoute = request.nextUrl.pathname.startsWith('/auth');
+  const isProtectedRoute =
+    pathWithoutLocale.startsWith('/dashboard') ||
+    pathWithoutLocale.startsWith('/knowledge') ||
+    pathWithoutLocale.startsWith('/announcements');
+
+  const isAuthRoute = pathWithoutLocale.startsWith('/auth');
 
   // If accessing a protected route without a session, redirect to login
   if (isProtectedRoute && !sessionToken) {
@@ -19,10 +33,12 @@ export async function middleware(request: NextRequest) {
 
   // If accessing auth routes with a session, redirect to reports
   if (isAuthRoute && sessionToken) {
-    return NextResponse.redirect(new URL('/reports', request.url));
+    // Extract the locale from the pathname
+    const locale = pathname.match(/^\/(en|zh)/)?.[1] || 'en';
+    return NextResponse.redirect(new URL(`/${locale}/reports`, request.url));
   }
 
-  return NextResponse.next();
+  return intlResponse;
 }
 
 export const config = {

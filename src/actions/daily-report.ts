@@ -6,32 +6,17 @@
 
 import { db } from '@/db';
 import {
-  comment,
   dailyReport,
   dailyTopic,
-  knowledgeItem,
-  rawMessage,
   userPreference,
 } from '@/db/schema';
-import {
-  estimateProcessingCost,
-  processMessagesWithAI,
-} from '@/lib/daily-report/ai-processor';
-import {
-  generateMessageId,
-  mergeConsecutiveMessages,
-  parseWeChatExport,
-  stage1Filter,
-} from '@/lib/daily-report/message-parser';
 import type {
-  CreateCommentInput,
   CreateDailyReportInput,
   CreateTopicInput,
   DailyReportWithTopics,
   UpdateDailyReportInput,
   UpdateTopicInput,
   UpdateUserPreferenceInput,
-  UploadMessagesInput,
 } from '@/types/daily-report';
 import { and, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
@@ -272,205 +257,7 @@ export async function deleteTopic(topicId: string) {
 // Message Upload and Processing
 // ============================================================================
 
-/**
- * Upload and parse WeChat messages
- */
-export async function uploadMessages(input: UploadMessagesInput) {
-  const messages = input.messages.map((msg) => ({
-    id: generateMessageId(input.groupName, msg.senderName, msg.timestamp),
-    groupName: input.groupName,
-    senderName: msg.senderName,
-    senderId: msg.senderId,
-    content: msg.content,
-    messageType: msg.messageType || 'text',
-    timestamp: msg.timestamp,
-    isProcessed: false,
-    createdAt: new Date(),
-  }));
 
-  // Insert messages (ignore duplicates)
-  for (const message of messages) {
-    try {
-      await db.insert(rawMessage).values(message).onConflictDoNothing();
-    } catch (error) {
-      console.error('Error inserting message:', error);
-    }
-  }
-
-  return { success: true, count: messages.length };
-}
-
-/**
- * Process messages with AI and create report draft
- */
-export async function processMessagesAndCreateReport(
-  date: Date,
-  groupNames: string[],
-  userId: string
-) {
-  // Get unprocessed messages for the date range
-  const startOfDay = new Date(date);
-  startOfDay.setHours(0, 0, 0, 0);
-  const endOfDay = new Date(date);
-  endOfDay.setHours(23, 59, 59, 999);
-
-  const messages = await db.query.rawMessage.findMany({
-    where: and(
-      gte(rawMessage.timestamp, startOfDay),
-      lte(rawMessage.timestamp, endOfDay),
-      eq(rawMessage.isProcessed, false)
-    ),
-  });
-
-  if (messages.length === 0) {
-    return {
-      success: false,
-      error: 'No messages found for the specified date',
-    };
-  }
-
-  // Stage 1: Local filtering
-  const parsedMessages = messages.map((msg) => ({
-    senderName: msg.senderName,
-    senderId: msg.senderId || undefined,
-    content: msg.content,
-    messageType: msg.messageType as any,
-    timestamp: msg.timestamp,
-  }));
-
-  const filtered = stage1Filter(parsedMessages);
-  const merged = mergeConsecutiveMessages(filtered);
-
-  console.log(
-    `Stage 1: Filtered ${messages.length} → ${merged.length} messages`
-  );
-
-  // Estimate cost
-  const costEstimate = estimateProcessingCost(merged.length);
-  console.log('Estimated cost:', costEstimate);
-
-  // AI Processing (Stages 2 & 3)
-  const aiResult = await processMessagesWithAI(merged);
-
-  // Create report
-  const reportId = `report_${Date.now()}`;
-  await db.insert(dailyReport).values({
-    id: reportId,
-    date,
-    title: `${date.toLocaleDateString('zh-CN')} AI出海社群日报`,
-    summary: aiResult.dailySummary,
-    status: 'draft',
-    views: 0,
-    likes: 0,
-    commentCount: 0,
-    createdBy: userId,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
-
-  // Create topics
-  for (const [index, topic] of aiResult.suggestedTopics.entries()) {
-    await createTopic({
-      reportId,
-      title: topic.title,
-      summary: topic.summary,
-      category: topic.category,
-      importance: topic.importance,
-      tags: topic.tags,
-      sortOrder: index,
-    });
-  }
-
-  // Mark messages as processed
-  await db
-    .update(rawMessage)
-    .set({ isProcessed: true })
-    .where(
-      and(
-        gte(rawMessage.timestamp, startOfDay),
-        lte(rawMessage.timestamp, endOfDay)
-      )
-    );
-
-  revalidatePath('/dashboard/reports');
-
-  return {
-    success: true,
-    reportId,
-    stats: {
-      totalMessages: messages.length,
-      filteredMessages: merged.length,
-      topicsGenerated: aiResult.suggestedTopics.length,
-      estimatedCost: costEstimate,
-    },
-  };
-}
-
-// ============================================================================
-// Comment Operations
-// ============================================================================
-
-/**
- * Create a comment
- */
-export async function createComment(input: CreateCommentInput, userId: string) {
-  const commentId = `comment_${Date.now()}`;
-
-  await db.insert(comment).values({
-    id: commentId,
-    userId,
-    targetType: input.targetType,
-    targetId: input.targetId,
-    parentId: input.parentId,
-    content: input.content,
-    likes: 0,
-    isFeatured: false,
-    isDeleted: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
-
-  // Update comment count
-  if (input.targetType === 'report') {
-    await db
-      .update(dailyReport)
-      .set({
-        commentCount: sql`${dailyReport.commentCount} + 1`,
-      })
-      .where(eq(dailyReport.id, input.targetId));
-  } else if (input.targetType === 'topic') {
-    await db
-      .update(dailyTopic)
-      .set({
-        commentCount: sql`${dailyTopic.commentCount} + 1`,
-      })
-      .where(eq(dailyTopic.id, input.targetId));
-  }
-
-  revalidatePath(`/reports/${input.targetId}`);
-  return { success: true, commentId };
-}
-
-/**
- * Get comments for a target
- */
-export async function getComments(targetType: string, targetId: string) {
-  const comments = await db.query.comment.findMany({
-    where: and(
-      eq(comment.targetType, targetType),
-      eq(comment.targetId, targetId),
-      eq(comment.isDeleted, false)
-    ),
-    orderBy: [desc(comment.createdAt)],
-  });
-
-  // Serialize Date objects to strings for React Server Components
-  return comments.map((c) => ({
-    ...c,
-    createdAt: c.createdAt.toISOString(),
-    updatedAt: c.updatedAt.toISOString(),
-  }));
-}
 
 // ============================================================================
 // User Preference Operations

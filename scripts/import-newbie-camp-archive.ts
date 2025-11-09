@@ -17,6 +17,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import * as fs from 'fs/promises';
 import postgres from 'postgres';
 import { z } from 'zod';
+import * as schema from '../src/db/schema';
 import { dailyReport, dailyTopic, user } from '../src/db/schema';
 
 // 数据库连接
@@ -159,7 +160,6 @@ ${topicsJson}`;
     model: openrouter('google/gemini-2.5-pro'),
     prompt,
     temperature: 0.3,
-    maxTokens: 16000,
   });
 
   const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -279,8 +279,8 @@ async function saveToDatabase(extractedData: any, userId: string) {
     date: reportDate,
     summary: extractedData.summary,
     status: 'draft', // 设为草稿，等待你审核
-    viewCount: 0,
-    likeCount: 0,
+    views: 0,
+    likes: 0,
     commentCount: 0,
     createdBy: userId,
     createdAt: new Date(),
@@ -301,13 +301,13 @@ async function saveToDatabase(extractedData: any, userId: string) {
       category: mapCategoryToEnum(topic.category),
       content: topic.content,
       summary: topic.summary,
-      editorComment: null, // 编辑点评留空，等你添加
+      editorNote: null, // 编辑点评留空，等你添加
       importance: topic.importance,
       tags: topic.tags,
-      viewCount: 0,
-      likeCount: 0,
+      views: 0,
+      likes: 0,
       commentCount: 0,
-      order: i,
+      sortOrder: i,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

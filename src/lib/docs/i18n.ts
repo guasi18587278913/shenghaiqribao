@@ -7,7 +7,7 @@ import type { I18nConfig } from 'fumadocs-core/i18n';
  * https://fumadocs.dev/docs/ui/internationalization
  */
 export const docsI18nConfig: I18nConfig = {
-  defaultLanguage: DEFAULT_LOCALE,
+  defaultLanguage: 'zh', // Changed to 'zh' since most content is in Chinese
   languages: LOCALES,
-  hideLocale: 'default-locale',
+  hideLocale: 'never', // Changed to 'never' to always show locale prefix
 };

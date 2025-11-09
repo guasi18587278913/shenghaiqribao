@@ -1,5 +1,5 @@
 import { docsI18nConfig } from '@/lib/docs/i18n';
-import { source } from '@/lib/source';
+import { knowledgeSource, reportsSource } from '@/lib/source';
 import { createTokenizer } from '@orama/tokenizers/mandarin';
 import { createI18nSearchAPI } from 'fumadocs-core/search/server';
 
@@ -17,17 +17,29 @@ const searchAPI = createI18nSearchAPI('advanced', {
   // Pass the i18n config for proper language detection
   i18n: docsI18nConfig,
 
-  // Get all pages from all languages and map them to search indexes
-  indexes: source.getLanguages().flatMap(({ language, pages }) =>
-    pages.map((page) => ({
-      title: page.data.title,
-      description: page.data.description,
-      structuredData: page.data.structuredData,
-      id: page.url,
-      url: page.url,
-      locale: language,
-    }))
-  ),
+  // Get all pages from all sources (knowledge + reports) and map them to search indexes
+  indexes: [
+    ...knowledgeSource.getLanguages().flatMap(({ language, pages }) =>
+      pages.map((page) => ({
+        title: page.data.title,
+        description: page.data.description,
+        structuredData: page.data.structuredData,
+        id: page.url,
+        url: page.url,
+        locale: language,
+      }))
+    ),
+    ...reportsSource.getLanguages().flatMap(({ language, pages }) =>
+      pages.map((page) => ({
+        title: page.data.title,
+        description: page.data.description,
+        structuredData: page.data.structuredData,
+        id: page.url,
+        url: page.url,
+        locale: language,
+      }))
+    ),
+  ],
 
   // Configure special language tokenizers and search options
   localeMap: {

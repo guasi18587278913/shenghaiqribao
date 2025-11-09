@@ -4,8 +4,6 @@
   "icon": "BookOpen",
   "root": true,
   "pages": [
-    "index",
-    "---分类---",
     "account",
     "network",
     "payment",

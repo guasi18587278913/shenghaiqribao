@@ -1,0 +1,12 @@
+{
+  "title": "日报精华",
+  "pages": [
+    "index",
+    "2024-11-05",
+    "2024-11-06",
+    "2024-11-07"
+  ],
+  "description": "AI产品出海社群每日精华整理",
+  "root": true,
+  "icon": "Newspaper"
+}

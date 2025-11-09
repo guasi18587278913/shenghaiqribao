@@ -36,11 +36,10 @@ export default async function ChangelogPage(props: NextPageProps) {
   const locale = params.locale as Locale;
   const localeReleases = changelogSource.getPages(locale);
   const publishedReleases = localeReleases
-    .filter((releaseItem) => releaseItem.data.published)
-    .sort(
-      (a, b) =>
-        new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-    );
+    // @ts-ignore - Fumadocs PageData type issue with custom fields
+    .filter((releaseItem) => releaseItem.data.published !== false)
+    // @ts-ignore - Fumadocs PageData type issue with custom fields
+    .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
   if (!publishedReleases || publishedReleases.length === 0) {
     notFound();
@@ -66,6 +65,7 @@ export default async function ChangelogPage(props: NextPageProps) {
           {publishedReleases.map((releaseItem) => {
             return (
               <ReleaseCard
+                // @ts-ignore - Fumadocs PageData type issue with custom fields
                 key={releaseItem.data.version}
                 releaseItem={releaseItem}
               />

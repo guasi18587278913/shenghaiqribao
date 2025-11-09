@@ -1,5 +1,7 @@
+/* 霞鹜文楷 Screen - 优雅的开源中文字体 */
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css');
 @import "tailwindcss";
-@import "tw-animate-css";
+/* @import "tw-animate-css"; */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -404,3 +406,98 @@ div[class*="border-t"][class*="bg-fd-secondary"]:not(:has(*)):not(
 [class*="fd-secondary"]:empty:not([data-banner-content]) {
   display: none !important;
 }
+
+/* ============================================
+   Fumadocs 侧边栏完整优化
+   ============================================ */
+
+/* 1. 分类标题 - macOS 毛玻璃风格 + 左侧彩色竖线 */
+aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium {
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  margin-top: 2rem !important; /* 增加分类之间的间距 */
+  margin-bottom: 0.75rem !important;
+  padding: 0.625rem 1rem !important;
+  padding-left: 0.875rem !important; /* 为左侧竖线留空间 */
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-left: 3px solid hsl(var(--primary)) !important; /* 左侧accent竖线 */
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* 第一个分类标题减少顶部间距 */
+aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:first-of-type {
+  margin-top: 0.5rem !important;
+}
+
+aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-1px) !important;
+}
+
+.dark aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  border-left-color: hsl(var(--primary)) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:hover {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  border-left-color: hsl(var(--primary)) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 2-4. 子项优化 - 暂时禁用，避免影响整体布局 */
+/* TODO: 需要更精确的选择器，只针对文档侧边栏 */
+
+/* 5. 搜索框优化 - 暂时禁用，避免影响其他元素 */
+/* 待确认正确选择器后再启用 */
+
+/* 6. 自定义滚动条美化 */
+aside nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+aside nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+aside nav::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.2);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+aside nav::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.35);
+}
+
+.dark aside nav::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.15);
+}
+
+.dark aside nav::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.25);
+}
+
+/* Firefox 滚动条 */
+aside nav {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.2) transparent;
+}
+
+.dark aside nav {
+  scrollbar-color: hsl(var(--muted-foreground) / 0.15) transparent;
+}
+
+/* 7. 底部控制栏隐藏 */
+/* 暂时禁用，需要更精确的选择器 */
+/* TODO: 找到正确的底部控制栏选择器 */

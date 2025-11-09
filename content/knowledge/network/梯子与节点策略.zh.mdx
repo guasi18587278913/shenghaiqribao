@@ -1,0 +1,51 @@
+---
+title: 梯子与节点策略
+description: 网络环境配置、代理选择、IP 风险检测
+category: 网络与代理
+tags: ["出海开发"]
+importance: 3
+---
+
+### 核心原则
+
+<Callout type="info">
+节点纯净度是决定账号“能否注册、能否保号”的关键。注册前先在 `scamalytics.com`、`ipjiance.com`、`ipinfo.io`、`ping0.cc`、`ip111.cn` 全面检测，风险值 0–25 为低风险，超过 40 建议直接换节点。
+</Callout>
+- 确保客户端支持系统级代理（TUN）。Claude Code、Dia 浏览器等桌面应用会绕开浏览器，在未开启 TUN 时常表现为“网页能用、终端报错”。
+- 网络策略要配合账号策略：新号尽量固定在 1–2 个节点上，换节点前先退出所有敏感服务。
+
+<Callout type="info" title="🔧 客户端与配置建议">
+- **Mac**：Surge（稳定但需订阅）、Clash Pro、Clash Verge 均内置 TUN 模式；Clash X 不支持 TUN，建议升级。
+- **Windows**：选择支持系统代理的客户端（Clash for Windows、NekoRay 等），并启用 TUN/系统代理，确保终端、WSL、VSCode 等都走梯子。
+- **TUN 配置提醒**：在 Clash Verge 中右键菜单即可开启；开启后若出现断网，优先尝试换节点或重启客户端。
+</Callout>
+
+### 节点选择与维护
+- 地区优先级：美国 > 日本/欧洲 > 其他地区。Claude Code、Dia 对香港节点敏感，注册阶段尽量不用。
+
+<Callout type="info">
+- 保持多线路备用：机场一般月费 20–50 元；重要节点准备 2–3 条备用，遇到风控及时切换。
+</Callout>
+- 住宅 IP 获取方式：
+  - 闲鱼购买住宅 IP（约 180 元/条），成功率高但需要频繁换号。
+  - 使用 OCloud 等提供住宅节点的服务，支持 Cursor、GPT、Claude。
+  - 自建 VPS + 住宅 IP 组合，适合长期稳定使用。
+
+<Callout type="info">
+- 玄学提醒：检测通过并不代表一定可用；一旦登录失败或提示异常，第一时间更换节点或客户端，而不是强行重试。
+</Callout>
+
+### ⚡ 合规与自建方案
+- **澳门手机卡**：属于合法上网方式，价格偏高，了解即可。
+- **自建 VPS**：Hostdare CKVM1、中国优化线路等适合小团队共享；搭建前确认自己有排障能力。支付可以用 Google Pay、Bybit 等渠道。
+
+### 常见模式问题
+
+<Callout type="info">
+- **全局 vs. 规则代理**：日常使用推荐“绕过大陆/分应用”模式，遇到特定域名访问异常，再把目标域名加入代理列表。长期全局代理容易触发国内服务异常。
+</Callout>
+
+<Callout type="info">
+**节点被识别**：当 Claude、ChatGPT 提示安全风险时，优先换节点或换客户端。频繁重试同一 IP 只会放大风险。
+</Callout>
+

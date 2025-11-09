@@ -1,5 +1,5 @@
 import { type InferPageType, loader } from 'fumadocs-core/source';
-import { createMDXSource } from 'fumadocs-mdx';
+import { createMDXSource } from 'fumadocs-mdx/runtime/next';
 import * as LucideIcons from 'lucide-react';
 import { createElement } from 'react';
 import {
@@ -10,6 +10,7 @@ import {
   docs,
   knowledge,
   pages,
+  reports,
 } from '../../.source';
 import { docsI18nConfig } from './docs/i18n';
 
@@ -113,9 +114,32 @@ export const knowledgeSource = loader({
   },
 });
 
+/**
+ * Daily Reports source
+ */
+export const reportsSource = loader({
+  baseUrl: '/reports',
+  i18n: docsI18nConfig,
+  source: reports.toFumadocsSource(),
+  icon(iconName) {
+    if (!iconName) {
+      return undefined;
+    }
+
+    const IconComponent = (LucideIcons as Record<string, any>)[iconName];
+    if (IconComponent) {
+      return createElement(IconComponent);
+    }
+
+    console.warn(`Icon not found: ${iconName}`);
+    return undefined;
+  },
+});
+
 export type ChangelogType = InferPageType<typeof changelogSource>;
 export type PagesType = InferPageType<typeof pagesSource>;
 export type AuthorType = InferPageType<typeof authorSource>;
 export type CategoryType = InferPageType<typeof categorySource>;
 export type BlogType = InferPageType<typeof blogSource>;
 export type KnowledgeType = InferPageType<typeof knowledgeSource>;
+export type ReportType = InferPageType<typeof reportsSource>;

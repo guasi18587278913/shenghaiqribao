@@ -182,47 +182,7 @@ export const dailyTopic = pgTable("daily_topic", {
 	dailyTopicSortOrderIdx: index("daily_topic_sort_order_idx").on(table.sortOrder),
 }));
 
-// Raw Messages - Store all original WeChat messages
-export const rawMessage = pgTable("raw_message", {
-	id: text("id").primaryKey(),
-	groupName: text("group_name").notNull(), // Name of WeChat group (1 of 4 groups)
-	senderName: text("sender_name").notNull(),
-	senderId: text("sender_id"), // For deduplication if available
-	content: text("content").notNull(),
-	messageType: text("message_type").notNull().default("text"), // text, image, link, file
-	timestamp: timestamp("timestamp").notNull(),
-	isProcessed: boolean("is_processed").notNull().default(false),
-	aiScore: integer("ai_score"), // AI-assigned value score (0-100)
-	category: text("category"), // Initial AI categorization
-	linkedTopicId: text("linked_topic_id").references(() => dailyTopic.id, { onDelete: 'set null' }), // Link to topic if used
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-}, (table) => ({
-	rawMessageTimestampIdx: index("raw_message_timestamp_idx").on(table.timestamp),
-	rawMessageIsProcessedIdx: index("raw_message_is_processed_idx").on(table.isProcessed),
-	rawMessageGroupNameIdx: index("raw_message_group_name_idx").on(table.groupName),
-	rawMessageAiScoreIdx: index("raw_message_ai_score_idx").on(table.aiScore),
-	rawMessageLinkedTopicIdIdx: index("raw_message_linked_topic_id_idx").on(table.linkedTopicId),
-}));
 
-// Comments - Discussion system for reports and topics
-export const comment = pgTable("comment", {
-	id: text("id").primaryKey(),
-	userId: text("user_id").notNull().references(() => user.id, { onDelete: 'cascade' }),
-	targetType: text("target_type").notNull(), // 'report' or 'topic'
-	targetId: text("target_id").notNull(), // ID of report or topic
-	parentId: text("parent_id"), // For nested comments (max 3 levels)
-	content: text("content").notNull(),
-	likes: integer("likes").notNull().default(0),
-	isFeatured: boolean("is_featured").notNull().default(false), // Highlight quality comments
-	isDeleted: boolean("is_deleted").notNull().default(false),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-}, (table) => ({
-	commentTargetIdx: index("comment_target_idx").on(table.targetType, table.targetId),
-	commentUserIdIdx: index("comment_user_id_idx").on(table.userId),
-	commentParentIdIdx: index("comment_parent_id_idx").on(table.parentId),
-	commentCreatedAtIdx: index("comment_created_at_idx").on(table.createdAt),
-}));
 
 // User Preferences - Subscription settings for daily reports
 export const userPreference = pgTable("user_preference", {
@@ -236,74 +196,8 @@ export const userPreference = pgTable("user_preference", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-// Knowledge Items - Extracted resources (tools, articles, cases, Q&A)
-export const knowledgeItem = pgTable("knowledge_item", {
-	id: text("id").primaryKey(),
-	type: text("type").notNull(), // 'tool', 'article', 'case', 'qa'
-	title: text("title").notNull(),
-	description: text("description"),
-	url: text("url"), // External link if applicable
-	content: text("content"), // Main content for Q&A
-	tags: text("tags").array(),
-	referencedInTopics: text("referenced_in_topics").array(), // Array of topic IDs
-	views: integer("views").notNull().default(0),
-	likes: integer("likes").notNull().default(0),
-	createdBy: text("created_by").notNull().references(() => user.id, { onDelete: 'cascade' }),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-}, (table) => ({
-	knowledgeItemTypeIdx: index("knowledge_item_type_idx").on(table.type),
-	knowledgeItemCreatedByIdx: index("knowledge_item_created_by_idx").on(table.createdBy),
-}));
 
-// Knowledge Collections - Themed collections of topics (e.g., "Claude Complete Guide")
-export const knowledgeCollection = pgTable("knowledge_collection", {
-	id: text("id").primaryKey(),
-	title: text("title").notNull(), // e.g., "账号与设备完全指南"
-	slug: text("slug").notNull().unique(), // URL-friendly slug
-	description: text("description"), // Description of the collection
-	category: text("category").notNull(), // Same as topic category
-	icon: text("icon").notNull().default("📚"), // Emoji icon
-	// Optional time range for the collection
-	periodStart: timestamp("period_start"), // e.g., 2024-10-14
-	periodEnd: timestamp("period_end"), // e.g., 2024-11-05
-	// Statistics
-	topicCount: integer("topic_count").notNull().default(0),
-	views: integer("views").notNull().default(0),
-	likes: integer("likes").notNull().default(0),
-	// Special flags
-	isFeatured: boolean("is_featured").notNull().default(false), // Show on homepage
-	isPinned: boolean("is_pinned").notNull().default(false), // Pin to top
-	// Editor notes
-	curatorNote: text("curator_note"), // Editor's note about the collection
-	sortOrder: integer("sort_order").notNull().default(0), // Display order
-	// Meta
-	createdBy: text("created_by").notNull().references(() => user.id, { onDelete: 'cascade' }),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-}, (table) => ({
-	knowledgeCollectionCategoryIdx: index("knowledge_collection_category_idx").on(table.category),
-	knowledgeCollectionSlugIdx: index("knowledge_collection_slug_idx").on(table.slug),
-	knowledgeCollectionFeaturedIdx: index("knowledge_collection_featured_idx").on(table.isFeatured),
-	knowledgeCollectionSortOrderIdx: index("knowledge_collection_sort_order_idx").on(table.sortOrder),
-}));
 
-// Collection Topics - Many-to-many relationship between collections and topics
-export const collectionTopic = pgTable("collection_topic", {
-	id: text("id").primaryKey(),
-	collectionId: text("collection_id").notNull().references(() => knowledgeCollection.id, { onDelete: 'cascade' }),
-	topicId: text("topic_id").notNull().references(() => dailyTopic.id, { onDelete: 'cascade' }),
-	// Ordering and notes specific to this collection
-	sortOrder: integer("sort_order").notNull().default(0), // Order within the collection
-	curatorNote: text("curator_note"), // Editor's note for this specific topic in this collection
-	// Meta
-	addedAt: timestamp("added_at").notNull().defaultNow(),
-	addedBy: text("added_by").references(() => user.id, { onDelete: 'set null' }),
-}, (table) => ({
-	collectionTopicCollectionIdIdx: index("collection_topic_collection_id_idx").on(table.collectionId),
-	collectionTopicTopicIdIdx: index("collection_topic_topic_id_idx").on(table.topicId),
-	collectionTopicSortOrderIdx: index("collection_topic_sort_order_idx").on(table.sortOrder),
-}));
 
 // ============================================================================
 // Category Statistics Table
@@ -364,36 +258,13 @@ export const dailyReportRelations = relations(dailyReport, ({ many }) => ({
 	topics: many(dailyTopic),
 }));
 
-export const dailyTopicRelations = relations(dailyTopic, ({ one, many }) => ({
+export const dailyTopicRelations = relations(dailyTopic, ({ one }) => ({
 	report: one(dailyReport, {
 		fields: [dailyTopic.reportId],
 		references: [dailyReport.id],
 	}),
-	collections: many(collectionTopic),
 }));
 
-export const knowledgeCollectionRelations = relations(knowledgeCollection, ({ one, many }) => ({
-	creator: one(user, {
-		fields: [knowledgeCollection.createdBy],
-		references: [user.id],
-	}),
-	topics: many(collectionTopic),
-}));
-
-export const collectionTopicRelations = relations(collectionTopic, ({ one }) => ({
-	collection: one(knowledgeCollection, {
-		fields: [collectionTopic.collectionId],
-		references: [knowledgeCollection.id],
-	}),
-	topic: one(dailyTopic, {
-		fields: [collectionTopic.topicId],
-		references: [dailyTopic.id],
-	}),
-	addedByUser: one(user, {
-		fields: [collectionTopic.addedBy],
-		references: [user.id],
-	}),
-}));
 
 export const sessionRelations = relations(session, ({ one }) => ({
 	user: one(user, {
