@@ -27,14 +27,14 @@ export interface DailyReport {
   id: string;
   date: Date | string;
   title: string;
-  summary?: string;
-  status: ReportStatus;
+  summary?: string | null; // Allow null from database
+  status: ReportStatus | string; // Allow string from database queries
   publishedAt?: Date | string | null;
   views: number;
   likes: number;
   commentCount: number;
-  year?: number;
-  month?: number;
+  year?: number | null; // Allow null from database
+  month?: number | null; // Allow null from database
   createdBy: string;
   createdAt: Date | string;
   updatedAt: Date | string;

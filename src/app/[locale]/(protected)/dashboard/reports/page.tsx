@@ -18,16 +18,19 @@ export default async function DailyReportsPage() {
 
   return (
     <>
-      <DashboardHeader breadcrumbs={breadcrumbs}>
-        <div className="flex gap-2">
-          <Link href="/dashboard/reports/create">
-            <Button size="sm">
-              <Plus className="mr-2 h-4 w-4" />
-              创建日报
-            </Button>
-          </Link>
-        </div>
-      </DashboardHeader>
+      <DashboardHeader
+        breadcrumbs={breadcrumbs}
+        actions={
+          <div className="flex gap-2">
+            <Link href="/dashboard/reports/create">
+              <Button size="sm">
+                <Plus className="mr-2 h-4 w-4" />
+                创建日报
+              </Button>
+            </Link>
+          </div>
+        }
+      />
 
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">

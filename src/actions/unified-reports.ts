@@ -114,11 +114,28 @@ export async function getReportWithTopics(reportId: string) {
 // Topic View (Knowledge Collections)
 // ============================================================================
 
+// Define temporary type for collections until schema is implemented
+interface KnowledgeCollection {
+	id: string
+	slug: string
+	title: string
+	description: string | null
+	icon: string
+	category: string
+	isFeatured: boolean
+	topicCount: number
+	views: number
+	periodStart: Date | null
+	periodEnd: Date | null
+	createdAt: string
+	updatedAt: string
+}
+
 /**
  * Get collections by category
  * NOTE: Disabled - knowledgeCollection table doesn't exist in current schema
  */
-export async function getCollectionsByCategory(category: string) {
+export async function getCollectionsByCategory(category: string): Promise<KnowledgeCollection[]> {
 	// TODO: Re-enable when knowledgeCollection table is added to schema
 	console.warn('getCollectionsByCategory: knowledgeCollection table not implemented')
 	return []
@@ -128,7 +145,7 @@ export async function getCollectionsByCategory(category: string) {
  * Get featured collections
  * NOTE: Disabled - knowledgeCollection table doesn't exist in current schema
  */
-export async function getFeaturedCollections() {
+export async function getFeaturedCollections(): Promise<KnowledgeCollection[]> {
 	console.warn('getFeaturedCollections: knowledgeCollection table not implemented')
 	return []
 }

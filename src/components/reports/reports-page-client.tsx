@@ -146,7 +146,6 @@ export function ReportsPageClient({
                       <DailyReportCard
                         key={report.id}
                         report={report}
-                        locale={locale}
                       />
                     ))}
                   </div>

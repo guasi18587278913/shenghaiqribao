@@ -69,7 +69,7 @@ export function DailyReportCard({ report }: DailyReportCardProps) {
     return found;
   };
 
-  const tags = extractTags(report.summary, report.title);
+  const tags = extractTags(report.summary || '', report.title);
 
   return (
     <Link href={`/reports/${report.id}`} className="group block h-full">

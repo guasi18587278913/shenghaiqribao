@@ -421,3 +421,38 @@ export async function getAdjacentReports(currentDate: Date | string) {
     nextReportId: nextReports[0]?.id,
   };
 }
+
+// ============================================================================
+// Comment Operations (Stubs - To be implemented)
+// ============================================================================
+
+/**
+ * Create a comment on a report or topic
+ * TODO: Implement comment functionality when comment schema is added
+ */
+export async function createComment(input: any) {
+  console.warn('createComment: Comment functionality not yet implemented');
+  throw new Error('Comment functionality is not yet implemented');
+}
+
+/**
+ * Get comments for a report or topic
+ * TODO: Implement comment functionality when comment schema is added
+ */
+export async function getComments(targetType: string, targetId: string) {
+  console.warn('getComments: Comment functionality not yet implemented');
+  return [];
+}
+
+// ============================================================================
+// Message Upload Operations (Stubs - To be implemented)
+// ============================================================================
+
+/**
+ * Upload and process messages
+ * TODO: Implement message upload functionality
+ */
+export async function uploadMessages(input: any) {
+  console.warn('uploadMessages: Message upload functionality not yet implemented');
+  throw new Error('Message upload functionality is not yet implemented');
+}
