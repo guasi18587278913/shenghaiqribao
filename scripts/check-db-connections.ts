@@ -83,7 +83,8 @@ async function checkDatabaseConnections() {
       console.log('⚠️  Found long-running queries:');
       for (const row of queryResults) {
         console.log(`  - PID: ${row.pid}, Duration: ${row.duration}, State: ${row.state}`);
-        console.log(`    Query: ${row.query?.substring(0, 100)}...`);
+        const queryText = typeof row.query === 'string' ? row.query : String(row.query || '');
+        console.log(`    Query: ${queryText.substring(0, 100)}...`);
       }
     }
     console.log('');
