@@ -1,7 +1,8 @@
 'use server'
 
 import { db } from '@/db'
-import { dailyReport, dailyTopic, knowledgeCollection, collectionTopic, categoryStats } from '@/db/schema'
+import { dailyReport, dailyTopic, categoryStats } from '@/db/schema'
+// Note: knowledgeCollection and collectionTopic tables don't exist in current schema
 import { eq, and, desc, asc, sql, inArray } from 'drizzle-orm'
 import { format } from 'date-fns'
 import { getCategorySlug, getCategoryIcon, getCategoryName } from '@/lib/category-helpers'
@@ -115,91 +116,39 @@ export async function getReportWithTopics(reportId: string) {
 
 /**
  * Get collections by category
+ * NOTE: Disabled - knowledgeCollection table doesn't exist in current schema
  */
 export async function getCollectionsByCategory(category: string) {
-	try {
-		return await db.query.knowledgeCollection.findMany({
-			where: eq(knowledgeCollection.category, category),
-			orderBy: [desc(knowledgeCollection.isPinned), desc(knowledgeCollection.topicCount)],
-		})
-	} catch (error) {
-		console.error('Failed to get collections by category:', error)
-		return []
-	}
+	// TODO: Re-enable when knowledgeCollection table is added to schema
+	console.warn('getCollectionsByCategory: knowledgeCollection table not implemented')
+	return []
 }
 
 /**
  * Get featured collections
+ * NOTE: Disabled - knowledgeCollection table doesn't exist in current schema
  */
 export async function getFeaturedCollections() {
-	try {
-		return await db.query.knowledgeCollection.findMany({
-			where: eq(knowledgeCollection.isFeatured, true),
-			orderBy: [asc(knowledgeCollection.sortOrder), desc(knowledgeCollection.topicCount)],
-		})
-	} catch (error) {
-		console.error('Failed to get featured collections:', error)
-		return []
-	}
+	console.warn('getFeaturedCollections: knowledgeCollection table not implemented')
+	return []
 }
 
 /**
  * Get all collections grouped by category
+ * NOTE: Disabled - knowledgeCollection table doesn't exist in current schema
  */
 export async function getAllCollectionsGrouped() {
-	try {
-		const collections = await db.query.knowledgeCollection.findMany({
-			orderBy: [asc(knowledgeCollection.category), desc(knowledgeCollection.topicCount)],
-		})
-
-		// Group by category
-		const grouped: Record<string, typeof collections> = {}
-		for (const collection of collections) {
-			if (!grouped[collection.category]) {
-				grouped[collection.category] = []
-			}
-			grouped[collection.category].push(collection)
-		}
-
-		return grouped
-	} catch (error) {
-		console.error('Failed to get all collections:', error)
-		return {}
-	}
+	console.warn('getAllCollectionsGrouped: knowledgeCollection table not implemented')
+	return {}
 }
 
 /**
  * Get collection with topics by slug
+ * NOTE: Disabled - knowledgeCollection and collectionTopic tables don't exist in current schema
  */
 export async function getCollectionWithTopics(slug: string) {
-	try {
-		const collection = await db.query.knowledgeCollection.findFirst({
-			where: eq(knowledgeCollection.slug, slug),
-		})
-
-		if (!collection) return null
-
-		// Get topics in this collection with their metadata
-		const topicsInCollection = await db.query.collectionTopic.findMany({
-			where: eq(collectionTopic.collectionId, collection.id),
-			with: {
-				topic: true,
-			},
-			orderBy: asc(collectionTopic.sortOrder),
-		})
-
-		return {
-			collection,
-			topics: topicsInCollection.map((ct) => ({
-				...ct.topic,
-				curatorNote: ct.curatorNote,
-				sortOrderInCollection: ct.sortOrder,
-			})),
-		}
-	} catch (error) {
-		console.error('Failed to get collection with topics:', error)
-		return null
-	}
+	console.warn('getCollectionWithTopics: knowledgeCollection/collectionTopic tables not implemented')
+	return null
 }
 
 /**
@@ -242,21 +191,11 @@ export async function getTopicsByCategory(
 
 /**
  * Get topics that belong to a specific collection
+ * NOTE: Disabled - collectionTopic table doesn't exist in current schema
  */
 export async function getTopicCollections(topicId: string) {
-	try {
-		const results = await db.query.collectionTopic.findMany({
-			where: eq(collectionTopic.topicId, topicId),
-			with: {
-				collection: true,
-			},
-		})
-
-		return results.map((r) => r.collection)
-	} catch (error) {
-		console.error('Failed to get topic collections:', error)
-		return []
-	}
+	console.warn('getTopicCollections: collectionTopic table not implemented')
+	return []
 }
 
 // Helper functions are now in @/lib/category-helpers
