@@ -504,6 +504,15 @@
     "dashboard": {
       "title": "Dashboard"
     },
+    "reports": {
+      "title": "Reports",
+      "list": {
+        "title": "Reports List"
+      },
+      "upload": {
+        "title": "Upload Report"
+      }
+    },
     "admin": {
       "title": "Admin",
       "users": {

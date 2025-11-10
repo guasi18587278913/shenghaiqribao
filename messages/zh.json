@@ -505,6 +505,15 @@
     "dashboard": {
       "title": "仪表盘"
     },
+    "reports": {
+      "title": "日报管理",
+      "list": {
+        "title": "日报列表"
+      },
+      "upload": {
+        "title": "上传日报"
+      }
+    },
     "admin": {
       "title": "系统管理",
       "users": {

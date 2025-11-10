@@ -8,10 +8,12 @@ import {
   CircleUserRoundIcon,
   CoinsIcon,
   CreditCardIcon,
+  FileTextIcon,
   LayoutDashboardIcon,
   LockKeyholeIcon,
   Settings2Icon,
   SettingsIcon,
+  UploadIcon,
   UsersRoundIcon,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -39,6 +41,24 @@ export function useSidebarLinks(): NestedMenuItem[] {
       icon: <LayoutDashboardIcon className="size-4 shrink-0" />,
       href: Routes.Dashboard,
       external: false,
+    },
+    {
+      title: t('reports.title'),
+      icon: <FileTextIcon className="size-4 shrink-0" />,
+      items: [
+        {
+          title: t('reports.list.title'),
+          icon: <FileTextIcon className="size-4 shrink-0" />,
+          href: Routes.Reports,
+          external: false,
+        },
+        {
+          title: t('reports.upload.title'),
+          icon: <UploadIcon className="size-4 shrink-0" />,
+          href: Routes.ReportsUpload,
+          external: false,
+        },
+      ],
     },
     {
       title: t('admin.title'),

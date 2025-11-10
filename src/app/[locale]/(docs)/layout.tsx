@@ -28,12 +28,12 @@ export default async function SharedDocsLayout({
   const { locale } = await params;
 
   // 合并导航树: 日报时间线 + 知识库分类
-  const reportsTree = reportsSource.pageTree[locale];
-  const knowledgeTree = knowledgeSource.pageTree[locale];
+  const reportsTree = reportsSource.pageTree[locale] || reportsSource.pageTree;
+  const knowledgeTree = knowledgeSource.pageTree[locale] || knowledgeSource.pageTree;
 
   // 创建合并的导航树
   const mergedTree = {
-    ...reportsTree,
+    ...(typeof reportsTree === 'object' && reportsTree !== null ? reportsTree : {}),
     children: [
       // 添加日报分隔符
       {
@@ -41,14 +41,14 @@ export default async function SharedDocsLayout({
         name: '📰 日报',
       },
       // 日报页面列表
-      ...(reportsTree.children || []),
+      ...(reportsTree && typeof reportsTree === 'object' && 'children' in reportsTree && Array.isArray(reportsTree.children) ? reportsTree.children : []),
       // 添加知识分类分隔符
       {
         type: 'separator' as const,
         name: '📚 知识分类',
       },
       // 知识库分类列表
-      ...(knowledgeTree.children || []),
+      ...(knowledgeTree && typeof knowledgeTree === 'object' && 'children' in knowledgeTree && Array.isArray(knowledgeTree.children) ? knowledgeTree.children : []),
     ],
   };
 
