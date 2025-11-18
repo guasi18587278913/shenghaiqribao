@@ -1,0 +1,34 @@
+import Container from "@/components/container";
+import { NewsletterCard } from "@/components/newsletter/newsletter-card";
+import { HomeCategoryList } from "@/components/tool/home-category-list";
+import HomeHeroSponsor from "@/components/tool/home-hero-sponsor";
+import { HomeSearchFilter } from "@/components/tool/home-search-filter";
+
+export default function HomeLayout({
+  children,
+}: { children: React.ReactNode }) {
+  return (
+    <Container className="mt-12 mb-16 flex flex-col gap-12">
+      <HomeHeroSponsor />
+
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* left sidebar: category list */}
+        <div className="hidden md:block w-[250px] flex-shrink-0">
+          <div className="sticky top-24">
+            <HomeCategoryList urlPrefix="/tool" />
+          </div>
+        </div>
+
+        {/* right content: item grid */}
+        <div className="flex-1">
+          <div className="flex flex-col gap-8">
+            <HomeSearchFilter urlPrefix="/tool" />
+            {children}
+          </div>
+        </div>
+      </div>
+
+      <NewsletterCard />
+    </Container>
+  );
+}

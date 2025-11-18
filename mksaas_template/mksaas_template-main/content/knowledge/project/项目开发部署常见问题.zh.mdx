@@ -1,0 +1,405 @@
+---
+title: 项目开发部署常见问题
+description: Google、Claude、GitHub 等核心账号的注册、养号与风控
+category: 项目执行
+tags: ["出海开发"]
+importance: 3
+---
+
+面向首次做 AI Web 项目的同学，将群里关于“环境搭建 → 本地开发 → API 接入 → 部署运维”的零散经验整合成一份可直接照做的手册。除必要概念外，全部内容来自学员/助教在实战中的真实问题与解决方案。
+
+---
+
+## 1. 环境准备与基础设施
+
+### Node.js / npm
+- **安装与验证**：
+
+<Callout type="info">
+- Mac：直接下载官方 pkg，安装后 `node -v`、`npm -v` 验证；若系统弹出 Xcode 提示，可顺带安装 `xcode-select --install` 获得 Git。
+</Callout>
+  - Windows：新版安装程序会自动写入 PATH；打开 CMD 输入 `node -v`、`npm -v` 即可。版本不同不会影响课程。
+
+<Callout type="warning">
+- **常见报错**：Cursor 提示 “版本太老” 时，不要反复点 Run，手动去官网安装最新 LTS，再重启 IDE。
+</Callout>
+- **切换 npm 镜像（加速 create-next-app）**：
+  ```bash
+  npm config set registry [registry.npmmirror.com](https://registry.npmmirror.com)
+  ```bash
+
+### Git 与版本控制
+- Git 是后续推送 GitHub、查看变更、部署 Vercel 的基础。Mac 直接 `xcode-select --install`，Windows 安装 Git for Windows。
+
+<Callout type="info">
+- 遇到提示输入密码但界面无回显属系统安全机制，直接输入后回车即可。
+</Callout>
+
+### 目录结构与项目文件夹
+- 80% 的 “npm run dev 找不到 package.json” 都是因为**没先打开项目文件夹**。
+- 标准流程：提前创建 `D:/AI_Projects/day01` → Cursor `File > Open Folder` → 再让 AI 写代码。这样生成的文件都会在该目录下，便于 Git 管理。
+
+<Callout type="info" title="快捷提示">
+- 任何安装/配置报错：截图 + 完整错误输出交给 AI，通常能一步步教你解决。
+- 先问 AI 远远快于在群里等回答，这是助教 repeatedly 强调的“万事先问 AI”原则。
+</Callout>
+
+---
+
+## 2. 项目创建与本地运行
+
+### Next.js 创建流程
+1. 检查版本：`node -v`、`npm -v`。
+2. 若网络慢，先执行 `npm config set registry [registry.npmmirror.com`。](https://registry.npmmirror.com`。)
+3. 创建项目：
+   ```bash
+   npx create-next-app@latest my-app
+   ```bash
+4. 进入目录并启动：
+   ```bash
+   cd my-app
+   npm run dev
+   ```bash
+5. 浏览器访问 `[localhost:3000`，看到页面即成功。](http://localhost:3000`，看到页面即成功。)
+
+**常见错误**：
+- `Could not read package.json` → 包未下载完整或目录不对，重新执行步骤 2，确认当前路径。
+
+<Callout type="warning">
+- `Next.js must run outside of Node...` → 不要在 Node REPL 里跑，直接 `npm run dev`。
+</Callout>
+
+### V0 / Bolt 生成的代码如何落地
+- V0 免费版也能导出：右上角 `Code → Export` 或点击“小猫”同步到 GitHub。
+- 下载代码后在 Cursor 打开文件夹 → `npm install` → `npm run dev` 本地调试，再进入迭代阶段。
+
+---
+
+## 3. 调试与排错体系
+
+### 浏览器 DevTools（F12 大法）
+1. F12 打开开发者工具 → 切到 Network。
+2. 勾选 `Preserve log`，重现错误。
+3. 找红色请求，查看 `Status / Request / Response / Headers`。
+4. 复制响应内容给 AI，或自己根据状态码（401/403/500/…）定位问题。
+
+### Console 调试
+- 善用 `console.log` / `console.error` / `console.table` 追踪变量。
+- Ctrl+L 清空控制台，保持输出干净。
+
+### 常见问题速查
+| 问题 | 可能原因 | 解决方案 |
+| --- | --- | --- |
+| `localhost:3000` 空白/404 | 服务器未启动或路由错误 | 确认终端是否 `Ready on [localhost:3000`，检查](http://localhost:3000`，检查) `pages`/`app` 目录 |
+| `Cannot find module 'xxx'` | 依赖未安装/导入路径错 | `npm install`；必要时删除 `node_modules` + `package-lock.json` 后重装 |
+| `Port 3000 is already in use` | 端口被占用 | Windows `netstat -ano | findstr :3000` + `taskkill`; Mac `lsof -i :3000` + `kill -9`；或 `npm run dev -- -p 3001` |
+| `npm ERR! enoent ... package.json` | 没在项目根目录执行 | `cd` 到正确目录或重新创建项目 |
+| `EACCES: permission denied` | npm 全局权限问题 | 切换到用户级目录 `~/.npm-global`，更新 PATH |
+| API 一直 loading/报 401 | Key 错误、未传 Header、额度用尽 | 检查 Authorization，确认已充值、Key 有效，必要时换平台 |
+| 样式不生效 | CSS 文件/类名/优先级问题 | 在 Elements 面板查看 Computed 样式，排查是否被覆盖 |
+
+### 提问模板
+- “运行 `npm run dev` 报错：`完整错误日志`。系统 Windows11，Node18.19.0，刚执行 create-next-app。已尝试 `npm install` 仍失败。”——提供操作、环境、日志、尝试过的方案，AI 才能高效回答。
+
+### 调试日志习惯
+
+<Callout type="warning">
+- 记录“问题 → 现象 → 操作 → 解决”四项，可避免重复踩坑，也便于复盘。
+</Callout>
+
+---
+
+## 4. 项目协作与版本管理
+
+### 🔧 .gitignore 的必要配置
+- 让 Cursor 生成 `.gitignore`，至少包含 `node_modules/`、`build/`、`.env*`、`.DS_Store`。
+- 不确定哪些要忽略，可让 AI 打印目录树并逐项判断。
+
+### Git 操作骨架
+```bash
+git init
+git add .
+git commit -m "feat: init project"
+git branch -M main
+git remote add origin [github.com](https://github.com/you/repo.git)
+git push -u origin main
+```bash
+- 日常更新：`git add .` → `git commit` → `git push`。保持一次 commit 做一件事，方便回退。
+
+<Callout type="info" title="心态提示">
+- 迭代从“简单 → 复杂 → 再简化”是常态；遇到卡点重开项目不丢人，关键是每次卡点都学到东西（袁锐钦、补丁的真实经历）。
+</Callout>
+
+---
+
+## 5. API 接入与配置
+
+### 必备平台
+1. OpenAI（ChatGPT）
+2. Anthropic（Claude）
+3. Google AI（Gemini）
+4. OpenRouter（聚合，多模型）
+
+全部支持 Google 账号登陆，无需额外邮件注册。OpenRouter 无免费额度，首次使用需最低充值 5–10 美元。
+
+### 典型错误
+- **401 Unauthorized**：Header 未正确添加 `Authorization: Bearer sk-...`；或余额不足。
+- **“API credentials missing”**：`.env` 未加载/拼写错。重启 dev server，确保 `.env` 在项目根目录并已被读取。
+- **“This model provider doesn't serve your region”**：网络节点被识别，需开启 TUN、安装组件、切到美国节点、将 Cursor 设置里的 Network 协议改为 HTTP/1.1。
+- **免费模型排队/限额用尽**：及时充值或更换供应商（硅基流动、智谱等）。
+
+### API Key 管理与风控
+
+<Callout type="warning">
+- **限额**：在 OpenRouter / Anthropic / OpenAI 设置每日、每月上限与提醒阈值，避免被盗刷。
+</Callout>
+
+<Callout type="warning">
+- **多 Key 策略**：按项目划分 key（生产、测试、个人），限额分别设置，便于统计并降低风险。
+</Callout>
+
+<Callout type="warning">
+- **存储方式**：永远不要把 key 写进代码仓库。使用密码管理器或 `.env`，并在 `.gitignore` 忽略。
+</Callout>
+- **暴露应急预案**：5 分钟内 revoke；1 小时内换新 Key、更新项目、检查账单。直播/共享屏幕前务必确认日志和代码中没有敏感信息。
+
+<Callout type="info">
+- **OpenRouter 特别提示**：Key 只显示一次，生成后必须立即复制，忘记只能删掉重生成。
+</Callout>
+
+### `.env` 常见坑
+
+<Callout type="warning">
+- 不要带 `Bearer` 前缀（老蔡踩坑）——`.env` 里只写 `OPENAI_API_KEY=sk-xxxx`。
+</Callout>
+- `.env` 文件默认不提交 Git，部署到 Vercel 时需在项目 settings → Environment Variables 中逐条复制。
+
+---
+
+## 6. 后端云服务：Supabase & Neon
+
+| 选择 | 适用场景 | 优势 | 支付 |
+| --- | --- | --- | --- |
+| Supabase | 需要认证 + 数据库 + API | 开箱即用、免费额度大、带后台面板 | 支持国内 VISA/Mastercard 单标卡 |
+| Neon | 只要 Postgres 数据库 | 性能好、轻量 | 同上 |
+
+- 创建 Supabase 项目后，获取 `URL`、`anon key`，写入 `.env.local`：
+  ```bash
+  NEXT_PUBLIC_SUPABASE_URL=[xxx.supabase.co](https://xxx.supabase.co)
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
+  ```bash
+- 若需要更多认证 UI，可考虑 Clerk，但对新手而言 Supabase 更快上手。
+
+---
+
+## 7. 部署与上线
+
+### Vercel 全流程
+1. GitHub 建仓并 push。
+2. 登录 Vercel → `New Project` → 选择仓库 → 自动识别 Next.js。
+3. 在 Vercel 配置环境变量（复制 `.env.local` 中的内容）。
+4. 点击 `Deploy`，2–3 分钟完成并获得 `xxx.vercel.app`。
+5. 绑定自定义域名：在域名提供商添加 DNS（A 指向 `76.76.21.21`，CNAME 指向 `cname.vercel-dns.com`）。
+6. 国内访问慢可以用自定义域名 + CDN，或参考社区整理的 Vercel 加速教程。
+
+### Static 单页秒级发布
+- 纯静态页面可直接把 HTML 保存为 `.html` 文件，拖拽到 `[moccasin-melisandra-44.tiiny.site](https://moccasin-melisandra-44.tiiny.site/`) 等免费托管平台，一键上线（泽伟分享）。
+
+### 常见部署问题
+- **全网 502 / queued 卡住**：先确认是不是供应商宕机（2024/10/20 AWS 宕机导致 Vercel/V0/Replicate 全挂）。确认是平台问题后耐心等待。
+- **环境变量缺失**：Vercel 上没配置 `.env`，或键名写错。确保 NEXT_PUBLIC 开头的变量也同步。
+- **国内打不开 `.app` 域名**：绑定自定义域名或自建镜像。
+- **Build 失败**：查看构建日志；先在本地 `npm run build` 验证；确认 Node 版本、依赖与 Git 提交一致。
+- **Zeabur 部署失败**：部分同学反馈客服也解决不了；除非有明确国内加速需求，否则优先 Vercel。
+
+### 自动化部署
+- GitHub push → Vercel 自动构建 → 自动生成 Preview/Production 环境。每个 PR 会有专属预览 URL，可在合并前调试。
+
+---
+
+## 8. 安全与日志
+
+### API / 日志安全
+- Debug 结束后一定记得让 AI 删除之前添加的 `console.log(process.env...)` 等敏感日志。前端泄露 `.env` 等于把 API Key 直接公开。
+
+### 信用卡信息
+- 任何人拿到卡号 + 有效期 + CVV 就能刷，群里有学员曾把卡信息贴到聊天里，被大家紧急提醒。分享截图前务必遮挡。
+
+<Callout type="warning" title="依赖于第三方的风险">
+
+</Callout>
+
+<Callout type="warning">
+- 有时问题不在你：AWS/Vercel/Replicate 宕机、Google 邮件延迟等都需要先排查“是不是平台出问题”，不要盲目重试。
+</Callout>
+
+---
+
+## 9. 其他高频疑难
+
+- **文件/图片上传卡住**：多数是梯子不稳定或文件过大；换节点、压缩后再传。
+
+<Callout type="info">
+- **GLM4.6 图片识别乱说**：安装 `claude-image-paste` 插件效果一般，建议改用 MCP（周尹/阿牛提供的命令见群记录），智谱 Key 换成自己的。
+</Callout>
+- **Replicate 验证邮箱收不到**：QQ 邮箱可能延迟 30 分钟以上，垃圾箱也要检查；Gmail 经常直接丢失。
+
+<Callout type="info">
+- **接码是否收费**：市面上的接码/海外邮箱普遍 10–20 元一份；按需购买，注意信誉。
+</Callout>
+
+---
+
+> 做项目最怕“卡在姿势上”。遇到问题先复盘：是否在正确目录？是否看过 Network/Console？是否把错误喂给 AI？本手册覆盖的都是大家真实踩坑的总结，按图索骥即可快速恢复开发节奏。
+
+## 来自 2025-11-16 日报
+
+### 容器化运行
+> 摘自 [2025-11-16 日报](/reports/2025-11-16)
+
+> 本文摘自 [2025-11-16 日报](/reports/2025-11-16)
+
+Bypass 模式虽能跳过权限确认、自动执行以提升效率，但安全隐患不容忽视。
+青竹-上海专门发布了《想安全的使用 Codex Cli 的 bypass 模式？安排……》，核心建议是必须在容器环境中使用。超然同学的亲身经历更让人警醒：当他看到 bypass 模式的日志时"人都傻了"——Codex 会扫描整个硬盘寻找它想要的东西，真的 dangerously，只敢在容器里用。
+容器化配置要点：需要给容器安装额外工具（如 bash、git、openssh、python3、make、g++ 等），否则 Codex 运行不畅。青竹建议额外安装 pnpm，其他需要的工具 Codex 会自己安装。Claude Code 官方的 Dockerfile 已经包含很多工具，可以参考。
+超然同学现在已经把所有开发环境容器化，不仅针对 Codex 的 dangerous 模式，所有场景都确实好用。
+
+GPT-5 + Codex + Atlas 浏览器"三件套"工作流
+༺常清悟静༻-广州分享了他正在进行的网站迁移工作，使用"三件套"完成了 8 成工作，全程没有自己写代码：
+工作流程：
+- GPT-5：负责战略决策、结构规划、文案语言、交互体验把控
+- Codex：根据规范和代码模板直接实现前后端、API、动画
+- Atlas 浏览器：实时可视化反馈，同步看到网页现状
+核心心得："慢就是快"，通过分步小跑，每一步在浏览器实时看到反馈。在 Codex 跑的过程中，代码结构会从陌生到逐渐了解。GitHub 的分段保存很关键，AI 没做好可以回退，同时能精炼出与 GPT-5.1 的对话技巧。
+
+---
+
+## 相关链接
+
+- [查看原日报](/reports/2025-11-16)
+- [更多开发工具内容](/knowledge)
+
+## 来自 2025-11-14 日报
+
+### Vercel / S
+> 摘自 [2025-11-14 日报](/reports/2025-11-14)
+
+> 本文摘自 [2025-11-14 日报](/reports/2025-11-14)
+
+针对“国内没有 vercel / supabase 这么好用的工具”的讨论：
+- 有人指出：
+  - 国内也有类似平台，但功能不如 Vercel 这么全。
+- 老师给的经验：
+  - 认识有朋友已经日入 1–4k 美金，还是在用 Vercel 部署；
+  - 自己也有朋友日入 4k 美金，依旧没换。
+  - 还半开玩笑说：
+- “就连 Meta 都要把基础设施迁到 Vercel，你还担心什么扩展性？”
+结论非常现实：
+独立开发阶段，先上 Vercel / Supabase 这类托管平台，
+ 等用户量真的大到平台扛不住，再考虑自建服务器。
+
+---
+
+## 相关链接
+
+- [查看原日报](/reports/2025-11-14)
+- [更多项目执行内容](/knowledge)
+
+## 来自 2025-11-14 日报
+
+### 备案、合规和“你到底
+> 摘自 [2025-11-14 日报](/reports/2025-11-14)
+
+> 本文摘自 [2025-11-14 日报](/reports/2025-11-14)
+
+1. 大陆是“特殊例外”：必须备案 & 两套系统
+针对“咱们的网站是不是只能在海外上线”的问题，老师的关键观点：
+- 大陆是一个特殊例外：
+  - 网站要在大陆上线，必须备案（域名 + 服务器）
+  - 包括微信登录在内的很多能力，也必须在备案基础上才能合法使用
+- 这意味着：
+  - 海外版网站和国内版网站，从服务器、数据库到登录体系，几乎就是两套产品
+  - 后续版本更新、数据运维也要各自维护一份
+
+---
+
+## 相关链接
+
+- [查看原日报](/reports/2025-11-14)
+- [更多项目执行内容](/knowledge)
+
+## 来自 2025-11-15 日报
+
+### Supabase、P
+> 摘自 [2025-11-15 日报](/reports/2025-11-15)
+
+> 本文摘自 [2025-11-15 日报](/reports/2025-11-15)
+
+这一段信息量非常大，适合正在做 SaaS / API / Web 应用的同学收藏。
+1）Supabase / 自建 Postgres / Neon 怎么选？
+对一个刚起步的新项目：
+- 用户量小的时候：
+  - Supabase SaaS 更省心稳定，能帮你省掉很多数据库运维的坑；
+  - 自建 Postgres 麻烦，而且一开始性能差异并不明显。
+- 等用户量大起来：
+  - Supabase 会变贵，自建反而更划算；
+  - 但迁移时要考虑：数据迁移脚本、停机窗口、索引重建等。
+有同学问到迁移经历，群友表示：
+自建太麻烦，现在阶段不划算，先用云端版，只用了一些库，后面迁移也还算方便。
+2）Vercel 上连数据库的“隐性杀手锏”
+袁气森林分享了一堆踩坑经验（很干）：
+- Vercel 是 serverless 架构：
+  - 会启很多实例并发连数据库，
+  - 如果不控制连接池，每个实例各自开连接，很快就把连接数打爆。
+- 建议：
+  - 配置连接池，让每个线上服务“最多几条连接”，
+  - 缩短 idle 超时时间，避免连接挂着不释放。
+- 驱动选择：
+  - 强烈建议用 pg 驱动，不要用 postgres 驱动：
+    - postgres 在 Vercel / Cloudflare 上有奇怪 bug：
+ 连接挂起、不返回、不释放。
+    - 他就是在 mksaas 项目里踩了这个坑，查了很久。
+一句话：在 Vercel 上用 Postgres，一开始就配好连接池 + 正确驱动，不然后面很痛苦。
+3）ID 类型、better-auth 默认 text vs uuid
+围绕 better-auth + Postgres，也有一堆细节：
+- better-auth 为了兼容多种数据库，默认用 text 作为 id；
+- Postgres 的“最佳实践”一般是用 uuid 类型。
+讨论结论：
+- 功能上：
+  - 只要能保证唯一性，text / uuid 性能差异对大部分项目不明显。
+  - 几十万行以内完全不用焦虑。
+- 真正要注意的是：
+  - 在项目早期就尽量统一 ID 类型，
+  - 不要等线上跑了一阵才想改 schema，那会非常折磨。
+订单表的建议：
+- 有人建议订单 ID 不要用纯 uuid，
+- 可以用更可读的结构比如：orders-userid-date-序列号，
+  - 便于人工排查和后续扩展（尽管不是硬性要求）。
+4）数据量上来之后：分表、索引、删除
+几位有大规模项目经验的同学给了不少“未来才会掉进的坑”：
+- 用户行为日志增长最快，一般只保留 7–14 天；
+- 上千万行后，大表的删除、索引重建非常慢，都是单核 CPU 行为；
+- 有人遇到 70GB 的数据库：
+  - 在线上服务器直接重建索引可能要停机两天；
+  - 最后是把数据拉到本地的高性能 PC（如 9900X）做分表和重建索引，9 小时搞定。
+关键心法：
+刚起步不用过度设计。
+ 真正量起来了，再按业务场景做分表、归档、删除，
+ 有钱后请个数据库高手也不难。
+5）国内“类 Vercel”平台 & API 商业化
+- 老师说：
+  - 国内没有完全类似 Vercel 的平台，核心问题是备案。
+- 有同学补充：
+  - 腾讯 EdgeOne Pages 可以关注一下（但仍绕不开备案问题）。
+- 对想做 API 平台商业化的同学：
+  - 有人提到 Vercel 有并发限制；
+  - Claude 推荐过 Zeabur，定位“全家桶”；
+  - 志愿者提醒：Vercel 更偏前端托管，Zeabur 可以研究，但还没深入实测。
+
+---
+
+## 相关链接
+
+- [查看原日报](/reports/2025-11-15)
+- [更多项目执行内容](/knowledge)
+

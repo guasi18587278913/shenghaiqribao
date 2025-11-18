@@ -1,0 +1,36 @@
+[
+  {
+    "name": "MkdirsAI",
+    "link": "https://mkdirs.com",
+    "description": "The best directory boilerplate",
+    "categories": [
+      "AI",
+      "Text"
+    ],
+    "tags": [
+      "AI",
+      "Text",
+      "Automation"
+    ],
+    "image": "https://mkdirs.com/og.png",
+    "icon": "https://s2.googleusercontent.com/s2/favicons?domain=mkdirs.com&sz=128",
+    "introduction": "Introduction: MkdirsAI is the best directory boilerplate"
+  },
+  {
+    "name": "AchromaticAI",
+    "link": "https://achromatic.dev",
+    "description": "An advanced Next 15 SaaS starter kit",
+    "categories": [
+      "AI",
+      "Video"
+    ],
+    "tags": [
+      "AI",
+      "Video",
+      "Design"
+    ],
+    "image": "https://achromatic.dev/og.jpg",
+    "icon": "https://s2.googleusercontent.com/s2/favicons?domain=achromatic.dev&sz=128",
+    "introduction": "Introduction: AchromaticAI is an advanced Next 15 SaaS starter kit"
+  }
+] 
