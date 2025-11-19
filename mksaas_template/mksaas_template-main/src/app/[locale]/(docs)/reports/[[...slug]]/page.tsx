@@ -1,14 +1,16 @@
+import { ReportDetail } from '@/components/reports/report-detail-new';
+import { ReportCard } from '@/components/reports/report-card';
 import { getMDXComponents } from '@/components/docs/mdx-components';
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
-import { ReportCard } from '@/components/reports/report-card';
 import { LOCALES } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
 import { reportsSource } from '@/lib/source';
 import Link from 'fumadocs-core/link';
+import type { MDXComponents } from 'mdx/types';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -134,68 +136,44 @@ export default async function ReportPage({ params }: ReportPageProps) {
   const MDX = page.data.body;
 
   return (
-    <div className="container max-w-5xl py-20 px-6">
-      {/* 标题区域 - 居中设计 */}
-      <div className="mb-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-          {page.data.title}
-        </h1>
-        {page.data.description && (
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {page.data.description}
-          </p>
-        )}
-        {page.data.date && (
-          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <time>{new Date(page.data.date).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-          </div>
-        )}
-      </div>
+    <ReportDetail
+      title={page.data.title}
+      description={page.data.description}
+      date={page.data.date}
+      locale={locale}
+    >
+      <MDX
+        components={getMDXComponents({
+          a: ({ href, ...props }: { href?: string; [key: string]: any }) => {
+            const found = reportsSource.getPageByHref(href ?? '', {
+              dir: page.file?.dirname,
+            });
 
-      {/* 内容区域 - 带背景卡片 */}
-      <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-lg p-8 md:p-12">
-        <article className="prose prose-lg prose-slate dark:prose-invert prose-premium prose-compact max-w-none mx-auto">{/*
-        排版样式: prose-premium prose-compact
-        - prose-compact: 使用紧凑模式，减少段落间距
-        - 解决文字太分散的问题
-      */}
-          <MDX
-            components={getMDXComponents({
-              a: ({ href, ...props }: { href?: string; [key: string]: any }) => {
-                const found = reportsSource.getPageByHref(href ?? '', {
-                  dir: page.file?.dirname,
-                });
+            if (!found) return <Link href={href} {...props} />;
 
-                if (!found) return <Link href={href} {...props} />;
-
-                return (
-                  <HoverCard>
-                    <HoverCardTrigger asChild>
-                      <Link
-                        href={
-                          found.hash
-                            ? `${found.page.url}#${found.hash}`
-                            : found.page.url
-                        }
-                        {...props}
-                      />
-                    </HoverCardTrigger>
-                    <HoverCardContent className="text-sm">
-                      <p className="font-medium">{found.page.data.title}</p>
-                      <p className="text-fd-muted-foreground">
-                        {found.page.data.description}
-                      </p>
-                    </HoverCardContent>
-                  </HoverCard>
-                );
-              },
-            })}
-          />
-        </article>
-      </div>
-    </div>
+            return (
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Link
+                    href={
+                      found.hash
+                        ? `${found.page.url}#${found.hash}`
+                        : found.page.url
+                    }
+                    {...props}
+                  />
+                </HoverCardTrigger>
+                <HoverCardContent className="text-sm">
+                  <p className="font-medium">{found.page.data.title}</p>
+                  <p className="text-fd-muted-foreground">
+                    {found.page.data.description}
+                  </p>
+                </HoverCardContent>
+              </HoverCard>
+            );
+          },
+        })}
+      />
+    </ReportDetail>
   );
 }

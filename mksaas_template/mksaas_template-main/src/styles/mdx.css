@@ -709,6 +709,138 @@
     }
   }
 
+  /* 计算机信息/记者风格 - 超高密度信息展示 */
+  .prose-premium.news-style {
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    max-width: 68ch;
+
+    /* 段落终极紧凑化 */
+    & :where(p):not(:where([class~="not-prose"] *)) {
+      margin-bottom: 0.25rem !important;
+      margin-top: 0 !important;
+      line-height: 1.55 !important; /* 专业新闻风格紧凑行高 */
+      font-size: 0.95rem !important; /* 稍小字号，提高信息密度 */
+      color: hsl(var(--foreground) / 0.92);
+      letter-spacing: 0.005em; /* 增加可读性 */
+      text-align: justify; /* 现代中文刊物常用来增加密度感 */
+    }
+
+    /* 段落悬停效果 - 帮助阅读定位 */
+    & :where(p):not(:where([class~="not-prose"] *)):hover {
+      background-color: hsl(var(--muted) / 0.2);
+      border-radius: 0.25rem;
+      margin-left: -0.25rem;
+      margin-right: -0.25rem;
+      padding: 0.25rem;
+      transition: all 0.2s ease;
+    }
+
+    /* 列表项终极紧凑化 - 解决核心问题 */
+    & :where(li):not(:where([class~="not-prose"] *)) {
+      margin-top: 0.05rem !important; /* 几乎无间距 */
+      margin-bottom: 0.05rem !important;
+      line-height: 1.45 !important; /* 关键：比当前1.5更紧凑的行高 */
+      font-size: 0.9rem !important; /* 新闻风格小字号 */
+      padding-left: 0.15rem !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      color: hsl(var(--foreground) / 0.92);
+      border-radius: 0.125rem; /* 极小的圆角 */
+    }
+
+    /* 列表项悬停效果 - 帮助阅读定位 */
+    & :where(li):not(:where([class~="not-prose"] *)):hover {
+      background-color: hsl(var(--muted) / 0.1);
+      transition: all 0.15s ease;
+    }
+
+    /* 列表块整体优化 */
+    & :where(ul, ol):not(:where([class~="not-prose"] *)) {
+      margin-top: 0.15rem !important; /* 紧密的上一间距 */
+      margin-bottom: 0.15rem !important;
+      padding-left: 1.5rem !important; /* 减少缩进 */
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* 嵌套列表层次优化 */
+    & :where(li > ul, li > ol):not(:where([class~="not-prose"] *)) {
+      margin-top: 0.05rem !important;
+      margin-bottom: 0.05rem !important;
+      padding-left: 1.25rem !important; /* 子列表额外缩进 */
+    }
+
+    /* 二级嵌套列表项 */
+    & :where(li li):not(:where([class~="not-prose"] *)) {
+      margin-top: 0.05rem !important;
+      margin-bottom: 0.05rem !important;
+      font-size: 0.85rem !important;
+      line-height: 1.4 !important;
+      color: hsl(var(--muted-foreground)); /* 弱化第二层层次 */
+    }
+
+    /* 三级嵌套列表项 */
+    & :where(li li li):not(:where([class~="not-prose"] *)) {
+      font-size: 0.8rem !important;
+      line-height: 1.35 !important;
+      color: hsl(var(--muted-foreground) / 0.85); /* 进一步弱化 */
+    }
+
+    /* 确保不同层级marker显示正确 */
+    & :where(ul > li):not(:where([class~="not-prose"] *)) {
+      list-style-type: disc !important; /* 一级：实心圆点 */
+    }
+
+    & :where(ul ul > li):not(:where([class~="not-prose"] *)) {
+      list-style-type: circle !important; /* 二级：空心圆点 */
+    }
+
+    & :where(ul ul ul > li):not(:where([class~="not-prose"] *)) {
+      list-style-type: square !important; /* 三级：方块 */
+    }
+
+    /* info块标题优化 */
+    & :where(h2):not(:where([class~="not-prose"] *)) {
+      padding: 0.75rem 1rem !important;
+    }
+
+    /* mark高亮光标效果优化 */
+    & :where(mark):not(:where([class~="not-prose"] *)) {
+      background: rgba(250, 204, 21, 0.08);
+      padding: 0.02em 0.15em;
+      border-radius: 0.15em;
+      box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.12);
+    }
+
+    /* 动态分隔线 - 现代化风格 */
+    & :where(hr):not(:where([class~="not-prose"] *)) {
+      margin-top: 2.5rem;
+      margin-bottom: 2.5rem;
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg,
+        hsl(var(--border) / 0.2) 0%,
+        hsl(var(--primary) / 0.1) 50%,
+        hsl(var(--border) / 0.2) 100%
+      );
+      position: relative;
+    }
+
+    & :where(hr):not(:where([class~="not-prose"] *))::after {
+      content: "·";
+      position: absolute;
+      top: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: hsl(var(--primary) / 0.4);
+      font-size: 1rem;
+      font-weight: 700;
+      background: hsl(var(--background));
+      padding: 0 0.5rem;
+    }
+  }
+
   /* 方案三:Fumadocs 专业文档风格 */
   .prose-fumadocs {
     line-height: 1.5;
