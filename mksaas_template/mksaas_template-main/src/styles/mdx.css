@@ -242,6 +242,8 @@
     line-height: 1.5 !important; /* 基础紧凑行高 */
     letter-spacing: -0.008em !important;
     max-width: 65ch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 
     & :where(p):not(:where([class~="not-prose"] *)) {
       margin-bottom: 0.5rem !important; /* 消除巨大间距 */
