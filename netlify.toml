@@ -9,6 +9,8 @@
 [build.environment]
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
+  # Avoid OOM on build machines
+  NODE_OPTIONS = "--max_old_space_size=4096"
 
 [[redirects]]
   from = "/*"

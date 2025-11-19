@@ -8,6 +8,8 @@
 [build.environment]
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
+  # Increase Node.js memory limit to avoid OOM during Next.js build
+  NODE_OPTIONS = "--max_old_space_size=4096"
 
 [[redirects]]
   from = "/*"

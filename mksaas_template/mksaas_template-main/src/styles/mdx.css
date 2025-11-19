@@ -151,7 +151,7 @@
       box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.18);
     }
 
-    /* 行首标签高亮（兼容旧稿：**结论：**/**注意：**/**建议：**/**步骤：**） */
+    /* 行首标签高亮（兼容旧稿：结论/注意/建议/步骤 等行首标签） */
     & :where(li > strong:first-child, p > strong:first-child):not(:where([class~="not-prose"] *)) {
       display: inline-block;
       background: rgba(250, 204, 21, 0.18);
