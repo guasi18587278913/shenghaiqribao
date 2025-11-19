@@ -35,6 +35,7 @@ export default async function SharedDocsLayout({
   // 创建合并的导航树
   const mergedTree = {
     ...(typeof reportsTree === 'object' && reportsTree !== null ? reportsTree : {}),
+    name: 'Docs',
     children: [
       // 添加日报分隔符
       {
@@ -83,17 +84,8 @@ export default async function SharedDocsLayout({
     <DocsLayout
       tree={mergedTree}
       {...docsOptions}
-      containerProps={{
-        // 取消右侧 TOC 预留宽度，避免整体视觉偏左
-        style: { ['--fd-toc-width' as any]: '0px' },
-      }}
     >
-      {/* 居中主内容区域：避免右侧 TOC 预留造成的视觉偏左 */}
-      <div className="w-full flex justify-center">
-        <div className="w-full max-w-4xl px-2 sm:px-4">
-          {children}
-        </div>
-      </div>
+      {children}
     </DocsLayout>
   );
 }
