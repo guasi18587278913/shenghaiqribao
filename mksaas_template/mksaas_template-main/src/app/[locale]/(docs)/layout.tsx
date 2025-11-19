@@ -9,6 +9,7 @@ import type { Locale } from 'next-intl';
 import type { ReactNode } from 'react';
 
 import '@/styles/mdx.css';
+import 'fumadocs-ui/style.css';
 
 interface DocsLayoutProps {
   children: ReactNode;

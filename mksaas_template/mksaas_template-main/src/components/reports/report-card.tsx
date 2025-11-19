@@ -33,46 +33,8 @@ export function ReportCard({ report }: ReportCardProps) {
           </p>
         )}
 
-        {/* 元信息 */}
-        <div className="mt-auto flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-          {/* 日期 */}
-          {report.data.date && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1">
-              <Calendar className="h-3.5 w-3.5" />
-              <span className="font-medium">{report.data.date}</span>
-            </span>
-          )}
-
-          {/* 作者 */}
-          {report.data.author && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1">
-              <User className="h-3.5 w-3.5" />
-              <span>{report.data.author}</span>
-            </span>
-          )}
-
-          {/* 标签 */}
-          {report.data.tags && report.data.tags.length > 0 && (
-            <div className="flex flex-wrap items-center gap-1.5">
-              <Tag className="h-3.5 w-3.5 shrink-0" />
-              <div className="flex flex-wrap gap-1">
-                {report.data.tags.slice(0, 3).map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="rounded-md bg-primary/10 px-1.5 py-0.5 text-xs"
-                  >
-                    {tag}
-                  </span>
-                ))}
-                {report.data.tags.length > 3 && (
-                  <span className="rounded-md bg-muted px-1.5 py-0.5 text-xs">
-                    +{report.data.tags.length - 3}
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+        {/* 元信息（简化：去掉日期和作者徽章，避免冗余信息） */}
+        {/* 保留标签展示（如后续需要可启用） */}
       </div>
     </Link>
   );

@@ -59,14 +59,14 @@ importance: 3
 ### 网络与风控要求
 <Callout type="info">
 <Callout type="warning">
-- **纯净 IP**：建议美国住宅节点，使用 `[scamalytics.com](https://scamalytics.com/`、`https://ping0.cc/`) 先自测风险值。
+- **纯净 IP**：建议美国住宅网络环境，使用 `[scamalytics.com](https://scamalytics.com/`、`https://ping0.cc/`) 先自测风险值。
 </Callout>
 </Callout>
 <Callout type="info">
-- **TUN 模式必开**：Clash Pro、Clash Verge、Surge 均可；Clash X 不支持 TUN，需升级客户端。开启后如仍提示 “This model provider doesn't serve your region”，说明 TUN 组件未装或节点不合规。
-- **多账号隔离**：同一 IP 上的多个账号需完全隔离（不同系统用户/虚拟机）；频繁换节点会触发封禁。
+- **TUN 模式必开**：Clash Pro、Clash Verge、Surge 均可；Clash X 不支持 TUN，需升级客户端。开启后如仍提示 “This model provider doesn't serve your region”，说明 TUN 组件未装或网络环境不合规。
+- **多账号隔离**：同一 IP 上的多个账号需完全隔离（不同系统用户/虚拟机）；频繁切换网络环境会触发封禁。
 - **常见错误**：
-  - `401 Invalid bearer token`：检查配置文件是否残留旧 token (`anthropic_token` 等路径)，清理后重试或换节点（日本成功率高）。
+  - `401 Invalid bearer token`：检查配置文件是否残留旧 token (`anthropic_token` 等路径)，清理后重试或切换网络环境（日本成功率高）。
   - `Unable to verify`/连接超时：TUN 未启用或 IP 不干净。
   - “SyntaxError: Unexpected token 'C'”：官方插件 bug，新开对话或回退版本（2.0.08/2.0.10），也可尝试 2.0.17。
 <Callout type="info">
