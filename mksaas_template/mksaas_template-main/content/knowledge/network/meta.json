@@ -3,6 +3,7 @@
   "description": "网络环境配置、代理选择、IP 风险检测",
   "icon": "Globe",
   "pages": [
+    "2025-11-19-代理配置与ip选择建",
     "claudecode网络配置",
     "comet及其他替代方案",
     "dia浏览器完整指南",

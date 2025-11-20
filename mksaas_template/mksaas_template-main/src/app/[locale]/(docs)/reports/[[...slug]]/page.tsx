@@ -91,7 +91,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
     return (
       <div className="container mx-auto px-6 py-12">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full" style={{ maxWidth: '1400px' }}>
           {/* Header */}
           <div className="mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">

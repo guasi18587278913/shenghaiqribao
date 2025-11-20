@@ -23,7 +23,7 @@ export function ReportDetail({
         <div className="absolute -right-32 -top-32 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/3 blur-3xl" />
 
-        <div className="relative mx-auto w-full max-w-4xl px-6 py-12 md:py-16 md:px-8">
+        <div className="relative mx-auto w-full px-6 py-12 md:py-16 md:px-8" style={{ maxWidth: '1200px' }}>
           {/* 标题区域 */}
           <div className="text-center">
             {title && (
@@ -62,7 +62,7 @@ export function ReportDetail({
       </div>
 
       {/* 主要内容区域 */}
-      <div className="mx-auto w-full max-w-4xl px-4 py-8 md:px-6 md:py-12">
+      <div className="mx-auto w-full px-6 py-8 md:px-12 md:py-12 lg:px-16" style={{ maxWidth: '1200px' }}>
         <article className="report-content">
           {/**
            * 使用与知识库相同的 `prose` 排版体系，确保 Markdown/MDX 标题、列表、引用等样式正确呈现。

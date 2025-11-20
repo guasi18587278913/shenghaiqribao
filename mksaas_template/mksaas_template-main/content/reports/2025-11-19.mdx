@@ -1,0 +1,137 @@
+---
+title: 11-19 AI产品出海日报
+description: 今日群内热度最高的话题无疑是 Google 刚刚发布的 Gemini 3 Pro 及其配套 IDE Antigravity。群友们经历了从“惊叹其变态能力”到“大规模卡在登录界面”的情绪过山车。此外，深海圈专属的“AI产品出海”日报网站也于今日正式上线。
+date: "2025-11-19"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 🔥 重磅炸弹：Gemini 3 Pro 与 Antigravity 初体验
+
+
+
+Google 发布的 Gemini 3 Pro 模型及官方 IDE 工具 Antigravity 引发了全员测试热潮。
+
+
+
+* **能力评价：** 普遍反馈模型能力极强，甚至用“变态”、“吓人”来形容。特别是对于前端代码的多层嵌套和数据传递，Gemini 3 Pro 能一次搞定 Codex 难以处理的需求。有群友感叹“前端程序员真的不存在了”，未来大家将转型为“拿着 AI 鞭打代码”的 Builder。
+
+* **V0 更新：** Vercel 的 V0 工具也迅速跟进，已支持切换至 Gemini 3 模型，体验被评价为“更上一层楼”。
+
+* **当前槽点：**
+
+  * **限流严重：** 许多用户反馈模型并不耐用，跑一会儿就会提示限额或 Overload（过载）。
+
+  * **响应慢：** 虽然代码质量高，但生成时间较长，且 IDE 在运行过程中容易出现 "Agent terminated" 报错。
+
+
+
+### 🛠️ 避坑指南：Antigravity 登录失败与卡顿解决方案
+
+
+
+超过半数参与讨论的群友都卡在了 Antigravity 的登录环节（无限转圈、Next 按钮不可点、地区不支持）。以下是群友摸索出的**成功解决方案汇总**：
+
+
+
+1. **换账号（首选方案）：**
+
+   * 大量案例证明，老账号容易被风控或卡死。
+
+   * **解决方案：** 注册或切换一个新的 Google 账号（非 Pro 会员账号也能登录，甚至成功率更高）。
+
+2. **网络环境配置：**
+
+   * 必须开启代理的 **TUN 模式** 或 **全局模式**。
+
+   * 建议使用纯净的美国 IP（住宅 IP 最佳），部分节点可能导致地区不支持错误。
+
+3) **玄学操作：**
+
+   * 若卡在登录页，尝试流程：退出账号 -> 杀掉程序进程 -> 重新打开程序 -> 登录 -> 退出 -> 再登录。
+
+   * 检查 Google 账号管理中的“年龄认证”，确保账号信息完整。
+
+4) **关于手机号验证：**
+
+   * IDE 内部验证不支持 +86 手机号，建议使用接码平台或非 +86 号码。
+
+
+
+### ⚔️ 诸神之战：Gemini 3 vs GPT-5 vs Cursor
+
+
+
+随着新模型的发布，群内对“目前最好用的编程组合”展开了讨论：
+
+
+
+* **代码生成首选：** 刘小排等核心成员认为，在纯写代码层面，\*\*Gemini 3 Pro 目前是最强的\*\*，建议在 Cursor 中调用 Gemini 3 Pro 模型进行开发。
+
+* **对话与逻辑首选：** 在产品逻辑沟通、需求分析和日常对话上，\*\*GPT-5 Pro\*\* 依然被认为是“王者”，精准度极高，能从文档深处挖掘信息。
+
+* **工具搭配建议：**
+
+  * **小白/产品经理：** 推荐直接使用 Google Antigravity（需克服登录门槛），因为它加入了 Planning 确认逻辑，适合查漏补缺。
+
+  * **开发者：** 维持 Cursor 为主力编辑器，模型选择 Gemini 3 Pro 进行代码编写，遇到复杂逻辑问题切换回 GPT-5 Pro 咨询。
+
+
+
+### 📢 社区动态：深海圈日报网站正式上线
+
+
+
+* **新站发布：** “深海圈 | AI产品出海”日报网站（[aichanpinribao.com](https://aichanpinribao.com)）正式上线。
+
+* **功能定位：** 汇总深海圈 4 个群聊的每日精华内容，方便群友快速“补作业”。
+
+* **技术栈讨论：** 在讨论网站部署时，大家交流了 Vercel + Cloudflare 的配置经验。结论是 Vercel 默认需在 Cloudflare 上配置 IP 并关闭 Proxy，或使用 CNAME 指向 `cname.vercel-dns.com`。
+
+
+
+***
+
+
+
+### 🔗 精选资源与链接
+
+
+
+* **\[工具] Antigravity 官方地址**（含介绍视频）：
+
+[`antigravity.google/product`](http://antigravity.google/product)
+
+* **\[文章] 刘小排实测：全新AI编程工具 Google Antigravity**：
+
+[点击查看文章](https://mp.weixin.qq.com/s?__biz=MzI1MTUxNzgxMA==\&mid=2247499635\&idx=1\&sn=5c16f91fae260558c43b1b0bcec2f9cf\&chksm=e8781694dbb3b4e3d3bd362c87b01ebeb6ce494877ad561b95e745c35bafac037790b03e0538\&mpshare=1\&scene=1\&srcid=1119iPb2rwnEpGNl43yDsVMb\&sharer_shareinfo=cdae81216214c5a7ad1aa85b8aa39336\&sharer_shareinfo_first=cdae81216214c5a7ad1aa85b8aa39336#rd)
+
+* **\[工具] 微信聊天记录导出工具 Chatlog**（GitHub）：
+
+`https://github.com/imldy/chatlog`
+
+* **\[社区] 深海圈日报官网**：
+
+`https://aichanpinribao.com`
+
+* **\[教程] 修改谷歌账号地区教程**（Linux.do）：
+
+`https://linux.do/t/topic/1186531/18`
+
+***
+
+
+
+### 📝 总结
+
+
+
+1. **Gemini 3 Pro 编程能力惊艳**，特别适合前端和复杂逻辑生成，但目前限流严重且 IDE 不够稳定。
+
+2. **Antigravity 登录门槛高**，遇到问题请优先尝试“切换新账号”和“开启全局/TUN 代理模式”。
+
+3) **最佳编程实践更新**：建议使用 Cursor 调用 Gemini 3 Pro 写代码，保留 GPT-5 Pro 处理复杂对话和产品逻辑。
+
+4) **深海圈日报站上线**，以后错过的群聊精华可以直接去网站查看。
+

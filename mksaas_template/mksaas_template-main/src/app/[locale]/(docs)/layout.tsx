@@ -85,9 +85,7 @@ export default async function SharedDocsLayout({
       tree={mergedTree}
       {...docsOptions}
     >
-      <div className="container mx-auto px-4 max-w-[65ch]">
-        {children}
-      </div>
+      {children}
     </DocsLayout>
   );
 }

@@ -12,6 +12,15 @@
    使用 Tailwind v4 兼容语法
    ============================================ */
 @layer components {
+  /* Fumadocs 布局优化 - 让内容区域更居中 */
+  /* 精确定位：只调整 main 内的内容区域，不影响 aside 侧边栏 */
+  #nd-docs-layout > div {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+  }
+
   /* 方案一:中文阅读优化版 */
   .prose-chinese {
     line-height: 1.75;
@@ -241,8 +250,8 @@
   .prose-premium {
     line-height: 1.5 !important; /* 基础紧凑行高 */
     letter-spacing: -0.008em !important;
-    max-width: 65ch !important;
-    margin-left: auto !important;
+    max-width: 85ch !important; /* 适中的阅读宽度，约50-60个中文字符 */
+    margin-left: auto !important; /* 居中显示，增加呼吸感 */
     margin-right: auto !important;
 
     & :where(p):not(:where([class~="not-prose"] *)) {
