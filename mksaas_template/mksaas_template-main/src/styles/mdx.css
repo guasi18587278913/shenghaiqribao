@@ -14,11 +14,28 @@
 @layer components {
   /* Fumadocs 布局优化 - 让内容区域更居中 */
   /* 精确定位：只调整 main 内的内容区域，不影响 aside 侧边栏 */
+  /* 移动端优先：小 padding */
   #nd-docs-layout > div {
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: 4rem !important;
-    padding-right: 4rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* 平板端：中等 padding */
+  @media (min-width: 768px) {
+    #nd-docs-layout > div {
+      padding-left: 2rem !important;
+      padding-right: 2rem !important;
+    }
+  }
+
+  /* 桌面端：较大 padding，更居中 */
+  @media (min-width: 1024px) {
+    #nd-docs-layout > div {
+      padding-left: 4rem !important;
+      padding-right: 4rem !important;
+    }
   }
 
   /* 方案一:中文阅读优化版 */
