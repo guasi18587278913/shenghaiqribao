@@ -1,4 +1,6 @@
 import { CalendarIcon, ClockIcon } from 'lucide-react';
+import { ReadingProgress } from './reading-progress';
+import { MobileBottomBar } from './mobile-bottom-bar';
 
 interface ReportDetailProps {
   title: string;
@@ -6,6 +8,8 @@ interface ReportDetailProps {
   date: string;
   locale: string;
   children: React.ReactNode;
+  breadcrumbs?: React.ReactNode;
+  adjacentNav?: React.ReactNode;
 }
 
 export function ReportDetail({
@@ -13,17 +17,28 @@ export function ReportDetail({
   description,
   date,
   locale,
-  children
+  children,
+  breadcrumbs,
+  adjacentNav
 }: ReportDetailProps) {
   return (
     <div className="min-h-screen bg-background">
+      <ReadingProgress />
+
       {/* Header区域 */}
       <div className="relative border-b bg-card">
         <div className="relative mx-auto w-full px-6 py-12 md:py-16 md:px-8" style={{ maxWidth: '1200px' }}>
+          {/* Breadcrumbs */}
+          {breadcrumbs && (
+            <div className="mb-8 flex justify-center">
+              {breadcrumbs}
+            </div>
+          )}
+
           {/* 标题区域 */}
           <div className="text-center">
             {title && (
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/80 bg-clip-text text-transparent mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-linear-to-br from-foreground to-foreground/80 bg-clip-text text-transparent mb-4 leading-tight">
                 {title}
               </h1>
             )}
@@ -69,7 +84,12 @@ export function ReportDetail({
             {children}
           </div>
         </article>
+
+        {/* 相邻文章导航 */}
+        {adjacentNav}
       </div>
+
+      <MobileBottomBar />
     </div>
   );
 }
@@ -92,14 +112,14 @@ export function getReportMdxComponents() {
       </h3>
     ),
     p: ({ children }: any) => (
-      <p className="leading-7 text-sm md:text-base [&:not(:first-child)]:mt-4">{children}</p>
+      <p className="leading-7 text-sm md:text-base not-first:mt-4">{children}</p>
     ),
     ul: ({ children }: any) => (
       <ul className="list-none space-y-1 my-4 ml-2">{children}</ul>
     ),
     li: ({ children }: any) => (
       <li className="flex items-start gap-2 py-1 text-sm md:text-base">
-        <span className="text-primary text-sm mt-1.5 flex-shrink-0">•</span>
+        <span className="text-primary text-sm mt-1.5 shrink-0">•</span>
         <span className="flex-1">{children}</span>
       </li>
     ),
@@ -135,9 +155,9 @@ export function getReportMdxComponents() {
     ),
     hr: () => (
       <div className="flex items-center gap-4 my-6">
-        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent"></div>
+        <div className="h-px flex-1 bg-linear-to-r from-transparent via-border to-transparent"></div>
         <span className="text-primary/50 text-lg">◆</span>
-        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent"></div>
+        <div className="h-px flex-1 bg-linear-to-r from-transparent via-border to-transparent"></div>
       </div>
     )
   };

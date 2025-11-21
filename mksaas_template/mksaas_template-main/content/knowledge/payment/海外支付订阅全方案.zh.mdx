@@ -14,12 +14,12 @@ importance: 3
 
 - **环境准备优先**：纯净网络、匹配地区的支付方式是所有方案的前提。节点和账单地址不一致会触发风控。
 
-- 
+-
 <Callout type="warning">
 **多手准备**：常备 2–3 套支付路径（如礼品卡 + Google Play + 中转）。一条被封立刻切换，避免业务中断。
 </Callout>
 
-- 
+-
 <Callout type="warning">
 **费用与风险权衡**：官方订阅最稳定、成本高；礼品卡方案适中但操作繁琐；虚拟卡与共享账号最便宜但风险最大。
 </Callout>
@@ -52,7 +52,7 @@ importance: 3
 - **准备美区 Apple ID**：使用新 Gmail 注册；地区设置为美国；地址可用 `[www.meiguodizhi.com](https://www.meiguodizhi.com/`) 生成。
 </Callout>
 
-- 
+-
 <Callout type="info">
 **购买礼品卡**：支付宝搜索“Apple 礼品卡美区”或闲鱼购买，常见面额 25 美元（足够使用两个月）。注意超过 20 美元有苹果税。
 </Callout>
@@ -61,7 +61,7 @@ importance: 3
 
 - **订阅 ChatGPT**：保持美区账号，下载 ChatGPT App，直接使用余额订阅。
 
-- 
+-
 <Callout type="info">
 **注意事项**：礼品卡仅限美区使用；切回国区后看不到余额；订阅期间保持美区登录。
 </Callout>
@@ -137,7 +137,7 @@ iOS 内购订阅 Claude 会额外收约 50 美元苹果税（App Store 价格 25
 ### 国内信用卡（单标 VISA / Mastercard）
 - 必须是纯单标卡（只有 VISA 或 Mastercard 标识），有银联标识的大多被拒。
 - 成功案例：招商银行 VISA（黑色经典卡）、浦发红沙宣、中国银行 VISA、工商银行星座 VISA 等。
-- 可用场景：Google Play 订阅、部分 API 平台（Supabase、Namecheap、Cloudflare 等）。  
+- 可用场景：Google Play 订阅、部分 API 平台（Supabase、Namecheap、Cloudflare 等）。
   不可用：ChatGPT/Claude 官网直充（官方明确拒绝中国发行卡）。
 
 <Callout type="info">
@@ -262,3 +262,10 @@ iOS 内购订阅 Claude 会额外收约 50 美元苹果税（App Store 价格 25
 通过以上策略，可以根据自身阶段和风险承受能力，快速搭建一套“主力 + 备用”支付体系，既满足学习与实战需求，又能在风控来临时快速切换，保障业务连续性。若后续需要扩展新的支付渠道，可在本文件继续补充对应小节。***
 </Callout>
 
+### 支付接入实战
+- **Creem/Stripe 文档**：建议按“概念对比 -> 依赖安装 -> Webhook配置 -> 编写需求 -> 测试优化”的逻辑进行学习。
+- **支付卡顿**：善用测试模式（如 Creem 的 4242 账号）进行调试。
+
+### Starter Kit 更新难题
+- **问题**：购买了代码模版后，原作者更新了代码，如何同步？
+- **解决方案**：通过 Git Merge 解决。参考文章：[使用脚手架模板做项目，原版更新了代码怎么办？](https://mp.weixin.qq.com/s?__biz=MzI1MTUxNzgxMA==&mid=2247499410&idx=1&sn=f89a076a864a21c2127176fc21226073)

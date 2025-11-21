@@ -14,6 +14,8 @@ import type { MDXComponents } from 'mdx/types';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Breadcrumbs } from '@/components/reports/breadcrumbs';
+import { AdjacentNav } from '@/components/reports/adjacent-nav';
 
 export function generateStaticParams() {
   const slugParams = reportsSource.generateParams();
@@ -135,12 +137,45 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
   const MDX = page.data.body;
 
+  const allReports = reportsSource.getPages(language).sort(
+    (a, b) =>
+      new Date(b.data.date).getTime() -
+      new Date(a.data.date).getTime()
+  );
+
+  const currentIndex = allReports.findIndex((r) => r.url === page.url);
+  const nextReport = currentIndex > 0 ? allReports[currentIndex - 1] : undefined;
+  const prevReport = currentIndex < allReports.length - 1 ? allReports[currentIndex + 1] : undefined;
+
   return (
     <ReportDetail
       title={page.data.title}
       description={page.data.description}
       date={page.data.date}
       locale={locale}
+      breadcrumbs={
+        <Breadcrumbs
+          items={[
+            { label: '首页', href: '/' },
+            { label: '日报', href: '/reports' },
+            { label: page.data.date, href: page.url },
+          ]}
+        />
+      }
+      adjacentNav={
+        <AdjacentNav
+          prev={prevReport ? {
+            title: prevReport.data.title,
+            url: prevReport.url,
+            date: prevReport.data.date
+          } : undefined}
+          next={nextReport ? {
+            title: nextReport.data.title,
+            url: nextReport.url,
+            date: nextReport.data.date
+          } : undefined}
+        />
+      }
     >
       <MDX
         components={getMDXComponents({
