@@ -3,6 +3,7 @@
   "description": "Cursor、Claude Code、GitHub 等开发工具配置",
   "icon": "Code",
   "pages": [
+    "2025-11-20-gemini与cur",
     "2025-11-19-最佳ai编程组合讨论",
     "2025-11-18-cursor使用技巧",
     "2025-11-17-vercel与cla",

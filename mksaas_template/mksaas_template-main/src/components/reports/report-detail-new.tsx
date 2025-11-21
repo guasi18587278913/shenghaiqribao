@@ -16,13 +16,9 @@ export function ReportDetail({
   children
 }: ReportDetailProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen bg-background">
       {/* Header区域 */}
-      <div className="relative overflow-hidden border-b bg-gradient-to-br from-card via-card/95 to-card/80">
-        {/* 装饰性背景 */}
-        <div className="absolute -right-32 -top-32 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-primary/3 blur-3xl" />
-
+      <div className="relative border-b bg-card">
         <div className="relative mx-auto w-full px-6 py-12 md:py-16 md:px-8" style={{ maxWidth: '1200px' }}>
           {/* 标题区域 */}
           <div className="text-center">
@@ -33,7 +29,7 @@ export function ReportDetail({
             )}
 
             {description && (
-              <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
+              <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6 text-left">
                 {description}
               </p>
             )}

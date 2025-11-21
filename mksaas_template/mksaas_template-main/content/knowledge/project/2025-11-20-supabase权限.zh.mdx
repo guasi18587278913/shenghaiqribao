@@ -1,0 +1,22 @@
+---
+title: Supabase权限
+description: 摘自 2025-11-20 日报
+category: 项目执行
+source: /reports/2025-11-20
+sourceDate: "2025-11-20"
+tags: []
+importance: 3
+---
+
+> 本文摘自 [2025-11-20 日报](/reports/2025-11-20)
+
+* 不要试图在 Supabase 后台手动穷举权限。
+
+* **正确做法：** 在需求文档中明确定义逻辑（例如：“未登录用户只能用1次，登录用户免费2次，付费用户无限”），然后指示 Cursor 通过代码逻辑（如字段 `is_admin` 或 RLS 策略）来实现。
+
+---
+
+## 相关链接
+
+- [查看原日报](/reports/2025-11-20)
+- [更多项目执行内容](/knowledge)
