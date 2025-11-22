@@ -69,7 +69,7 @@ export function ReportUploadForm() {
   };
 
   return (
-    <div className="rounded-lg border bg-card p-6">
+    <div className="rounded-lg border bg-card p-4 md:p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold">上传新日报</h1>
         <p className="mt-2 text-sm text-muted-foreground">

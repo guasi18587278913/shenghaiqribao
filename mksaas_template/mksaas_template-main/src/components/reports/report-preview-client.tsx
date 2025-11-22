@@ -288,7 +288,7 @@ export function ReportPreviewClient() {
   return (
     <div className="mx-auto w-full max-w-5xl space-y-6">
       {/* 日报元数据 */}
-      <div className="rounded-lg border bg-card p-6">
+      <div className="rounded-lg border bg-card p-4 md:p-6">
         <h2 className="mb-4 text-xl font-bold">📄 日报信息</h2>
         <div className="grid gap-4 md:grid-cols-2">
           <div>
@@ -337,7 +337,7 @@ export function ReportPreviewClient() {
       )}
 
       {/* 话题列表 */}
-      <div className="rounded-lg border bg-card p-6">
+      <div className="rounded-lg border bg-card p-4 md:p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-bold">
             📝 解析出的话题（共 {approvedTopics.length} 个）
@@ -435,7 +435,7 @@ export function ReportPreviewClient() {
 
                   {/* 合并目标选择 */}
                   {topic.mergeSuggestions && topic.mergeSuggestions.length > 0 && (
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
                       <Label className="text-sm text-muted-foreground">
                         合并到：
                       </Label>
@@ -445,7 +445,7 @@ export function ReportPreviewClient() {
                           updateTopic(index, { mergeTargetUrl: value === 'none' ? undefined : value })
                         }
                       >
-                        <SelectTrigger className="w-[420px]">
+                        <SelectTrigger className="w-full md:w-[420px]">
                           <SelectValue placeholder="不合并（新建文档）" />
                         </SelectTrigger>
                         <SelectContent>
@@ -461,7 +461,7 @@ export function ReportPreviewClient() {
                   )}
 
                   {/* 分类选择 */}
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
                     <Label className="text-sm text-muted-foreground">
                       归档分类：
                     </Label>
@@ -471,7 +471,7 @@ export function ReportPreviewClient() {
                         handleCategoryChange(index, value)
                       }
                     >
-                      <SelectTrigger className="w-[250px]">
+                      <SelectTrigger className="w-full md:w-[250px]">
                         <SelectValue placeholder="选择分类" />
                       </SelectTrigger>
                       <SelectContent>
