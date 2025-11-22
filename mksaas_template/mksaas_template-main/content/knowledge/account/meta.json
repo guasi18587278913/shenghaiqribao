@@ -3,6 +3,7 @@
   "description": "Google、Claude、GitHub 等核心账号的注册、养号与风控",
   "icon": "User",
   "pages": [
+    "2025-11-21-google-ant",
     "2025-11-20-海外服务注册技巧",
     "claude-账号注册与风控",
     "github-账号配置",

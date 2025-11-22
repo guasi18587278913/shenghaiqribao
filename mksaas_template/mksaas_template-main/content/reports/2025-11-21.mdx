@@ -1,0 +1,92 @@
+---
+title: 11-21 AI产品出海日报
+description: 今日社群讨论的核心焦点集中在 Google 新推出的编程工具 Antigravity 的登录问题上，群友们摸索出了一套“玄学”但有效的解决方案。此外，针对视频/图像模型 Nano Banana 2 的 API 渠道及 AI 辅助编程（Cursor/Codex）的实战细节也有大量高价值经验分享。
+date: "2025-11-21"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+***
+
+### 🚀 Google Antigravity 尝鲜：登录失败怎么办？
+
+Google 的新 AI 编程工具 Antigravity（支持 Gemini 3）引发热议，但大量群友卡在登录或模型加载界面。经过多轮测试，大家总结出以下**关键排查清单**：
+
+* **账号权重悖论：**
+
+  * **新号更稳：** 多个测试反馈显示，全新的、未开通过任何 Google 高级服务的“白板账号”登录成功率最高。
+
+  * **Pro 号反而受限：** 许多开通了 Gemini Advanced (Pro) 或 Ultra 的老账号反而无法登录或卡顿，原因不明，推测可能与账号的历史行为或风控有关。
+
+* **地理位置是关键：**
+
+  * **避开 CN/HK 归属：** 即使梯子挂了美国节点，如果 Google 账号本身的“所属国家/地区”主要历史记录在中国或香港，极大概率被拒。
+
+  * **解决方案：** 建议在 Google 账号设置中申请更改国家为美国（需配合美国节点），或者直接注册一个美国区的全新账号。
+
+* **网络环境：**
+
+  * 部分 VPN/机场节点被 Google 识别为恶意 IP，导致无法使用 Gemini 服务。建议尝试更换节点或寻找支持“家庭宽带/原生 IP”的线路。
+
+### 🎨 视频与图像模型资源：Nano Banana 2
+
+关于图像/视频生成模型 Nano Banana 2（及 Pro 版本）的调用，群内明确了两个主要的 API 供应渠道（被群友戏称为“两大军火商”）：
+
+* **渠道 A（书虫）：** 主打价格优势（$0.025），适合对成本敏感的用户。
+
+* **渠道 B（打火机）：** 主打稳定性（$0.029），适合生产环境。
+
+* **选型建议：** 对于电商带货视频，有群友咨询对比 Veo3 和 Sora2，资深玩家倾向于 **Sora 2** 效果更好。
+
+### 💻 AI 编程实战：Cursor 与 Codex 使用技巧
+
+在实操“深海圈”课程项目（Next.js + 支付接入）时，产生了不少共性问题和技巧：
+
+* **不要死磕文件名：**
+
+  * 在接入支付功能时，有学员发现自己缺少教程中的 `pricing.tsx` 文件。
+
+  * **核心逻辑：** 只要在 Prompt（需求文档）中清楚写入产品 ID 和业务逻辑，Cursor 会根据现有项目结构自动生成代码或适配文件，**不需要机械复制教程的目录结构**。
+
+* **Cursor 的网络优势：**
+
+  * 相比 Codex Max 今日出现的卡顿和“变弱”体感，Cursor 在网络连接和长上下文处理上表现更稳定，特别是结合 Gemini 模型使用时。
+
+* **驯服 AI 的啰嗦：**
+
+  * 如果 Codex 总是自动提交冗长的总结信息，可以直接在对话中要求其停止该行为，或将“不提交总结”写入 Memory（记忆），它会记住这个偏好。
+
+***
+
+### 🔗 精选资源与工具
+
+* **\[文章] Codex 新手提效指南**
+
+  * [Codex 新手提效指南](https://mp.weixin.qq.com/s?__biz=MzI1MTUxNzgxMA==\&mid=2247499672\&idx=1\&sn=5f4c6c0cf7e5c1be3d8fbf45f88d5b59\&chksm=e85ba4d80aa9f94d4cb766a859fbb6602851869aed0fa5614a43a8bb8912d642193e3e0fa1e8\&mpshare=1\&scene=1\&srcid=1121FTLkLmxabD8bBD54JK54\&sharer_shareinfo=f12cc89b9f6383e4578feba27adb1f6c\&sharer_shareinfo_first=f12cc89b9f6383e4578feba27adb1f6c#rd) (群内反复推荐，适合新手入门)
+
+* **\[文章] Nano Banana Pro 深度测评**
+
+  * [Nano Banana Pro 深度测评](https://mp.weixin.qq.com/s?__biz=Mzg2NTkxNDM2NA==\&mid=2247499803\&idx=1\&sn=f2f12e4761893ab874e6f1a3979d6205\&chksm=cf5b4a4dba06f345f94da23cfb9c9069c38c4cfe19b2b95d9709db50f67ac3e8cd3aa3d775c0\&mpshare=1\&scene=1\&srcid=1121twMYkgAu8j2WQSldhmmA\&sharer_shareinfo=ee4afc59d11bed5e7b61c0a713e4a186\&sharer_shareinfo_first=ee4afc59d11bed5e7b61c0a713e4a186#rd) (包含中文字生成和多图融合实测)
+
+* **\[文档] Claude Code 配置辅助**
+
+  * https://docs.aitmpl.com (简化 Agents 和 Skills 配置，提供 MCP 资源)
+
+* **\[API] Nano Banana 2 渠道**
+
+  * 书虫（便宜）：https://apimart.ai/model/nano-banana-2-api
+
+  * 打火机（稳定）：https://evolink.ai/models/google/nano-banana-2
+
+***
+
+### 📝 今日总结
+
+1. **Antigravity 玩不转？** 换个全新的、美区的 Google 账号试试，老号和 Pro 号反而容易“卡关”。
+
+2. **编程不要抄作业：** 使用 Cursor 等 AI 编程工具时，**“写清楚需求”比“复制文件结构”更重要**，让 AI 适配你的代码，而不是你去适配教程的代码。
+
+3. **模型选择：** 现阶段做带货视频，Sora 2 的评价优于 Veo 3；Cursor 的稳定性目前优于网页版 Codex。
+
+4. **网络门槛：** 近期 Google 系 AI 产品对 IP 和账号归属地的风控显著收紧，建议储备干净的美国节点。

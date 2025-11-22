@@ -26,7 +26,9 @@ export async function middleware(request: NextRequest) {
 
   // If accessing a protected route without a session, redirect to login
   if (isProtectedRoute && !sessionToken) {
-    const loginUrl = new URL('/auth/login', request.url);
+    // Extract the locale from the pathname or use default
+    const locale = pathname.match(/^\/(en|zh)/)?.[1] || 'zh';
+    const loginUrl = new URL(`/${locale}/auth/login`, request.url);
     loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }

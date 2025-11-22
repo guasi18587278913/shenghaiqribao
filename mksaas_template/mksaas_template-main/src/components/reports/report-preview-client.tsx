@@ -47,6 +47,7 @@ interface ApprovedTopic extends ParsedTopic {
   isExpanded: boolean;        // 是否展开详情
   suggestedTitle?: string;    // AI提炼标题
   mergeSuggestions?: { title: string; url: string; score: number }[]; // 合并建议
+  mergeTargetUrl?: string; // 合并目标URL
 }
 
 /**
@@ -104,7 +105,7 @@ export function ReportPreviewClient() {
         body: JSON.stringify({
           topics: topics.map((topic) => ({
             title: topic.title,
-            summary: topic.summary ?? topic.content.slice(0, 120),
+            summary: topic.content.slice(0, 120),
             content: topic.content,
           })),
         }),
@@ -439,16 +440,16 @@ export function ReportPreviewClient() {
                         合并到：
                       </Label>
                       <Select
-                        value={topic.mergeTargetUrl || ''}
+                        value={topic.mergeTargetUrl || 'none'}
                         onValueChange={(value) =>
-                          updateTopic(index, { mergeTargetUrl: value || undefined })
+                          updateTopic(index, { mergeTargetUrl: value === 'none' ? undefined : value })
                         }
                       >
                         <SelectTrigger className="w-[420px]">
                           <SelectValue placeholder="不合并（新建文档）" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">不合并（新建文档）</SelectItem>
+                          <SelectItem value="none">不合并（新建文档）</SelectItem>
                           {topic.mergeSuggestions.map((s, i) => (
                             <SelectItem key={i} value={s.url}>
                               {s.title}（{Math.round(s.score * 100)}%）
