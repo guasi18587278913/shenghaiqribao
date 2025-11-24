@@ -296,7 +296,7 @@
   --shadow-2xl: 0px 4px 8px 0px hsl(0 0% 0% / 0.25);
 }
 
-/* 
+/*
  * Optimized Theme (from `优化样式` template)
  * Apply by adding `theme-optimized` class to the root element (e.g., <body>).
  * Keeps fonts as-is; only swaps color tokens to the optimized palette.
@@ -595,3 +595,24 @@ aside nav {
 /* 暂时禁用，需要更精确的选择器 */
 /* TODO: 找到正确的底部控制栏选择器 */
 /* Force recompile styles at 2025年11月17日 星期一 16时34分13秒 CST */
+
+@layer utilities {
+  .prose-premium {
+    --tw-prose-body: var(--foreground);
+    --tw-prose-headings: var(--foreground);
+    --tw-prose-lead: var(--muted-foreground);
+    --tw-prose-links: var(--primary);
+    --tw-prose-bold: var(--foreground);
+    --tw-prose-counters: var(--muted-foreground);
+    --tw-prose-bullets: var(--muted-foreground);
+    --tw-prose-hr: var(--border);
+    --tw-prose-quotes: var(--foreground);
+    --tw-prose-quote-borders: var(--border);
+    --tw-prose-captions: var(--muted-foreground);
+    --tw-prose-code: var(--foreground);
+    --tw-prose-pre-code: var(--foreground);
+    --tw-prose-pre-bg: var(--muted);
+    --tw-prose-th-borders: var(--border);
+    --tw-prose-td-borders: var(--border);
+  }
+}
