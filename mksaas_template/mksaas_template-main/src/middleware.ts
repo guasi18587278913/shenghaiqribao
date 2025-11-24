@@ -19,7 +19,6 @@ export async function middleware(request: NextRequest) {
 
   const isProtectedRoute =
     pathWithoutLocale.startsWith('/dashboard') ||
-    pathWithoutLocale.startsWith('/knowledge') ||
     pathWithoutLocale.startsWith('/announcements');
 
   const isAuthRoute = pathWithoutLocale.startsWith('/auth');
