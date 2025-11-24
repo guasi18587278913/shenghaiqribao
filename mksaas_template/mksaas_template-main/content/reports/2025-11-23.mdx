@@ -1,0 +1,120 @@
+---
+title: 11-23 AI产品出海日报
+description: 今天技术讨论密度极高。Google 推出的新工具 Antigravity 成为焦点，但不少群友在登录和调用时遇到了阻碍；数据库方面，一场关于 Supabase 结合 Vercel 导致连接数爆炸的排查堪称“教科书级”教学；此外，针对海外支付对接（Creem）和本地调试环境的搭建也有不少实战经验沉淀。
+date: "2025-11-23"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+***
+
+### 1. 新工具尝鲜：Google Antigravity 的惊艳与门槛
+
+今日群内热议 Google Antigravity（可直接调用 Nano Banana Pro 画图），大家普遍认为功能强大，甚至有成员表示“直接抛弃了 CC（CodeCursor）”。但在实际使用中，大量群友遇到了登录死循环、点击弹窗无反应等问题。
+
+**常见问题与解决方案：**
+
+* **登录后无法返回客户端/一直转圈：**
+
+  * **网络环境：** 这是主要原因。Antigravity 是流式输出，对网络稳定性要求极高。建议开启全局代理（Tun模式），并尝试切换到更稳定的节点。
+
+  * **账号权重：** 多位群友实测，老 Google 账号可能无法成功登录，注册全新的 Google 账号成功率更高。
+
+  * **浏览器设置：** 检查浏览器是否拦截了弹窗，或尝试使用无痕模式（Incognito）。
+
+* **替代方案：** 如果 Antigravity 始终无法使用，有群友推荐去 **Google AI Studio** 使用 build 模式，作为 V0 的替代品也很强，且可以直接调用相关 API。
+
+***
+
+### 2. 硬核排查：Supabase + Vercel 连接数爆炸难题
+
+这是今日含金量最高的技术讨论。群友“银河星游”在使用 Vercel 部署项目连接 Supabase 时，尽管 UV（独立访客）仅 100 左右，数据库连接数却频繁爆表，导致服务不可用。
+
+**排查过程与关键知识点：**
+
+* **现象：** Vercel 的 Serverless 函数在运行结束后，并未彻底释放数据库连接，导致连接数不断累积直至由于超过限制而报错。
+
+* **误区纠正：** 仅在连接串中添加 `pgbouncer=true` 或简单的连接池配置，在 Vercel 环境下往往只能缓解而无法根除问题。
+
+* **核心方案：**
+
+  1. **代码层面干预：** 需要在代码中明确处理连接关闭逻辑，确保 Vercel 实例挂起/销毁时释放连接。
+
+  2. **连接池模式：** 确认使用的是 Transaction Pooler（事务模式连接池），并检查端口（通常 6543 用于 Pooler，5432 是直连，不要混用）。
+
+  3. **配置调整：** 将 Pool Size 设置为合适的值（如 60），并结合代码优化。
+
+* **最终结果：** 经过群友“袁气森林”的指导，通过修改代码逻辑和连接池配置，连接数曲线恢复平稳，服务恢复正常。
+
+**延伸讨论（Neon vs Supabase）：**
+
+* 有群友反馈 Neon 数据库在免费版下也有并发限制（不能超过 2 个同时调用），付费后解除。
+
+* Neon 底层封装了 HTTP 连接，理论上对 Serverless 环境更友好，没有传统连接池泄露的问题，但具体选型仍需根据项目实际情况决定。
+
+***
+
+### 3. 支付与环境配置：新手避坑指南
+
+在对接 Creem 支付和配置开发环境时，多位学员踩坑，群内总结了以下经验：
+
+* **Creem 支付对接：**
+
+  * **实名认证：** 选择 Creem 支付时，需填写真实身份证名字和国内居住地址，信息需匹配。
+
+  * **提现问题：** 明确支持提现到中国银行卡，也支持海外卡。
+
+  * **正式环境：** 开发模式下不需要审核，但切换到正式环境（上线）前，必须在后台创建新账户并提交审核（入口较深）。
+
+* **Webhook 本地调试：**
+
+  * **问题：** 在本地开发支付功能时，直接在 Webhook URL 填 `localhost:3000` 是无效的，外部服务无法回调本地地址。
+
+  * **解决方案：** 必须使用内网穿透工具将本地端口映射到公网。
+
+    * **推荐方案：** VS Code 自带的端口转发（Tunnel）功能，简单易用。
+
+    * **备选方案：** Ngrok（对新手配置稍繁琐）或直接部署到 Vercel 使用生成环境地址测试。
+
+* **海外服务绑卡失败：**
+
+  * 解锁 Droid 等海外 AI 服务额度时，国内发行的 Visa/Mastercard 信用卡极大概率被拒，建议使用海外发行的信用卡。
+
+***
+
+### 4. 开发调试小技巧
+
+* **环境变量排查：** 遇到 Auth 认证失败（如 GitHub/Google 登录报错），除了肉眼检查，建议在后端代码中使用 `console.log` 打印相关环境变量。很多时候是复制粘贴时少了一个字符或多了空格导致肉眼难以发现。
+
+* **API 价格说明：** 关于 Nano Banana 模型 API 价格波动，助教澄清：早期价格为官方未定价时的自行补贴价，官方定价出炉后已同步调整，学员仍可联系助教申请 VIP 优惠。
+
+***
+
+### 📎 今日高价值资源
+
+1. **文章：Google Antigravity 调用 Nano Banana Pro 画图**
+
+   * [点击查看文章](https://mp.weixin.qq.com/s?t=pages/image_detail\&scene=1&__biz=MzI1MTUxNzgxMA==\&mid=2247499706\&idx=1\&sn=3c9da410317d4f675e426bd13b6897b9\&sharer_shareinfo_first=01bedbc7bf61c2ccf495234f0837e31b\&sharer_shareinfo=01bedbc7bf61c2ccf495234f0837e31b#wechat_redirect)
+
+2. **教程：如何利用 VSCode 快速创建本地隧道 (解决 Webhook 回调)**
+
+   * [点击查看教程](https://mp.weixin.qq.com/s?t=pages/image_detail\&scene=1&__biz=Mzg2NzYxNTQwNw==\&mid=2247484111\&idx=1\&sn=9a00a794637ed125ece83969024ba4c2\&sharer_shareinfo_first=aad7e59f17efa64f4a0591ef5ce75d49\&sharer_shareinfo=aad7e59f17efa64f4a0591ef5ce75d49#wechat_redirect)
+
+3. **模型价格表：**
+
+   * Nano Banana 2 API (书虫版): [链接](https://apimart.ai/model/nano-banana-2-api)
+
+   * Nano Banana 2 (打火机版): [链接](https://evolink.ai/models/google/nano-banana-2)
+
+***
+
+### 📝 总结与行动建议
+
+1. **Antigravity 登录不上先别急：** 优先检查梯子节点和全局模式，实在不行换个新 Google 号试试。
+
+2. **Serverless 数据库连接要注意：** 使用 Vercel + Supabase 组合时，务必关注连接池配置和代码层面的连接释放，否则用户量稍大就会崩。
+
+3. **支付调试要用公网：** 调试 Webhook 记得开内网穿透，不要傻傻填 localhost。
+
+4. **环境配置多打 Log：** 遇到玄学认证问题，打印出环境变量值是最高效的排查手段。

@@ -3,6 +3,10 @@
   "description": "项目规划、开发流程、部署上线",
   "icon": "Rocket",
   "pages": [
+    "2025-11-23-antigravit",
+    "2025-11-23-neon-vs-su",
+    "2025-11-23-supabasev",
+    "2025-11-22-supabase替代",
     "2025-11-20-supabase权限",
     "2025-11-20-supabase数据",
     "2025-11-16-技术问答快速解决",
