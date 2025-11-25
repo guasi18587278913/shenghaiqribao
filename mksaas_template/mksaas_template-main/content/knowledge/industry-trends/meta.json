@@ -1,13 +1,12 @@
 {
+  "title": "行业动态",
+  "description": "AI行业趋势、技术前沿、市场变化",
+  "icon": "TrendingUp",
   "pages": [
     "2025-11-20-ai-studio快",
     "2025-11-19-gemini-3-p",
     "2025-11-18-cloudflare",
     "2025-11-17-ai产品经理职业新",
-    "2025-11-17-ai应用不止work",
-    "2025-11-16-本期群聊的-5-个关键信息点"
-  ],
-  "title": "行业动态",
-  "description": "AI行业趋势、技术前沿、市场变化",
-  "icon": "TrendingUp"
+    "2025-11-17-ai应用不止work"
+  ]
 }

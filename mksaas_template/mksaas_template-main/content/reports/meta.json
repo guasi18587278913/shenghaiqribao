@@ -1,8 +1,10 @@
 {
   "title": "日报精华",
   "pages": [
+    "2025-11-24",
     "Week-4",
-    "Week-3"
+    "Week-3",
+    "index"
   ],
   "description": "AI产品出海社群每日精华整理",
   "root": true,

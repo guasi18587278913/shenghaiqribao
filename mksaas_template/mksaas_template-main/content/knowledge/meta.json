@@ -5,13 +5,21 @@
   "root": true,
   "pages": [
     "account",
+    "device-environment",
+    "wangluo",
     "network",
     "payment",
+    "cost",
     "dev-tools",
+    "tool-recommendation",
     "project",
     "product-growth",
+    "product-case",
+    "overseas-experience",
+    "industry-trends",
+    "tech-tutorial",
+    "qa-selection",
     "community",
-    "learning",
-    "cost"
+    "learning"
   ]
 }

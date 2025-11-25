@@ -27,7 +27,7 @@ export function AdjacentNav({ prev, next }: AdjacentNavProps) {
             <span>上一篇</span>
           </div>
           <div className="font-medium line-clamp-2">
-            📅 {new Date(prev.date).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })}: {prev.title}
+            {prev.title}
           </div>
         </Link>
       ) : <div />}
@@ -42,7 +42,7 @@ export function AdjacentNav({ prev, next }: AdjacentNavProps) {
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </div>
           <div className="font-medium line-clamp-2">
-            📅 {new Date(next.date).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })}: {next.title}
+            {next.title}
           </div>
         </Link>
       )}

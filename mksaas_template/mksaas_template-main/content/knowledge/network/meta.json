@@ -1,4 +1,7 @@
 {
+  "title": "Network",
+  "description": "网络配置与代理设置",
+  "icon": "Globe",
   "pages": [
     "2025-11-21-google-ant"
   ]

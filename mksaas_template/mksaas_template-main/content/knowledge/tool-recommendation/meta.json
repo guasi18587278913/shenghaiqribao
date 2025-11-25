@@ -1,4 +1,7 @@
 {
+  "title": "工具推荐",
+  "description": "实用工具推荐与使用指南",
+  "icon": "Wrench",
   "pages": [
     "2025-11-21-codex-ai新手",
     "2025-11-19-google-ant",

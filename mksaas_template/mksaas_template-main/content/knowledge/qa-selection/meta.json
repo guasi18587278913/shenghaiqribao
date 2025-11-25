@@ -1,11 +1,9 @@
 {
-  "pages": [
-    "2025-11-21-antigravit",
-    "2025-11-19-gemini-3-p",
-    "2025-11-16-一些零散但有用的问答与资源",
-    "2025-11-16-几个典型案例"
-  ],
   "title": "问答精选",
   "description": "高质量问答、常见问题、解决方案",
-  "icon": "MessageCircle"
+  "icon": "MessageCircle",
+  "pages": [
+    "2025-11-21-antigravit",
+    "2025-11-19-gemini-3-p"
+  ]
 }
