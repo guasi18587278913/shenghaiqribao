@@ -1,0 +1,52 @@
+---
+title: Supabase与Neon数据库选型指南
+description: Serverless环境下数据库选型、连接池配置和常见问题解决方案
+category: 项目执行
+source: /reports/2025-11-23
+sourceDate: "2025-11-23"
+tags: [Supabase, Neon, Serverless, 数据库]
+importance: 4
+---
+
+> 内容整合自 [2025-11-22](/reports/2025-11-22)、[2025-11-23](/reports/2025-11-23) 日报
+
+## 问题背景
+
+群友"银河星游"在使用 Vercel 部署项目连接 Supabase 时，尽管 UV（独立访客）仅 100 左右，数据库连接数却频繁爆表，导致服务不可用。
+
+这是 Serverless 环境下常见的数据库连接问题。
+
+## Serverless 数据库连接注意事项
+
+使用 Vercel + Supabase 组合时，务必关注：
+- **连接池配置**：正确配置连接池大小
+- **代码层面的连接释放**：确保每次请求后正确释放连接
+
+否则用户量稍大就会崩。
+
+## Neon vs Supabase
+
+### Neon 的优势
+
+- 底层封装了 HTTP 连接，理论上对 Serverless 环境更友好
+- 没有传统连接池泄露的问题
+- 被推荐作为 Supabase 的替代方案
+
+### Neon 的限制
+
+- 免费版有并发限制（不能超过 2 个同时调用）
+- 付费后可解除限制
+
+### 选型建议
+
+具体选型仍需根据项目实际情况决定：
+- 如果遇到 Supabase 停机/不稳定情况，可考虑 Neon 作为替代
+- 课程模板中也有涉及 Neon 的使用方法
+
+---
+
+## 相关链接
+
+- [查看 11-22 日报](/reports/2025-11-22)
+- [查看 11-23 日报](/reports/2025-11-23)
+- [更多项目执行内容](/knowledge)

@@ -3,15 +3,8 @@
   "description": "项目规划、开发流程、部署上线",
   "icon": "Rocket",
   "pages": [
+    "supabase-neon-database",
     "2025-11-24-app-store审",
-    "2025-11-24-ai项目开发策略与工",
-    "2025-11-23-antigravit",
-    "2025-11-23-neon-vs-su",
-    "2025-11-23-supabasev",
-    "2025-11-22-supabase替代",
-    "callout样式方案对比",
-    "cost-planning",
-    "项目开发部署常见问题",
-    "项目执行"
+    "2025-11-24-ai项目开发策略与工"
   ]
 }
