@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Calendar, ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface ReportCardProps {
   report: {
@@ -28,14 +28,10 @@ export function ReportCard({ report }: ReportCardProps) {
     return diffInHours < 48 && diffInHours >= 0; // Extended to 48h for better visibility
   })();
 
-  // Format date: "11-23" or "2025-11-23"
-  const dateDisplay = report.data.date ? new Date(report.data.date).toLocaleDateString('zh-CN', {
-    month: '2-digit',
-    day: '2-digit'
-  }).replace(/\//g, '-') : '';
-
-  // Clean title: Remove "AI产品出海日报" suffix/prefix to reduce noise
-  const cleanTitle = report.data.title.replace(/AI产品出海日报/g, '').replace(/^\d{2}-\d{2}\s*/, '').trim() || '社群精华';
+  // Format date parts for display
+  const dateObj = report.data.date ? new Date(report.data.date) : null;
+  const monthDisplay = dateObj ? (dateObj.getMonth() + 1).toString() : '';
+  const dayDisplay = dateObj ? dateObj.getDate().toString().padStart(2, '0') : '';
 
   return (
     <Link
@@ -46,11 +42,15 @@ export function ReportCard({ report }: ReportCardProps) {
         {/* Top Gradient Accent */}
         <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-primary/40 via-primary to-primary/40 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        {/* Header: Date & New Badge */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-            <Calendar className="w-4 h-4" />
-            <span>{dateDisplay}</span>
+        {/* Header: Large Date Display */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-baseline gap-1">
+            <span className="text-4xl font-bold text-foreground group-hover:text-primary transition-colors">
+              {dayDisplay}
+            </span>
+            <span className="text-lg font-medium text-muted-foreground">
+              /{monthDisplay}月
+            </span>
           </div>
 
           {isNew && (
@@ -60,11 +60,6 @@ export function ReportCard({ report }: ReportCardProps) {
             </div>
           )}
         </div>
-
-        {/* Title */}
-        <h3 className="text-xl font-bold leading-tight mb-3 group-hover:text-primary transition-colors">
-          {cleanTitle}
-        </h3>
 
         {/* Description */}
         {report.data.description && (
