@@ -2,5 +2,14 @@
   "title": "账号与设备",
   "description": "Google、Claude、GitHub 等核心账号的注册、养号与风控",
   "icon": "User",
-  "pages": []
+  "pages": [
+    "账号注册流程与风控指南",
+    "claude-账号注册与风控",
+    "google-账号养成与防封",
+    "github-账号配置",
+    "其他平台账号指南",
+    "claude与cursor付费方案",
+    "免费额度和薅羊毛",
+    "账号与设备"
+  ]
 }
