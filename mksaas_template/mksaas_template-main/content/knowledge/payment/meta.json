@@ -3,6 +3,7 @@
   "description": "海外支付方式、虚拟卡申请、订阅管理",
   "icon": "CreditCard",
   "pages": [
+    "2025-11-26-gemini",
     "unregistered-site-payment",
     "creem-payment",
     "chatgpt订阅实操",
