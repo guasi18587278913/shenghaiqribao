@@ -1,6 +1,7 @@
+import { CommentSection } from '@/components/daily-report/comment-section';
 import { CalendarIcon, ClockIcon } from 'lucide-react';
-import { ReadingProgress } from './reading-progress';
 import { MobileBottomBar } from './mobile-bottom-bar';
+import { ReadingProgress } from './reading-progress';
 
 interface ReportDetailProps {
   title: string;
@@ -19,7 +20,7 @@ export function ReportDetail({
   locale,
   children,
   breadcrumbs,
-  adjacentNav
+  adjacentNav,
 }: ReportDetailProps) {
   return (
     <div className="min-h-screen bg-background">
@@ -27,12 +28,13 @@ export function ReportDetail({
 
       {/* Header区域 */}
       <div className="relative border-b bg-card">
-        <div className="relative mx-auto w-full px-6 py-12 md:py-16 md:px-8" style={{ maxWidth: '1200px' }}>
+        <div
+          className="relative mx-auto w-full px-6 py-12 md:py-16 md:px-8"
+          style={{ maxWidth: '1200px' }}
+        >
           {/* Breadcrumbs */}
           {breadcrumbs && (
-            <div className="mb-8 flex justify-center">
-              {breadcrumbs}
-            </div>
+            <div className="mb-8 flex justify-center">{breadcrumbs}</div>
           )}
 
           {/* 标题区域 */}
@@ -54,11 +56,14 @@ export function ReportDetail({
               <div className="flex items-center gap-2">
                 <CalendarIcon className="w-4 h-4" />
                 <time dateTime={date}>
-                  {new Date(date).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
+                  {new Date(date).toLocaleDateString(
+                    locale === 'zh' ? 'zh-CN' : 'en-US',
+                    {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    }
+                  )}
                 </time>
               </div>
 
@@ -73,7 +78,10 @@ export function ReportDetail({
       </div>
 
       {/* 主要内容区域 */}
-      <div className="mx-auto w-full px-6 py-8 md:px-12 md:py-12 lg:px-16" style={{ maxWidth: '1200px' }}>
+      <div
+        className="mx-auto w-full px-6 py-8 md:px-12 md:py-12 lg:px-16"
+        style={{ maxWidth: '1200px' }}
+      >
         <article className="report-content">
           {/**
            * 使用与知识库相同的 `prose` 排版体系，确保 Markdown/MDX 标题、列表、引用等样式正确呈现。
@@ -89,6 +97,13 @@ export function ReportDetail({
         {adjacentNav}
       </div>
 
+      <div
+        className="mx-auto w-full px-6 py-8 md:px-12 md:py-12 lg:px-16"
+        style={{ maxWidth: '1200px' }}
+      >
+        <CommentSection targetType="daily_report" targetId={date} />
+      </div>
+
       <MobileBottomBar />
     </div>
   );
@@ -98,7 +113,9 @@ export function ReportDetail({
 export function getReportMdxComponents() {
   return {
     h1: ({ children }: any) => (
-      <h1 className="scroll-m-20 text-2xl md:text-3xl font-bold tracking-tight my-6">{children}</h1>
+      <h1 className="scroll-m-20 text-2xl md:text-3xl font-bold tracking-tight my-6">
+        {children}
+      </h1>
     ),
     h2: ({ children }: any) => (
       <h2 className="scroll-m-20 border-b pb-2 text-xl md:text-2xl font-semibold tracking-tight mt-8 mb-4 pt-2 flex items-start gap-2">
@@ -112,7 +129,9 @@ export function getReportMdxComponents() {
       </h3>
     ),
     p: ({ children }: any) => (
-      <p className="leading-7 text-sm md:text-base not-first:mt-4">{children}</p>
+      <p className="leading-7 text-sm md:text-base not-first:mt-4">
+        {children}
+      </p>
     ),
     ul: ({ children }: any) => (
       <ul className="list-none space-y-1 my-4 ml-2">{children}</ul>
@@ -135,11 +154,13 @@ export function getReportMdxComponents() {
       </blockquote>
     ),
     code: ({ children, className }: any) => (
-      <code className={
-        className
-          ? "block my-4 leading-8 bg-muted p-4 text-sm rounded-lg"
-          : "inline bg-muted px-1.5 py-0.5 rounded text-primary text-sm"
-      }>
+      <code
+        className={
+          className
+            ? 'block my-4 leading-8 bg-muted p-4 text-sm rounded-lg'
+            : 'inline bg-muted px-1.5 py-0.5 rounded text-primary text-sm'
+        }
+      >
         {children}
       </code>
     ),
@@ -159,6 +180,6 @@ export function getReportMdxComponents() {
         <span className="text-primary/50 text-lg">◆</span>
         <div className="h-px flex-1 bg-linear-to-r from-transparent via-border to-transparent"></div>
       </div>
-    )
+    ),
   };
 }

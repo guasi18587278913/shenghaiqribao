@@ -39,9 +39,6 @@ const LoginSchema = z.object({
   phone: z.string().min(1, {
     message: '请输入手机号',
   }),
-  planetNumber: z.string().min(1, {
-    message: '请输入星球编号',
-  }),
 });
 
 export const PhonePlanetLoginForm = ({
@@ -67,7 +64,6 @@ export const PhonePlanetLoginForm = ({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       phone: '',
-      planetNumber: '',
     },
   });
 
@@ -76,10 +72,7 @@ export const PhonePlanetLoginForm = ({
     setError('');
     setSuccess('');
 
-    const result = await loginWithPhonePlanet(
-      values.phone,
-      values.planetNumber
-    );
+    const result = await loginWithPhonePlanet(values.phone);
 
     if (result.success) {
       setSuccess('登录成功!');
@@ -120,7 +113,7 @@ export const PhonePlanetLoginForm = ({
             欢迎登录
           </CardTitle>
           <CardDescription className="text-center">
-            使用手机号和星球编号登录
+            使用手机号登录
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -139,24 +132,6 @@ export const PhonePlanetLoginForm = ({
                           disabled={isPending}
                           placeholder="请输入手机号"
                           type="tel"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="planetNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>星球编号</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          disabled={isPending}
-                          placeholder="请输入星球编号"
-                          type="text"
                         />
                       </FormControl>
                       <FormMessage />

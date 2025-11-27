@@ -7,30 +7,30 @@ import { nanoid } from 'nanoid';
 import { cookies } from 'next/headers';
 
 /**
- * Login with phone number and planet number
+ * Login with phone number
  */
 export async function loginWithPhonePlanet(
-  phone: string,
-  planetNumber: string
+  phone: string
+  // planetNumber: string // Deprecated
 ) {
   try {
     // Validate input
-    if (!phone || !planetNumber) {
+    if (!phone) {
       return {
         success: false,
-        error: '请输入手机号和星球编号',
+        error: '请输入手机号',
       };
     }
 
-    // Find user by phone and planet number
+    // Find user by phone
     const foundUser = await db.query.user.findFirst({
-      where: and(eq(user.phone, phone), eq(user.planetNumber, planetNumber)),
+      where: eq(user.phone, phone),
     });
 
     if (!foundUser) {
       return {
         success: false,
-        error: '手机号或星球编号错误',
+        error: '手机号未注册',
       };
     }
 

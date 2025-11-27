@@ -6,11 +6,23 @@
 
 import { db } from '@/db';
 import {
+  comment,
   dailyReport,
   dailyTopic,
   rawMessage,
+  user,
   userPreference,
 } from '@/db/schema';
+import {
+  generateDailySummary,
+  stage2AIScreening,
+  stage3TopicGeneration,
+} from '@/lib/daily-report/ai-processor';
+import {
+  type ParsedMessage,
+  mergeConsecutiveMessages,
+  stage1Filter,
+} from '@/lib/daily-report/message-parser';
 import type {
   CreateDailyReportInput,
   CreateTopicInput,
@@ -22,20 +34,10 @@ import type {
   UpdateUserPreferenceInput,
   UploadMessagesInput,
 } from '@/types/daily-report';
-import { and, desc, eq, gte, lte, lt, inArray, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, lt, lte, sql } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
 import { updateCategoryStats } from './category-stats';
-import {
-  mergeConsecutiveMessages,
-  stage1Filter,
-  type ParsedMessage,
-} from '@/lib/daily-report/message-parser';
-import {
-  stage2AIScreening,
-  stage3TopicGeneration,
-  generateDailySummary,
-} from '@/lib/daily-report/ai-processor';
 
 // ============================================================================
 // Daily Report Operations
@@ -272,8 +274,6 @@ export async function deleteTopic(topicId: string) {
 // Message Upload and Processing
 // ============================================================================
 
-
-
 // ============================================================================
 // User Preference Operations
 // ============================================================================
@@ -445,18 +445,97 @@ export async function getAdjacentReports(currentDate: Date | string) {
  * Create a comment on a report or topic
  * TODO: Implement comment functionality when comment schema is added
  */
-export async function createComment(input: any) {
-  console.warn('createComment: Comment functionality not yet implemented');
-  throw new Error('Comment functionality is not yet implemented');
+/**
+ * Create a comment on a report or topic
+ */
+export async function createComment(
+  input: {
+    targetType: 'daily_report' | 'daily_topic';
+    targetId: string;
+    content: string;
+    parentId?: string;
+  },
+  userId: string
+) {
+  try {
+    const commentId = `comment_${Date.now()}_${nanoid(8)}`;
+
+    // 1. Create the comment
+    await db.insert(comment).values({
+      id: commentId,
+      targetType: input.targetType,
+      targetId: input.targetId,
+      userId,
+      content: input.content,
+      parentId: input.parentId,
+      likes: 0,
+      commentCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    // 2. Update comment count on the target
+    if (input.targetType === 'daily_report') {
+      await db
+        .update(dailyReport)
+        .set({
+          commentCount: sql`${dailyReport.commentCount} + 1`,
+          updatedAt: new Date(),
+        })
+        .where(eq(dailyReport.id, input.targetId));
+    } else if (input.targetType === 'daily_topic') {
+      await db
+        .update(dailyTopic)
+        .set({
+          commentCount: sql`${dailyTopic.commentCount} + 1`,
+          updatedAt: new Date(),
+        })
+        .where(eq(dailyTopic.id, input.targetId));
+    }
+
+    // 3. Revalidate paths
+    revalidatePath(`/reports/${input.targetId}`);
+    revalidatePath('/reports');
+
+    return { success: true, commentId };
+  } catch (error) {
+    console.error('createComment error:', error);
+    return { success: false, error: 'Failed to create comment' };
+  }
 }
 
 /**
  * Get comments for a report or topic
- * TODO: Implement comment functionality when comment schema is added
  */
 export async function getComments(targetType: string, targetId: string) {
-  console.warn('getComments: Comment functionality not yet implemented');
-  return [];
+  try {
+    const comments = await db
+      .select({
+        id: comment.id,
+        content: comment.content,
+        createdAt: comment.createdAt,
+        likes: comment.likes,
+        user: {
+          name: user.name,
+          image: user.image,
+        },
+      })
+      .from(comment)
+      .leftJoin(user, eq(comment.userId, user.id))
+      .where(
+        and(eq(comment.targetType, targetType), eq(comment.targetId, targetId))
+      )
+      .orderBy(desc(comment.createdAt));
+
+    return comments.map((c) => ({
+      ...c,
+      createdAt: c.createdAt.toISOString(),
+      user: c.user || { name: 'Unknown User', image: null },
+    }));
+  } catch (error) {
+    console.error('getComments error:', error);
+    return [];
+  }
 }
 
 // ============================================================================
@@ -504,9 +583,7 @@ function normalizeCategory(category?: string | null): TopicCategory {
   return CATEGORY_NORMALIZATION[trimmed] ?? ('工具推荐' as TopicCategory);
 }
 
-function toParsedMessages(
-  input: UploadMessagesInput,
-): ParsedMessage[] {
+function toParsedMessages(input: UploadMessagesInput): ParsedMessage[] {
   return input.messages
     .map((message) => {
       const timestamp = new Date(message.timestamp);
@@ -629,7 +706,10 @@ export async function processMessagesAndCreateReport(
     const summary = await generateDailySummary(topics);
     const title = `${reportDate.getFullYear()}-${String(
       reportDate.getMonth() + 1
-    ).padStart(2, '0')}-${String(reportDate.getDate()).padStart(2, '0')} AI出海社群日报`;
+    ).padStart(
+      2,
+      '0'
+    )}-${String(reportDate.getDate()).padStart(2, '0')} AI出海社群日报`;
 
     const reportResult = await createDailyReport(
       {

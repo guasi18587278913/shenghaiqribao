@@ -38,7 +38,7 @@ export type KnowledgeItemType = 'tool' | 'article' | 'case' | 'qa';
 export type MessageType = 'text' | 'image' | 'link' | 'file';
 
 // Comment Target Type
-export type CommentTargetType = 'report' | 'topic';
+export type CommentTargetType = 'daily_report' | 'daily_topic';
 
 // Daily Report
 export interface DailyReport {

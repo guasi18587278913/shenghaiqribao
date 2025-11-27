@@ -295,4 +295,41 @@ export const sessionRelations = relations(session, ({ one }) => ({
 
 export const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
+	comments: many(comment),
+}));
+
+// Comments - User comments on reports or topics
+export const comment = pgTable("comment", {
+	id: text("id").primaryKey(),
+	userId: text("user_id").notNull().references(() => user.id, { onDelete: 'cascade' }),
+	targetType: text("target_type").notNull(), // 'daily_report' or 'daily_topic'
+	targetId: text("target_id").notNull(),
+	parentId: text("parent_id"), // For nested replies
+	content: text("content").notNull(),
+	likes: integer("likes").notNull().default(0),
+	commentCount: integer("comment_count").notNull().default(0), // Number of replies
+	isFeatured: boolean("is_featured").notNull().default(false),
+	isDeleted: boolean("is_deleted").notNull().default(false),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}, (table) => ({
+	commentTargetIdx: index("comment_target_idx").on(table.targetType, table.targetId),
+	commentUserIdIdx: index("comment_user_id_idx").on(table.userId),
+	commentParentIdIdx: index("comment_parent_id_idx").on(table.parentId),
+	commentCreatedAtIdx: index("comment_created_at_idx").on(table.createdAt),
+}));
+
+export const commentRelations = relations(comment, ({ one, many }) => ({
+	user: one(user, {
+		fields: [comment.userId],
+		references: [user.id],
+	}),
+	parent: one(comment, {
+		fields: [comment.parentId],
+		references: [comment.id],
+		relationName: "replies",
+	}),
+	replies: many(comment, {
+		relationName: "replies",
+	}),
 }));
