@@ -5,20 +5,20 @@
  */
 
 import {
-  suggestCategoryByKeywords,
-  slugify,
   getCategoryByName,
   getCategoryBySlug,
+  slugify,
+  suggestCategoryByKeywords,
 } from '@/config/knowledge-categories';
 
 export interface ParsedTopic {
   id: string;
   title: string;
   content: string;
-  rawCategory: string;        // 从 Markdown 中提取的原始分类
-  suggestedSlug: string;       // AI推荐的分类slug
-  suggestedName: string;       // AI推荐的分类名称
-  confidence: number;          // 推荐置信度 0-1
+  rawCategory: string; // 从 Markdown 中提取的原始分类
+  suggestedSlug: string; // AI推荐的分类slug
+  suggestedName: string; // AI推荐的分类名称
+  confidence: number; // 推荐置信度 0-1
 }
 
 /**
@@ -31,7 +31,7 @@ export function normalizeTitle(raw: string): string {
   let t = (raw || '')
     // 去掉中文序号 一、 二、 三、
     .replace(/^[一二三四五六七八九十百千]+[、.．]\s*/g, '')
-    // 去掉数字序号 1. / 1) / 1． / 1、 
+    // 去掉数字序号 1. / 1) / 1． / 1、
     .replace(/^\d+\s*[\).．、.]\s*/g, '')
     // 去掉“今日要点/小结/总结”等噪声
     .replace(/^今日(要点|小结|总结).*/g, '')
@@ -56,12 +56,16 @@ function generateId(): string {
 function removeEmoji(text: string): string {
   return text
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Emoji 符号
-    .replace(/[\u{2600}-\u{26FF}]/gu, '')   // 其他符号
-    .replace(/[\u{2700}-\u{27BF}]/gu, '')   // 装饰符号
+    .replace(/[\u{2600}-\u{26FF}]/gu, '') // 其他符号
+    .replace(/[\u{2700}-\u{27BF}]/gu, '') // 装饰符号
     .trim();
 }
 
-function buildCategorySuggestion(rawCategory: string, title: string, content: string) {
+function buildCategorySuggestion(
+  rawCategory: string,
+  title: string,
+  content: string
+) {
   if (rawCategory) {
     const manual = resolveManualCategory(rawCategory);
     if (manual) {
@@ -97,7 +101,10 @@ function isTopicTitle(line: string): boolean {
   if (!trimmed) return false;
 
   // 包含冒号的短句很可能是标题
-  if ((trimmed.includes('：') || trimmed.includes(':')) && trimmed.length < 80) {
+  if (
+    (trimmed.includes('：') || trimmed.includes(':')) &&
+    trimmed.length < 80
+  ) {
     return true;
   }
 
@@ -138,11 +145,15 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
   const topics: ParsedTopic[] = [];
 
   // 首先尝试按 --- 分隔符分割
-  const horizontalRuleSections = markdown.split(/\n\s*---\s*\n/).filter(Boolean);
+  const horizontalRuleSections = markdown
+    .split(/\n\s*---\s*\n/)
+    .filter(Boolean);
 
   // 如果找到了至少 2 个分隔线分割的部分，说明是分隔线格式
   if (horizontalRuleSections.length >= 2) {
-    console.log(`[Parser] 检测到分隔线格式，找到 ${horizontalRuleSections.length} 个部分`);
+    console.log(
+      `[Parser] 检测到分隔线格式，找到 ${horizontalRuleSections.length} 个部分`
+    );
 
     for (const section of horizontalRuleSections) {
       const trimmedSection = section.trim();
@@ -155,7 +166,7 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
 
       // 第一行作为标题，其余作为内容
       let title = removeEmoji(firstLine);
-      let content = lines.slice(1).join('\n').trim();
+      const content = lines.slice(1).join('\n').trim();
 
       // 如果内容太短，可能是误判，跳过
       if (content.length < 10) {
@@ -174,7 +185,11 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
       }
 
       // AI 推荐分类
-      const categorySuggestion = buildCategorySuggestion(rawCategory, title, content);
+      const categorySuggestion = buildCategorySuggestion(
+        rawCategory,
+        title,
+        content
+      );
 
       topics.push({
         id: generateId(),
@@ -220,7 +235,11 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
 
       if (!title) continue;
 
-      const categorySuggestion = buildCategorySuggestion(rawCategory, title, content);
+      const categorySuggestion = buildCategorySuggestion(
+        rawCategory,
+        title,
+        content
+      );
 
       topics.push({
         id: generateId(),
@@ -238,7 +257,11 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
     console.log('[Parser] 检测到自然段落格式，尝试智能识别话题');
 
     const paragraphs = markdown.split(/\n\s*\n+/); // 按空行分段
-    let currentTopic: { title: string; content: string[]; rawCategory: string } | null = null;
+    let currentTopic: {
+      title: string;
+      content: string[];
+      rawCategory: string;
+    } | null = null;
 
     for (const para of paragraphs) {
       const trimmed = para.trim();
@@ -252,7 +275,8 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
         // 保存上一个话题
         if (currentTopic && currentTopic.content.length > 0) {
           const content = currentTopic.content.join('\n\n').trim();
-          if (content.length >= 50) { // 至少50字才算有效话题
+          if (content.length >= 50) {
+            // 至少50字才算有效话题
             const categorySuggestion = buildCategorySuggestion(
               currentTopic.rawCategory,
               currentTopic.title,
@@ -288,7 +312,7 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
         currentTopic = {
           title,
           rawCategory,
-          content: lines.length > 1 ? [lines.slice(1).join('\n').trim()] : []
+          content: lines.length > 1 ? [lines.slice(1).join('\n').trim()] : [],
         };
       } else if (currentTopic) {
         // 添加到当前话题的内容
@@ -303,28 +327,30 @@ export function parseReportMarkdown(markdown: string): ParsedTopic[] {
     if (currentTopic && currentTopic.content.length > 0) {
       const content = currentTopic.content.join('\n\n').trim();
       if (content.length >= 50) {
-      const categorySuggestion = buildCategorySuggestion(
-        currentTopic.rawCategory,
-        currentTopic.title,
-        content
-      );
+        const categorySuggestion = buildCategorySuggestion(
+          currentTopic.rawCategory,
+          currentTopic.title,
+          content
+        );
 
-      topics.push({
-        id: generateId(),
-        title: currentTopic.title,
-        content,
-        rawCategory: currentTopic.rawCategory,
-        suggestedSlug: categorySuggestion.slug,
-        suggestedName: categorySuggestion.name,
-        confidence: categorySuggestion.confidence,
-      });
+        topics.push({
+          id: generateId(),
+          title: currentTopic.title,
+          content,
+          rawCategory: currentTopic.rawCategory,
+          suggestedSlug: categorySuggestion.slug,
+          suggestedName: categorySuggestion.name,
+          confidence: categorySuggestion.confidence,
+        });
+      }
     }
-  }
   }
 
   console.log(`[Parser] 共解析出 ${topics.length} 个话题`);
   topics.forEach((topic, index) => {
-    console.log(`[Parser] 话题${index + 1}: ${topic.title} (${topic.suggestedName})`);
+    console.log(
+      `[Parser] 话题${index + 1}: ${topic.title} (${topic.suggestedName})`
+    );
   });
 
   return topics;
@@ -348,7 +374,7 @@ description: ${metadata.description}
 date: "${metadata.date}"
 author: AI产品出海社群
 published: true
-tags: [${metadata.tags.map(t => `"${t}"`).join(', ')}]
+tags: [${metadata.tags.map((t) => `"${t}"`).join(', ')}]
 ---
 
 ${markdown}
@@ -373,9 +399,10 @@ export function generateKnowledgeMDX(
   categoryName: string
 ): string {
   const safeTitle = normalizeTitle(topic.title);
-  const tags = topic.tags && topic.tags.length > 0
-    ? `[${topic.tags.map(t => `"${t}"`).join(', ')}]`
-    : '[]';
+  const tags =
+    topic.tags && topic.tags.length > 0
+      ? `[${topic.tags.map((t) => `"${t}"`).join(', ')}]`
+      : '[]';
 
   return `---
 title: ${safeTitle}
@@ -403,10 +430,7 @@ ${topic.content}
 /**
  * 生成知识库文件名
  */
-export function generateKnowledgeFileName(
-  date: string,
-  title: string
-): string {
+export function generateKnowledgeFileName(date: string, title: string): string {
   const dateSlug = date;
   const titleSlug = slugify(normalizeTitle(title));
   // 限制标题长度，避免文件名过长

@@ -19,7 +19,10 @@ function parseArgs() {
   return args;
 }
 
-function parseFrontmatter(text: string): { fm: Record<string, string>; body: string } {
+function parseFrontmatter(text: string): {
+  fm: Record<string, string>;
+  body: string;
+} {
   const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!m) return { fm: {}, body: text };
   const fmLines = m[1].split('\n');
@@ -41,7 +44,11 @@ function knowledgeUrlToFilePath(url: string) {
   const baseDir = path.join(process.cwd(), 'content/knowledge', category);
   const cand1 = path.join(baseDir, `${slug}.mdx`);
   const cand2 = path.join(baseDir, `${slug}.zh.mdx`);
-  const filePath = fileExistsSync(cand1) ? cand1 : fileExistsSync(cand2) ? cand2 : cand2;
+  const filePath = fileExistsSync(cand1)
+    ? cand1
+    : fileExistsSync(cand2)
+      ? cand2
+      : cand2;
   return { category, slug, filePath, baseDir };
 }
 
@@ -57,7 +64,9 @@ function fileExistsSync(p: string) {
 async function main() {
   const { from, to } = parseArgs();
   if (!from || !to) {
-    console.error('Usage: --from=<category/filename> --to=/knowledge/<category>/<slug>');
+    console.error(
+      'Usage: --from=<category/filename> --to=/knowledge/<category>/<slug>'
+    );
     process.exit(1);
   }
   const sourcePath = path.join(process.cwd(), 'content/knowledge', from);
@@ -83,7 +92,8 @@ async function main() {
   const date =
     (fm.sourceDate || fm.date || '').replace(/"/g, '') ||
     // fallback parse from filename prefix
-    (path.basename(sourcePath).match(/^(\d{4}-\d{2}-\d{2})-/)?.[1] ?? '未知日期');
+    (path.basename(sourcePath).match(/^(\d{4}-\d{2}-\d{2})-/)?.[1] ??
+      '未知日期');
 
   // force concise title <= 10
   let t = normalizeTitle(oldTitle);
@@ -100,7 +110,12 @@ async function main() {
   // remove source file and update meta.json in its category
   await fs.unlink(sourcePath);
   const srcCategory = from.split('/')[0];
-  const metaPath = path.join(process.cwd(), 'content/knowledge', srcCategory, 'meta.json');
+  const metaPath = path.join(
+    process.cwd(),
+    'content/knowledge',
+    srcCategory,
+    'meta.json'
+  );
   try {
     const metaText = await fs.readFile(metaPath, 'utf-8');
     const meta = JSON.parse(metaText);
@@ -119,4 +134,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

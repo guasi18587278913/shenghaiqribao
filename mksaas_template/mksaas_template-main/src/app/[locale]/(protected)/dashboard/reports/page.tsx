@@ -11,7 +11,9 @@ import Link from 'next/link';
 export default async function DailyReportsPage() {
   // Get all reports from MDX source
   const allReports = reportsSource.getPages();
-  const publishedReports = allReports.filter((report) => report.url !== '/reports');
+  const publishedReports = allReports.filter(
+    (report) => report.url !== '/reports'
+  );
   const totalCount = publishedReports.length;
 
   const breadcrumbs = [

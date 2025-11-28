@@ -1,12 +1,13 @@
 import { XTwitterIcon } from '@/components/icons/x';
 import { ModeSwitcher } from '@/components/layout/mode-switcher';
+import { SearchHighlight } from '@/components/search/search-highlight';
 import { websiteConfig } from '@/config/website';
 import { docsI18nConfig } from '@/lib/docs/i18n';
 import { knowledgeSource, reportsSource } from '@/lib/source';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import type { Locale } from 'next-intl';
-import type { ReactNode } from 'react';
+import { type ReactNode, Suspense } from 'react';
 
 import '@/styles/mdx.css';
 import 'fumadocs-ui/style.css';
@@ -30,11 +31,14 @@ export default async function SharedDocsLayout({
 
   // 合并导航树: 日报时间线 + 知识库分类
   const reportsTree = reportsSource.pageTree[locale] || reportsSource.pageTree;
-  const knowledgeTree = knowledgeSource.pageTree[locale] || knowledgeSource.pageTree;
+  const knowledgeTree =
+    knowledgeSource.pageTree[locale] || knowledgeSource.pageTree;
 
   // 创建合并的导航树
   const mergedTree = {
-    ...(typeof reportsTree === 'object' && reportsTree !== null ? reportsTree : {}),
+    ...(typeof reportsTree === 'object' && reportsTree !== null
+      ? reportsTree
+      : {}),
     name: 'Docs',
     children: [
       // 添加日报分隔符
@@ -43,14 +47,24 @@ export default async function SharedDocsLayout({
         name: '📰 日报',
       },
       // 日报页面列表
-      ...(reportsTree && typeof reportsTree === 'object' && 'children' in reportsTree && Array.isArray(reportsTree.children) ? reportsTree.children : []),
+      ...(reportsTree &&
+      typeof reportsTree === 'object' &&
+      'children' in reportsTree &&
+      Array.isArray(reportsTree.children)
+        ? reportsTree.children
+        : []),
       // 添加知识分类分隔符
       {
         type: 'separator' as const,
         name: '📚 知识分类',
       },
       // 知识库分类列表
-      ...(knowledgeTree && typeof knowledgeTree === 'object' && 'children' in knowledgeTree && Array.isArray(knowledgeTree.children) ? knowledgeTree.children : []),
+      ...(knowledgeTree &&
+      typeof knowledgeTree === 'object' &&
+      'children' in knowledgeTree &&
+      Array.isArray(knowledgeTree.children)
+        ? knowledgeTree.children
+        : []),
     ],
   };
 
@@ -81,10 +95,10 @@ export default async function SharedDocsLayout({
   };
 
   return (
-    <DocsLayout
-      tree={mergedTree}
-      {...docsOptions}
-    >
+    <DocsLayout tree={mergedTree} {...docsOptions}>
+      <Suspense fallback={null}>
+        <SearchHighlight />
+      </Suspense>
       {children}
     </DocsLayout>
   );

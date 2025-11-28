@@ -10,8 +10,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import process from 'process';
 import {
-  suggestCategoryByKeywords,
   STATIC_CATEGORIES,
+  suggestCategoryByKeywords,
 } from '../src/config/knowledge-categories';
 
 const BASE = path.join(process.cwd(), 'content', 'knowledge');
@@ -67,7 +67,12 @@ async function main() {
   const dirs = await fs.readdir(BASE, { withFileTypes: true });
   const cats = dirs.filter((d) => d.isDirectory()).map((d) => d.name);
 
-  const moves: { fromCat: string; toCat: string; file: string; confidence: number }[] = [];
+  const moves: {
+    fromCat: string;
+    toCat: string;
+    file: string;
+    confidence: number;
+  }[] = [];
 
   for (const c of cats) {
     const catDir = path.join(BASE, c);
@@ -77,7 +82,9 @@ async function main() {
       const raw = await fs.readFile(p, 'utf-8');
       const { fm, body } = parseFM(raw);
       const title = (fm.title || path.basename(f, '.mdx')).toString();
-      const { category, confidence } = suggestCategoryByKeywords(`${title}\n${body.slice(0, 800)}`);
+      const { category, confidence } = suggestCategoryByKeywords(
+        `${title}\n${body.slice(0, 800)}`
+      );
       if (category && category.slug !== c && confidence >= min) {
         moves.push({ fromCat: c, toCat: category.slug, file: f, confidence });
       }
@@ -87,7 +94,9 @@ async function main() {
   console.log(`Relocate (min=${min}) Mode: ${write ? 'WRITE' : 'DRY'}`);
   console.log(`Candidates: ${moves.length}`);
   for (const m of moves.sort((a, b) => b.confidence - a.confidence)) {
-    console.log(` - ${m.fromCat}/${m.file}  -> ${m.toCat}  (${m.confidence.toFixed(2)})`);
+    console.log(
+      ` - ${m.fromCat}/${m.file}  -> ${m.toCat}  (${m.confidence.toFixed(2)})`
+    );
   }
 
   if (!write || moves.length === 0) return;
@@ -126,7 +135,9 @@ async function main() {
     const dstMeta = await readMeta(dstDir);
     const srcPage = baseName;
     const dstPage = dstName.replace(/\.zh?\.mdx$/, '');
-    srcMeta.meta.pages = (srcMeta.meta.pages || []).filter((p: string) => p !== srcPage);
+    srcMeta.meta.pages = (srcMeta.meta.pages || []).filter(
+      (p: string) => p !== srcPage
+    );
     if (!dstMeta.meta.pages) dstMeta.meta.pages = [];
     if (!dstMeta.meta.pages.includes(dstPage)) dstMeta.meta.pages.push(dstPage);
     // ensure title/description/icon for dst

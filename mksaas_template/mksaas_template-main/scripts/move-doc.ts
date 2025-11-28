@@ -80,7 +80,9 @@ async function main() {
 
   const fromMeta = await readMeta(fromDir);
   const toMeta = await readMeta(toDir);
-  fromMeta.meta.pages = (fromMeta.meta.pages || []).filter((p: string) => p !== src.page);
+  fromMeta.meta.pages = (fromMeta.meta.pages || []).filter(
+    (p: string) => p !== src.page
+  );
   const destPage = destName.replace(/\.zh?\.mdx$/, '');
   if (!toMeta.meta.pages) toMeta.meta.pages = [];
   if (!toMeta.meta.pages.includes(destPage)) {
@@ -94,8 +96,16 @@ async function main() {
       toMeta.meta.icon = catInfo.icon;
     }
   }
-  await fs.writeFile(fromMeta.path, JSON.stringify(fromMeta.meta, null, 2), 'utf-8');
-  await fs.writeFile(toMeta.path, JSON.stringify(toMeta.meta, null, 2), 'utf-8');
+  await fs.writeFile(
+    fromMeta.path,
+    JSON.stringify(fromMeta.meta, null, 2),
+    'utf-8'
+  );
+  await fs.writeFile(
+    toMeta.path,
+    JSON.stringify(toMeta.meta, null, 2),
+    'utf-8'
+  );
 
   console.log(`Moved ${from}/${src.page} -> ${to}/${destPage}`);
 }
@@ -104,4 +114,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

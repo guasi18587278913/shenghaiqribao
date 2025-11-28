@@ -6,13 +6,13 @@
  * 生成日报和知识库文件的 Server Actions
  */
 
-import {
-  generateKnowledgeMDX,
-  generateKnowledgeFileName,
-  generateReportMDX,
-} from '@/lib/report-parser';
 import { promises as fs } from 'fs';
 import path from 'path';
+import {
+  generateKnowledgeFileName,
+  generateKnowledgeMDX,
+  generateReportMDX,
+} from '@/lib/report-parser';
 import { normalizeTitle } from '@/lib/report-parser';
 
 /**
@@ -41,7 +41,7 @@ function preprocessMarkdownForReport(input: string): string {
   const tipRegex = new RegExp(
     // 行首可选列表符号
     String.raw`(^|\n)([ \t]*[-*+]\s*)?(${tipLabels.join('|')})[:：]\s*`,
-    'g',
+    'g'
   );
   md = md.replace(tipRegex, (_m, pfx, listPrefix = '', label) => {
     const prefix = pfx || '\n';
@@ -52,7 +52,7 @@ function preprocessMarkdownForReport(input: string): string {
   //    结构： ---\n标题行\n若干行...  ---\n下一节
   md = md.replace(
     /\n-{3,}\s*\n([^\n]{2,80})\n/g,
-    (m, title) => `\n\n## ${title.trim()}\n`,
+    (m, title) => `\n\n## ${title.trim()}\n`
   );
 
   // 4) 段落 + 列表 的段落视为节标题
@@ -63,7 +63,7 @@ function preprocessMarkdownForReport(input: string): string {
       // 已经是标题则不处理
       if (/^\s*#{1,6}\s/.test(heading)) return `${p1}${heading}\n${listPrefix}`;
       return `${p1}## ${heading.trim()}\n${listPrefix}`;
-    },
+    }
   );
 
   return md;
@@ -103,7 +103,11 @@ export async function generateReportFiles(data: {
     const contentDir = path.join(process.cwd(), 'content');
 
     // 1. 生成日报 MDX
-    const reportPath = path.join(contentDir, 'reports', `${data.metadata.date}.mdx`);
+    const reportPath = path.join(
+      contentDir,
+      'reports',
+      `${data.metadata.date}.mdx`
+    );
     const reportContent = generateReportMDX(
       preprocessMarkdownForReport(data.markdown),
       data.metadata
@@ -135,7 +139,10 @@ export async function generateReportFiles(data: {
             continue;
           } else {
             // 合并失败则回退为创建新文档
-            console.warn(`Merge failed for ${topic.title}, fallback to new file:`, merged.error);
+            console.warn(
+              `Merge failed for ${topic.title}, fallback to new file:`,
+              merged.error
+            );
           }
         }
 
@@ -147,7 +154,10 @@ export async function generateReportFiles(data: {
             topic.content,
             index
           );
-          if (candidates.length > 0 && candidates[0].score >= AUTO_MERGE_THRESHOLD) {
+          if (
+            candidates.length > 0 &&
+            candidates[0].score >= AUTO_MERGE_THRESHOLD
+          ) {
             const merged = await mergeIntoExistingKnowledge(candidates[0].url, {
               title: topic.title,
               content: topic.content,
@@ -187,7 +197,10 @@ export async function generateReportFiles(data: {
         // 更新分类的 meta.json
         await updateKnowledgeMeta(topic.categorySlug, fileName);
       } catch (error) {
-        console.error(`Failed to generate knowledge file for ${topic.title}:`, error);
+        console.error(
+          `Failed to generate knowledge file for ${topic.title}:`,
+          error
+        );
         results.errors.push(`话题 "${topic.title}" 生成失败`);
       }
     }
@@ -218,7 +231,10 @@ async function readKnowledgeIndex(): Promise<
       if (e.isDirectory()) {
         if (e.name === 'meta.json') continue;
         await walk(path.join(dir, e.name), category ?? e.name);
-      } else if (e.isFile() && (e.name.endsWith('.mdx') || e.name.endsWith('.zh.mdx'))) {
+      } else if (
+        e.isFile() &&
+        (e.name.endsWith('.mdx') || e.name.endsWith('.zh.mdx'))
+      ) {
         const filePath = path.join(dir, e.name);
         try {
           const raw = await fs.readFile(filePath, 'utf-8');
@@ -253,14 +269,8 @@ async function readKnowledgeIndex(): Promise<
 
 function tokenize(s: string): Set<string> {
   // Keep letters, numbers and CJK; replace others with space
-  const cleaned = s
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}\u4e00-\u9fff]+/gu, ' ');
-  return new Set(
-    cleaned
-      .split(/\s+/)
-      .filter((w) => w && w.length >= 2),
-  );
+  const cleaned = s.toLowerCase().replace(/[^\p{L}\p{N}\u4e00-\u9fff]+/gu, ' ');
+  return new Set(cleaned.split(/\s+/).filter((w) => w && w.length >= 2));
 }
 
 function jaccard(a: Set<string>, b: Set<string>): number {
@@ -274,7 +284,7 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 async function findRelatedCandidates(
   title: string,
   content: string,
-  index: { title: string; url: string; file: string }[],
+  index: { title: string; url: string; file: string }[]
 ) {
   const tokens = tokenize(`${title} ${content.slice(0, 400)}`);
   const scored = index
@@ -328,9 +338,9 @@ async function mergeIntoExistingKnowledge(
   }
 }
 
-function knowledgeUrlToFilePath(url: string):
-  | { category: string; slug: string; filePath: string }
-  | null {
+function knowledgeUrlToFilePath(
+  url: string
+): { category: string; slug: string; filePath: string } | null {
   try {
     const u = new URL(url, 'http://localhost');
     const parts = u.pathname.split('/').filter(Boolean);
@@ -341,7 +351,11 @@ function knowledgeUrlToFilePath(url: string):
     const baseDir = path.join(process.cwd(), 'content/knowledge', category);
     const cand1 = path.join(baseDir, `${slug}.mdx`);
     const cand2 = path.join(baseDir, `${slug}.zh.mdx`);
-    const filePath = pathExistsSync(cand1) ? cand1 : pathExistsSync(cand2) ? cand2 : cand2;
+    const filePath = pathExistsSync(cand1)
+      ? cand1
+      : pathExistsSync(cand2)
+        ? cand2
+        : cand2;
     return { category, slug, filePath };
   } catch {
     return null;
@@ -418,7 +432,10 @@ async function updateKnowledgeMeta(categorySlug: string, fileName: string) {
 
     await fs.writeFile(metaPath, JSON.stringify(meta, null, 2), 'utf-8');
   } catch (error) {
-    console.error(`Failed to update knowledge meta for ${categorySlug}:`, error);
+    console.error(
+      `Failed to update knowledge meta for ${categorySlug}:`,
+      error
+    );
     // 如果 meta.json 不存在，创建一个新的
     const meta = {
       pages: [fileName.replace(/\.zh\.mdx$/, '')],

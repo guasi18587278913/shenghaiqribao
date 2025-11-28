@@ -24,27 +24,32 @@ function preprocess(input: string): string {
   const tipLabels = ['结论', '注意', '建议', '步骤'];
   const tipRegex = new RegExp(
     String.raw`(^|\n)([ \t]*[-*+]\s*)?(${tipLabels.join('|')})[:：]\s*`,
-    'g',
+    'g'
   );
   md = md.replace(tipRegex, (_m, pfx, listPrefix = '', label) => {
     const prefix = pfx || '\n';
     return `${prefix}${listPrefix || ''}<mark>**${label}：**</mark> `;
   });
   // '--- + heading' → '## heading'
-  md = md.replace(/\n-{3,}\s*\n([^\n]{2,80})\n/g, (_m, title) => `\n\n## ${String(title).trim()}\n`);
+  md = md.replace(
+    /\n-{3,}\s*\n([^\n]{2,80})\n/g,
+    (_m, title) => `\n\n## ${String(title).trim()}\n`
+  );
   // 'paragraph + list' → '## paragraph'
   md = md.replace(
     /(^|\n)([^\n]{2,80})\n([ \t]*[-*+]\s+)/g,
     (_m, p1, heading, listPrefix) => {
       if (/^\s*#{1,6}\s/.test(heading)) return `${p1}${heading}\n${listPrefix}`;
       return `${p1}## ${String(heading).trim()}\n${listPrefix}`;
-    },
+    }
   );
   return md;
 }
 
 async function main() {
-  const files = (await fs.readdir(REPORTS_DIR)).filter((f) => f.endsWith('.mdx'));
+  const files = (await fs.readdir(REPORTS_DIR)).filter((f) =>
+    f.endsWith('.mdx')
+  );
   const changes: { file: string; before: number; after: number }[] = [];
 
   for (const f of files) {
@@ -57,7 +62,9 @@ async function main() {
     }
   }
 
-  console.log(`Normalize reports: ${WRITE ? 'WRITE' : 'DRY'} changed=${changes.length}/${files.length}`);
+  console.log(
+    `Normalize reports: ${WRITE ? 'WRITE' : 'DRY'} changed=${changes.length}/${files.length}`
+  );
   for (const c of changes.slice(0, 20)) {
     console.log(` - ${c.file} (${c.before} -> ${c.after})`);
   }

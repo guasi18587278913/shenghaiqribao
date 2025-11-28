@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  STATIC_CATEGORIES,
   type KnowledgeCategory,
+  STATIC_CATEGORIES,
 } from '@/config/knowledge-categories';
 import type { ParsedTopic } from '@/lib/report-parser';
 import {
@@ -41,11 +41,11 @@ interface PreviewData {
 }
 
 interface ApprovedTopic extends ParsedTopic {
-  addToKnowledge: boolean;  // 是否加入知识库
-  selectedSlug: string;       // 用户选择的分类slug
-  selectedName: string;       // 用户选择的分类名称
-  isExpanded: boolean;        // 是否展开详情
-  suggestedTitle?: string;    // AI提炼标题
+  addToKnowledge: boolean; // 是否加入知识库
+  selectedSlug: string; // 用户选择的分类slug
+  selectedName: string; // 用户选择的分类名称
+  isExpanded: boolean; // 是否展开详情
+  suggestedTitle?: string; // AI提炼标题
   mergeSuggestions?: { title: string; url: string; score: number }[]; // 合并建议
   mergeTargetUrl?: string; // 合并目标URL
 }
@@ -173,7 +173,9 @@ export function ReportPreviewClient() {
             const applySuggested =
               suggestedTitle.length > 0 &&
               suggestedTitle.length <= Math.max(12, topic.title.length - 2);
-            const suggestions = Array.isArray(e.related) ? e.related.slice(0, 3) : [];
+            const suggestions = Array.isArray(e.related)
+              ? e.related.slice(0, 3)
+              : [];
             const autoMergeTarget =
               suggestions.length > 0 && suggestions[0].score >= 0.4
                 ? suggestions[0].url
@@ -196,10 +198,7 @@ export function ReportPreviewClient() {
   };
 
   // 更新话题
-  const updateTopic = (
-    index: number,
-    updates: Partial<ApprovedTopic>
-  ) => {
+  const updateTopic = (index: number, updates: Partial<ApprovedTopic>) => {
     setApprovedTopics((prev) => {
       const newTopics = [...prev];
       newTopics[index] = { ...newTopics[index], ...updates };
@@ -349,10 +348,7 @@ export function ReportPreviewClient() {
 
         <div className="space-y-4">
           {approvedTopics.map((topic, index) => (
-            <div
-              key={topic.id}
-              className="rounded-lg border bg-muted/30 p-4"
-            >
+            <div key={topic.id} className="rounded-lg border bg-muted/30 p-4">
               {/* 话题头部 */}
               <div className="flex items-start gap-4">
                 <Checkbox
@@ -369,7 +365,10 @@ export function ReportPreviewClient() {
                 <div className="flex-1 space-y-3">
                   {/* 标题 */}
                   <div>
-                    <Label htmlFor={`topic-${index}`} className="text-base font-semibold">
+                    <Label
+                      htmlFor={`topic-${index}`}
+                      className="text-base font-semibold"
+                    >
                       {topic.title}
                     </Label>
                   </div>
@@ -377,7 +376,10 @@ export function ReportPreviewClient() {
                   {/* 建议标题 */}
                   {topic.suggestedTitle && (
                     <div className="text-sm text-muted-foreground">
-                      建议标题：<span className="font-medium">{topic.suggestedTitle}</span>
+                      建议标题：
+                      <span className="font-medium">
+                        {topic.suggestedTitle}
+                      </span>
                       <Button
                         variant="link"
                         className="h-auto px-2 py-0 align-baseline"
@@ -416,49 +418,56 @@ export function ReportPreviewClient() {
                   )}
 
                   {/* 可能相关的知识条目 */}
-                  {topic.mergeSuggestions && topic.mergeSuggestions.length > 0 && (
-                    <div className="text-xs text-muted-foreground">
-                      可能相关：{' '}
-                      {topic.mergeSuggestions.map((s, i) => (
-                        <a
-                          key={i}
-                          href={s.url}
-                          className="underline hover:text-foreground mr-2"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {s.title}（{Math.round(s.score * 100)}%）
-                        </a>
-                      ))}
-                    </div>
-                  )}
+                  {topic.mergeSuggestions &&
+                    topic.mergeSuggestions.length > 0 && (
+                      <div className="text-xs text-muted-foreground">
+                        可能相关：{' '}
+                        {topic.mergeSuggestions.map((s, i) => (
+                          <a
+                            key={i}
+                            href={s.url}
+                            className="underline hover:text-foreground mr-2"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {s.title}（{Math.round(s.score * 100)}%）
+                          </a>
+                        ))}
+                      </div>
+                    )}
 
                   {/* 合并目标选择 */}
-                  {topic.mergeSuggestions && topic.mergeSuggestions.length > 0 && (
-                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
-                      <Label className="text-sm text-muted-foreground">
-                        合并到：
-                      </Label>
-                      <Select
-                        value={topic.mergeTargetUrl || 'none'}
-                        onValueChange={(value) =>
-                          updateTopic(index, { mergeTargetUrl: value === 'none' ? undefined : value })
-                        }
-                      >
-                        <SelectTrigger className="w-full md:w-[420px]">
-                          <SelectValue placeholder="不合并（新建文档）" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">不合并（新建文档）</SelectItem>
-                          {topic.mergeSuggestions.map((s, i) => (
-                            <SelectItem key={i} value={s.url}>
-                              {s.title}（{Math.round(s.score * 100)}%）
+                  {topic.mergeSuggestions &&
+                    topic.mergeSuggestions.length > 0 && (
+                      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
+                        <Label className="text-sm text-muted-foreground">
+                          合并到：
+                        </Label>
+                        <Select
+                          value={topic.mergeTargetUrl || 'none'}
+                          onValueChange={(value) =>
+                            updateTopic(index, {
+                              mergeTargetUrl:
+                                value === 'none' ? undefined : value,
+                            })
+                          }
+                        >
+                          <SelectTrigger className="w-full md:w-[420px]">
+                            <SelectValue placeholder="不合并（新建文档）" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">
+                              不合并（新建文档）
                             </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
+                            {topic.mergeSuggestions.map((s, i) => (
+                              <SelectItem key={i} value={s.url}>
+                                {s.title}（{Math.round(s.score * 100)}%）
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
 
                   {/* 分类选择 */}
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
@@ -541,15 +550,13 @@ export function ReportPreviewClient() {
           📊 将生成以下文件
         </h3>
         <ul className="space-y-2 text-sm text-green-800 dark:text-green-200">
-          <li>
-            ✅ content/reports/{previewData.metadata.date}.mdx
-          </li>
+          <li>✅ content/reports/{previewData.metadata.date}.mdx</li>
           {approvedTopics
             .filter((t) => t.addToKnowledge)
             .map((topic, index) => (
               <li key={index}>
-                ✅ content/knowledge/{topic.selectedSlug}/{previewData.metadata.date}-
-                {topic.title.slice(0, 20)}.zh.mdx
+                ✅ content/knowledge/{topic.selectedSlug}/
+                {previewData.metadata.date}-{topic.title.slice(0, 20)}.zh.mdx
               </li>
             ))}
         </ul>

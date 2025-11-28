@@ -7,7 +7,7 @@
 import 'dotenv/config';
 import { db } from '@/db';
 import { dailyReport } from '@/db/schema';
-import { like, eq } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 
 async function cleanReportTitleDates() {
   console.log('🚀 开始清理日报标题中的日期...\n');
@@ -54,7 +54,7 @@ async function cleanReportTitleDates() {
         .update(dailyReport)
         .set({
           title: newTitle,
-          updatedAt: new Date()
+          updatedAt: new Date(),
         })
         .where(eq(dailyReport.id, report.id));
 
@@ -77,7 +77,9 @@ async function cleanReportTitleDates() {
     .where(like(dailyReport.title, '%AI产品出海群聊精华%'));
 
   for (const report of finalReports) {
-    console.log(`  - ${report.date.toISOString().split('T')[0]}: "${report.title}"`);
+    console.log(
+      `  - ${report.date.toISOString().split('T')[0]}: "${report.title}"`
+    );
   }
 }
 

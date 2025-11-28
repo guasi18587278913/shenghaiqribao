@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: KnowledgePageProps) {
   const language = locale as string;
 
   // Decode URL-encoded slugs (for Chinese characters)
-  const decodedSlug = slug?.map(s => decodeURIComponent(s));
+  const decodedSlug = slug?.map((s) => decodeURIComponent(s));
 
   const page = knowledgeSource.getPage(decodedSlug, language);
 
@@ -72,7 +72,7 @@ export default async function KnowledgePage({ params }: KnowledgePageProps) {
   const language = locale as string;
 
   // Decode URL-encoded slugs (for Chinese characters)
-  const decodedSlug = slug?.map(s => decodeURIComponent(s));
+  const decodedSlug = slug?.map((s) => decodeURIComponent(s));
 
   const page = knowledgeSource.getPage(decodedSlug, language);
 

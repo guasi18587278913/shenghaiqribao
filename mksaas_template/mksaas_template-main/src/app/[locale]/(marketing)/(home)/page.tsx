@@ -1,6 +1,6 @@
 import { reportsSource } from '@/lib/source';
-import { redirect } from 'next/navigation';
 import type { Locale } from 'next-intl';
+import { redirect } from 'next/navigation';
 
 /**
  * Home Page - Redirects to the latest daily report (MDX)

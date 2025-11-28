@@ -12,8 +12,8 @@ import defaultMdxComponents from 'fumadocs-ui/mdx';
 import * as LucideIcons from 'lucide-react';
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentProps, FC, ReactNode } from 'react';
-import { XEmbedClient } from './xembed';
 import { Children, Fragment } from 'react';
+import { XEmbedClient } from './xembed';
 
 /**
  * Enhanced MDX Content component that includes commonly used MDX components

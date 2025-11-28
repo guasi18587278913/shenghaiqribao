@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { getPublishedReports } from '@/actions/daily-report';
 import { DailyReportCard } from '@/components/daily-report/daily-report-card';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 /**
  * 测试页面：数据库版本 - 卡片列表风格
@@ -23,8 +23,19 @@ export default async function TestDbPage() {
           <div className="mb-8 rounded-lg border-2 border-blue-500 bg-blue-50 dark:bg-blue-950/30 p-6">
             <div className="flex items-start gap-4">
               <div className="rounded-full bg-blue-500 p-2 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                  />
                 </svg>
               </div>
               <div className="flex-1">
@@ -76,7 +87,7 @@ export default async function TestDbPage() {
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {reports.map(report => (
+              {reports.map((report) => (
                 <DailyReportCard key={report.id} report={report} />
               ))}
             </div>
@@ -85,14 +96,10 @@ export default async function TestDbPage() {
           {/* 对比链接 */}
           <div className="mt-12 flex justify-center gap-4">
             <Button asChild variant="outline" size="lg">
-              <Link href="/zh/test-mdx">
-                查看 MDX 文档版本 →
-              </Link>
+              <Link href="/zh/test-mdx">查看 MDX 文档版本 →</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/zh/reports">
-                返回正式页面
-              </Link>
+              <Link href="/zh/reports">返回正式页面</Link>
             </Button>
           </div>
         </div>

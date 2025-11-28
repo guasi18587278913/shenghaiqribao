@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, Share2, ArrowUp, Search } from 'lucide-react';
+import { ArrowUp, Menu, Search, Share2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function MobileBottomBar() {
@@ -34,7 +34,15 @@ export function MobileBottomBar() {
         </button>
         <div className="w-px h-4 bg-border" />
         */}
-        <button className="p-2 hover:bg-muted rounded-full" aria-label="Search" onClick={() => document.querySelector<HTMLElement>('button[aria-label="Search"]')?.click()}>
+        <button
+          className="p-2 hover:bg-muted rounded-full"
+          aria-label="Search"
+          onClick={() =>
+            document
+              .querySelector<HTMLElement>('button[aria-label="Search"]')
+              ?.click()
+          }
+        >
           <Search className="h-5 w-5" />
         </button>
         <div className="w-px h-4 bg-border" />

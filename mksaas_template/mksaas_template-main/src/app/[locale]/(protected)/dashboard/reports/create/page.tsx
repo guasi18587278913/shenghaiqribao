@@ -2,7 +2,6 @@ import { DashboardHeader } from '@/components/dashboard/dashboard-header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -10,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 /**
  * Create Daily Report Page
@@ -103,9 +103,7 @@ export default function CreateReportPage() {
                             <SelectItem value="network-proxy">
                               网络代理
                             </SelectItem>
-                            <SelectItem value="tech-tools">
-                              技术工具
-                            </SelectItem>
+                            <SelectItem value="tech-tools">技术工具</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>

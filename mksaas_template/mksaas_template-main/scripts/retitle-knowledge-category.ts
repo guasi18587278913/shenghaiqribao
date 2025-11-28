@@ -29,7 +29,7 @@ const slug = (args.get('--slug') as string) || '';
 const DRY_RUN = !args.has('--write');
 const MAX_LEN = (() => {
   const v = args.get('--max');
-  const n = typeof v === 'string' ? parseInt(v, 10) : NaN;
+  const n = typeof v === 'string' ? Number.parseInt(v, 10) : Number.NaN;
   return Number.isFinite(n) && n > 0 ? n : 10;
 })();
 
@@ -51,7 +51,10 @@ function isGenericTitle(title: string): boolean {
   return patterns.some((re) => re.test(t));
 }
 
-function parseFrontmatter(text: string): { fm: Record<string, string>; body: string } {
+function parseFrontmatter(text: string): {
+  fm: Record<string, string>;
+  body: string;
+} {
   const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!m) return { fm: {}, body: text };
   const fmLines = m[1].split('\n');
@@ -70,23 +73,25 @@ function stringifyFrontmatter(fm: Record<string, string>) {
 
 function fallbackFromBody(body: string): string {
   // Take first meaningful line as title candidate
-  const lines = body
-    .split('\n')
-    .map((l) => l.trim());
+  const lines = body.split('\n').map((l) => l.trim());
   const candidates = lines.filter(
     (l) =>
       l &&
       !l.startsWith('>') &&
       !l.startsWith('---') &&
       !l.startsWith('#') &&
-      !/本文摘自|\[更多|\[查看原日报/.test(l),
+      !/本文摘自|\[更多|\[查看原日报/.test(l)
   );
   if (candidates.length === 0) return '';
   // Prefer bullet content
-  let pick =
+  const pick =
     candidates.find((l) => l.startsWith('- ') || l.startsWith('• ')) ||
     candidates[0];
-  let s = pick.replace(/^[•\-]\s*/, '').replace(/[*`_~]/g, '').replace(/\s+/g, ' ').trim();
+  let s = pick
+    .replace(/^[•\-]\s*/, '')
+    .replace(/[*`_~]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
   s = normalizeTitle(s);
   if (s.length > MAX_LEN) s = s.slice(0, MAX_LEN);
   return s;
@@ -121,10 +126,7 @@ async function main() {
       // ignore
     }
     // If AI suggestion contains generic words, prefer fallback
-    if (
-      !suggested ||
-      /本文摘自|日报|今日要点|小结|总结/.test(suggested)
-    ) {
+    if (!suggested || /本文摘自|日报|今日要点|小结|总结/.test(suggested)) {
       const fb = fallbackFromBody(body);
       suggested = fb || normalizeTitle(oldTitle);
     }

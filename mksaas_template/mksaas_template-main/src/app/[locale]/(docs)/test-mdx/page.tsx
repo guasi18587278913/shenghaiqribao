@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { reportsSource } from '@/lib/source';
 import type { Locale } from 'next-intl';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface TestMdxPageProps {
   params: Promise<{
@@ -28,8 +28,19 @@ export default async function TestMdxPage({ params }: TestMdxPageProps) {
       <div className="mb-8 rounded-lg border-2 border-green-500 bg-green-50 dark:bg-green-950/30 p-6">
         <div className="flex items-start gap-4">
           <div className="rounded-full bg-green-500 p-2 text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
             </svg>
           </div>
           <div className="flex-1">
@@ -37,7 +48,8 @@ export default async function TestMdxPage({ params }: TestMdxPageProps) {
               MDX 文档版本 (Fumadocs)
             </h2>
             <p className="text-green-800 dark:text-green-200 mb-3">
-              这是从 MDX 文件读取的文档风格。特点是有左侧边栏树形导航，排版精美，适合长期内容沉淀。
+              这是从 MDX
+              文件读取的文档风格。特点是有左侧边栏树形导航，排版精美，适合长期内容沉淀。
             </p>
             <div className="flex flex-wrap gap-2 text-sm">
               <span className="rounded-md bg-green-100 dark:bg-green-900 px-2 py-1 text-green-900 dark:text-green-100">
@@ -91,7 +103,9 @@ export default async function TestMdxPage({ params }: TestMdxPageProps) {
                 )}
                 <div className="mt-2 flex gap-4 text-sm text-muted-foreground">
                   <span>{report.data.date}</span>
-                  {report.data.author && <span>作者: {report.data.author}</span>}
+                  {report.data.author && (
+                    <span>作者: {report.data.author}</span>
+                  )}
                 </div>
                 {report.data.tags && report.data.tags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -111,14 +125,10 @@ export default async function TestMdxPage({ params }: TestMdxPageProps) {
 
         <div className="not-prose mt-12 flex justify-center gap-4">
           <Button asChild variant="outline" size="lg">
-            <Link href="/zh/test-db">
-              ← 查看数据库卡片版本
-            </Link>
+            <Link href="/zh/test-db">← 查看数据库卡片版本</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/zh/reports">
-              返回正式页面
-            </Link>
+            <Link href="/zh/reports">返回正式页面</Link>
           </Button>
         </div>
       </article>

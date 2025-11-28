@@ -30,12 +30,15 @@ interface UnifiedSidebarProps {
 }
 
 // Map category names to Lucide icons
-const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  '出海经验': Globe,
-  '问答精选': Lightbulb,
-  '行业动态': TrendingUp,
-  '网络与代理': Network,
-  '技术工具': Briefcase,
+const CATEGORY_ICONS: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  出海经验: Globe,
+  问答精选: Lightbulb,
+  行业动态: TrendingUp,
+  网络与代理: Network,
+  技术工具: Briefcase,
   default: FileText,
 };
 
@@ -97,8 +100,8 @@ export function UnifiedSidebar({
             <Badge
               variant="secondary"
               className={cn(
-                "text-xs",
-                selectedCategory === null && "bg-background/80"
+                'text-xs',
+                selectedCategory === null && 'bg-background/80'
               )}
             >
               {totalCount}
@@ -139,8 +142,9 @@ export function UnifiedSidebar({
                       <Badge
                         variant="secondary"
                         className={cn(
-                          "text-xs ml-2",
-                          selectedCategory === category.slug && "bg-background/80"
+                          'text-xs ml-2',
+                          selectedCategory === category.slug &&
+                            'bg-background/80'
                         )}
                       >
                         {category.count}

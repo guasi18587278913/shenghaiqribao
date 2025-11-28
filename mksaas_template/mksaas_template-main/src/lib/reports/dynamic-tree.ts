@@ -1,5 +1,5 @@
 import { db } from '@/db';
-import { dailyReport, dailyTopic, categoryStats } from '@/db/schema';
+import { categoryStats, dailyReport, dailyTopic } from '@/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import type { PageTree } from 'fumadocs-core/server';
 import * as LucideIcons from 'lucide-react';
@@ -45,7 +45,9 @@ export const REPORT_CATEGORIES = [
 /**
  * 从数据库生成 Fumadocs PageTree
  */
-export async function generateReportsPageTree(locale: string = 'zh'): Promise<PageTree.Root> {
+export async function generateReportsPageTree(
+  locale = 'zh'
+): Promise<PageTree.Root> {
   // 获取所有已发布的日报
   const reports = await db.query.dailyReport.findMany({
     where: eq(dailyReport.status, 'published'),
@@ -60,8 +62,8 @@ export async function generateReportsPageTree(locale: string = 'zh'): Promise<Pa
   const categorizedReports: Record<string, typeof reports> = {};
 
   for (const category of REPORT_CATEGORIES) {
-    categorizedReports[category.slug] = reports.filter(report =>
-      report.topics.some(topic => topic.category === category.slug)
+    categorizedReports[category.slug] = reports.filter((report) =>
+      report.topics.some((topic) => topic.category === category.slug)
     );
   }
 
@@ -82,16 +84,17 @@ export async function generateReportsPageTree(locale: string = 'zh'): Promise<Pa
         name: '--- 分类 ---',
       },
       // 各个分类
-      ...REPORT_CATEGORIES.map(category => ({
+      ...REPORT_CATEGORIES.map((category) => ({
         type: 'folder' as const,
         name: category.title,
         icon: createIconElement(category.icon),
         defaultOpen: false,
-        children: categorizedReports[category.slug]?.slice(0, 20).map(report => ({
-          type: 'page' as const,
-          name: formatReportTitle(report),
-          url: `/reports/${report.id}`,
-        })) || [],
+        children:
+          categorizedReports[category.slug]?.slice(0, 20).map((report) => ({
+            type: 'page' as const,
+            name: formatReportTitle(report),
+            url: `/reports/${report.id}`,
+          })) || [],
       })),
     ],
   };
@@ -106,7 +109,7 @@ function formatReportTitle(report: typeof dailyReport.$inferSelect): string {
   const date = new Date(report.date);
   const dateStr = date.toLocaleDateString('zh-CN', {
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
   });
   return `${dateStr} - ${report.title}`;
 }
@@ -140,7 +143,7 @@ export async function getReportBreadcrumb(reportId: string) {
   }
 
   const category = REPORT_CATEGORIES.find(
-    c => c.slug === report.topics[0].category
+    (c) => c.slug === report.topics[0].category
   );
 
   return {

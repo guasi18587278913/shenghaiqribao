@@ -110,9 +110,13 @@ async function main() {
     }
   }
 
-  console.log(`Batch-merge generic: ${WRITE ? 'WRITE' : 'DRY'} planned merges=${plan.length}`);
+  console.log(
+    `Batch-merge generic: ${WRITE ? 'WRITE' : 'DRY'} planned merges=${plan.length}`
+  );
   for (const it of plan.slice(0, 50)) {
-    console.log(` - ${path.relative(BASE, it.file)} -> ${path.relative(BASE, it.mergeTo)}`);
+    console.log(
+      ` - ${path.relative(BASE, it.file)} -> ${path.relative(BASE, it.mergeTo)}`
+    );
   }
   if (!WRITE) {
     if (plan.length > 50) console.log(` ... (${plan.length - 50} more)`);
@@ -125,7 +129,8 @@ async function main() {
     const safeTitle = normalizeTitle((fm.title || '').toString());
     const date =
       (fm.sourceDate || fm.date || '').toString().replace(/"/g, '') ||
-      (path.basename(it.file).match(/^(\d{4}-\d{2}-\d{2})-/)?.[1] ?? '未知日期');
+      (path.basename(it.file).match(/^(\d{4}-\d{2}-\d{2})-/)?.[1] ??
+        '未知日期');
     // 10 字内小节标题
     let short = safeTitle;
     if (short.length > 10) short = short.slice(0, 10);
@@ -144,4 +149,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

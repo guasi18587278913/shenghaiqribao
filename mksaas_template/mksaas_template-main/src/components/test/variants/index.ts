@@ -6,19 +6,19 @@
  */
 
 export { SidebarECurrent } from './sidebar-e-current';
-export type { } from './sidebar-e-current';
+export type {} from './sidebar-e-current';
 
 export { SidebarAAllExpand } from './sidebar-a-all-expand';
-export type { } from './sidebar-a-all-expand';
+export type {} from './sidebar-a-all-expand';
 
 export { SidebarBNoExpand } from './sidebar-b-no-expand';
-export type { } from './sidebar-b-no-expand';
+export type {} from './sidebar-b-no-expand';
 
 export { SidebarCHoverPopup } from './sidebar-c-hover-popup';
-export type { } from './sidebar-c-hover-popup';
+export type {} from './sidebar-c-hover-popup';
 
 export { SidebarDAutoCollapse } from './sidebar-d-auto-collapse';
-export type { } from './sidebar-d-auto-collapse';
+export type {} from './sidebar-d-auto-collapse';
 
 /**
  * Sidebar Variants Comparison

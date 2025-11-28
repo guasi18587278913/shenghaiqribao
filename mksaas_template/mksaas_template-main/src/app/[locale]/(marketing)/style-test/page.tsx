@@ -12,7 +12,8 @@ export default function StyleTestPage() {
 
     // 检查主题变量
     const root = document.documentElement;
-    const currentTheme = getComputedStyle(root).getPropertyValue('--background');
+    const currentTheme =
+      getComputedStyle(root).getPropertyValue('--background');
     console.log('CSS --background variable:', currentTheme);
   }, []);
 
@@ -51,16 +52,22 @@ export default function StyleTestPage() {
           <h4>代码测试</h4>
           <p>内联代码 `const value = true` 应该显示特殊样式。</p>
 
-          <pre><code>{`// 代码块测试
+          <pre>
+            <code>{`// 代码块测试
 function test() {
   console.log("Hello World");
-}`}</code></pre>
+}`}</code>
+          </pre>
 
           <blockquote>
-            <p>这是一个引用块，用于测试引用样式的优化效果。引用的文字应该比普通文字更突出。</p>
+            <p>
+              这是一个引用块，用于测试引用样式的优化效果。引用的文字应该比普通文字更突出。
+            </p>
           </blockquote>
 
-          <p>这是一个 <a href="#">测试链接</a>，验证下划线 hover 效果。</p>
+          <p>
+            这是一个 <a href="#">测试链接</a>，验证下划线 hover 效果。
+          </p>
 
           <table>
             <thead>
@@ -95,33 +102,46 @@ function test() {
 
         <div className="space-y-4">
           <div className="p-4 bg-muted rounded-md">
-            <p><strong>背景色：</strong> <span id="bg-color">检测中...</span></p>
-            <p><strong>正文字体色：</strong> <span id="fg-color">检测中...</span></p>
-            <p><strong>主色调：</strong> <span id="primary-color">检测中...</span></p>
+            <p>
+              <strong>背景色：</strong> <span id="bg-color">检测中...</span>
+            </p>
+            <p>
+              <strong>正文字体色：</strong> <span id="fg-color">检测中...</span>
+            </p>
+            <p>
+              <strong>主色调：</strong>{' '}
+              <span id="primary-color">检测中...</span>
+            </p>
           </div>
 
-          <Button onClick={() => {
-            const body = document.body;
-            const computedStyles = getComputedStyle(body);
-            const bg = computedStyles.getPropertyValue('--background');
-            const fg = computedStyles.getPropertyValue('--foreground');
-            const primary = computedStyles.getPropertyValue('--primary');
+          <Button
+            onClick={() => {
+              const body = document.body;
+              const computedStyles = getComputedStyle(body);
+              const bg = computedStyles.getPropertyValue('--background');
+              const fg = computedStyles.getPropertyValue('--foreground');
+              const primary = computedStyles.getPropertyValue('--primary');
 
-            document.getElementById('bg-color')!.textContent = bg || '未应用';
-            document.getElementById('fg-color')!.textContent = fg || '未应用';
-            document.getElementById('primary-color')!.textContent = primary || '未应用';
+              document.getElementById('bg-color')!.textContent = bg || '未应用';
+              document.getElementById('fg-color')!.textContent = fg || '未应用';
+              document.getElementById('primary-color')!.textContent =
+                primary || '未应用';
 
-            console.log('=== 当前主题检测 ===')
-            console.log('body className:', body.className);
-            console.log('--background:', bg);
-            console.log('--foreground:', fg);
-            console.log('--primary:', primary);
+              console.log('=== 当前主题检测 ===');
+              console.log('body className:', body.className);
+              console.log('--background:', bg);
+              console.log('--foreground:', fg);
+              console.log('--primary:', primary);
 
-            // 检查 theme application
-            const themeClasses = Array.from(body.classList).filter(cls => cls.startsWith('theme-'));
-            console.log('theme classes found:', themeClasses);
-
-          }}>检测当前主题</Button>
+              // 检查 theme application
+              const themeClasses = Array.from(body.classList).filter((cls) =>
+                cls.startsWith('theme-')
+              );
+              console.log('theme classes found:', themeClasses);
+            }}
+          >
+            检测当前主题
+          </Button>
         </div>
       </Card>
 
@@ -130,7 +150,9 @@ function test() {
         <h2 className="text-2xl font-semibold mb-4">暗色模式对比度测试</h2>
 
         <div className="space-y-3">
-          <p className="text-sm text-muted-foreground">切换到暗色模式，验证对比度提升</p>
+          <p className="text-sm text-muted-foreground">
+            切换到暗色模式，验证对比度提升
+          </p>
 
           <div className="border p-4 rounded-md">
             <p className="text-foreground">主要文字</p>

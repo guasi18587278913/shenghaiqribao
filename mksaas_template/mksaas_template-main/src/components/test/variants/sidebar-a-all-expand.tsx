@@ -164,7 +164,9 @@ export function SidebarAAllExpand({
                             )}
                             title={article.title}
                           >
-                            <span className="text-muted-foreground/40 mt-0.5">•</span>
+                            <span className="text-muted-foreground/40 mt-0.5">
+                              •
+                            </span>
                             <span className="truncate leading-relaxed">
                               {article.title}
                             </span>

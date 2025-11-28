@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { enrichTopics } from '@/actions/enrich-topics';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     if (!Array.isArray(body.topics)) {
       return NextResponse.json(
         { success: false, error: 'topics 字段缺失' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -22,8 +22,7 @@ export async function POST(request: NextRequest) {
     console.error('enrich-topics API error:', error);
     return NextResponse.json(
       { success: false, error: error.message ?? '服务器内部错误' },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
-

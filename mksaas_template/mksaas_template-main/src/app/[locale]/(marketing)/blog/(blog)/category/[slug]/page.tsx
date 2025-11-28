@@ -56,7 +56,9 @@ export default async function BlogCategoryPage({
   }
 
   const localePosts = blogSource.getPages(locale);
-  const publishedPosts = localePosts.filter((post) => (post.data as any).published !== false);
+  const publishedPosts = localePosts.filter(
+    (post) => (post.data as any).published !== false
+  );
   const filteredPosts = publishedPosts.filter((post) =>
     post.data.categories.some((cat) => cat === category.slugs[0])
   );

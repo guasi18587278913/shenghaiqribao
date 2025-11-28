@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import type { Locale } from 'next-intl';
 import { Button } from '@/components/ui/button';
+import type { Locale } from 'next-intl';
+import { useState } from 'react';
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -35,10 +35,13 @@ export default function TypographyPreviewPage(_props: PageProps) {
         </div>
       </div>
 
-      <article className={`prose prose-slate dark:prose-invert max-w-none ${current.cls}`}>
+      <article
+        className={`prose prose-slate dark:prose-invert max-w-none ${current.cls}`}
+      >
         <h1>11-17 AI产品出海日报</h1>
         <p className="text-xl text-muted-foreground">
-          大家热议<strong>AI 应用落地</strong>与信息助手，分享了私教啃硬课、订阅升级与出海收款的实战经验。
+          大家热议<strong>AI 应用落地</strong>
+          与信息助手，分享了私教啃硬课、订阅升级与出海收款的实战经验。
           <mark>本页用于展示排版风格</mark>，非真实内容，请以上线版为准。
         </p>
 
@@ -51,7 +54,8 @@ export default function TypographyPreviewPage(_props: PageProps) {
           <li>
             “中转 Claude 模型 API 能否在 Claude Code 里用 skills？”
             <br />
-            结论：<strong>可以</strong>；原因：skills 是本地能力封装；实际操作：先
+            结论：<strong>可以</strong>；原因：skills
+            是本地能力封装；实际操作：先
             <mark>本地配置</mark>
             后使用。
           </li>
@@ -59,12 +63,14 @@ export default function TypographyPreviewPage(_props: PageProps) {
 
         <h2>二、工作流与协作</h2>
         <p>
-          推荐 “<strong>GPT-5 + Codex + 实时预览</strong>” 协作流程，非技术同学也能搭骨架。遇到复杂后端逻辑时，Codex 的
+          推荐 “<strong>GPT-5 + Codex + 实时预览</strong>”
+          协作流程，非技术同学也能搭骨架。遇到复杂后端逻辑时，Codex 的
           <mark>代码审核/重构</mark> 优势明显。
         </p>
         <blockquote>
           <p>
-            提示：使用 <code>bypass</code> 模式务必在容器化环境中运行，避免越权扫描本地文件带来的风险。
+            提示：使用 <code>bypass</code>{' '}
+            模式务必在容器化环境中运行，避免越权扫描本地文件带来的风险。
           </p>
         </blockquote>
         <ul>
@@ -75,7 +81,8 @@ export default function TypographyPreviewPage(_props: PageProps) {
 
         <h2>三、支付与订阅</h2>
         <p>
-          Stripe 审核一般 <strong>约 1 周</strong>。有同学尝试 Creem 的订阅升级能力，提醒关注
+          Stripe 审核一般 <strong>约 1 周</strong>。有同学尝试 Creem
+          的订阅升级能力，提醒关注
           <mark>立即生效 vs 次月生效</mark> 两种模式的抵扣处理。
         </p>
 
@@ -85,10 +92,12 @@ export default function TypographyPreviewPage(_props: PageProps) {
             <strong>容器化</strong> 是高级玩法的安全前提；把危险操作放回“沙盒”。
           </li>
           <li>
-            <strong>工具组合</strong>：让擅长“审查与重构”的去做审查，让“快速补全”的去覆盖流水线。
+            <strong>工具组合</strong>
+            ：让擅长“审查与重构”的去做审查，让“快速补全”的去覆盖流水线。
           </li>
           <li>
-            <strong>订阅升级</strong>：前端交互要闭环，后台逻辑要考虑抵扣与税务。
+            <strong>订阅升级</strong>
+            ：前端交互要闭环，后台逻辑要考虑抵扣与税务。
           </li>
         </ul>
 
@@ -102,4 +111,3 @@ export default function TypographyPreviewPage(_props: PageProps) {
     </div>
   );
 }
-

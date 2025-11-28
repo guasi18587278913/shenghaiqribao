@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 interface AdjacentNavProps {
   prev?: {
@@ -26,11 +26,11 @@ export function AdjacentNav({ prev, next }: AdjacentNavProps) {
             <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
             <span>上一篇</span>
           </div>
-          <div className="font-medium line-clamp-2">
-            {prev.title}
-          </div>
+          <div className="font-medium line-clamp-2">{prev.title}</div>
         </Link>
-      ) : <div />}
+      ) : (
+        <div />
+      )}
 
       {next && (
         <Link
@@ -41,9 +41,7 @@ export function AdjacentNav({ prev, next }: AdjacentNavProps) {
             <span>下一篇</span>
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </div>
-          <div className="font-medium line-clamp-2">
-            {next.title}
-          </div>
+          <div className="font-medium line-clamp-2">{next.title}</div>
         </Link>
       )}
     </div>

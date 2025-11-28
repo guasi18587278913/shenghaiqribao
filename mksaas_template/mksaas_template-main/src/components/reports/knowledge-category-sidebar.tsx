@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import * as LucideIcons from 'lucide-react';
 import { BookOpen, ChevronDown, ChevronRight, Home, Star } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * Knowledge Base Category Sidebar for Reports Page
@@ -198,7 +198,9 @@ export function KnowledgeCategorySidebar({
                           ))}
                           {hasMore && (
                             <div className="px-2 py-1 text-xs text-muted-foreground/60 italic">
-                              还有 {(category.articles || []).length - maxArticles} 篇...
+                              还有{' '}
+                              {(category.articles || []).length - maxArticles}{' '}
+                              篇...
                             </div>
                           )}
                         </>

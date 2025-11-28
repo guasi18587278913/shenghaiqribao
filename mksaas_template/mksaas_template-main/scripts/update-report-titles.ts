@@ -26,7 +26,9 @@ async function updateReportTitles() {
 
   console.log(`📊 找到 ${reports.length} 个需要更新的报告:\n`);
   for (const report of reports) {
-    console.log(`  - ${report.date.toISOString().split('T')[0]}: ${report.title}`);
+    console.log(
+      `  - ${report.date.toISOString().split('T')[0]}: ${report.title}`
+    );
   }
 
   // 执行更新
@@ -47,7 +49,9 @@ async function updateReportTitles() {
 
   console.log(`✅ 成功更新 ${updatedReports.length} 个报告:\n`);
   for (const report of updatedReports) {
-    console.log(`  - ${report.date.toISOString().split('T')[0]}: ${report.title}`);
+    console.log(
+      `  - ${report.date.toISOString().split('T')[0]}: ${report.title}`
+    );
   }
 
   console.log('\n🎉 标题更新完成！');

@@ -1,6 +1,8 @@
-import { ReportDetail } from '@/components/reports/report-detail-new';
-import { ReportCard } from '@/components/reports/report-card';
 import { getMDXComponents } from '@/components/docs/mdx-components';
+import { AdjacentNav } from '@/components/reports/adjacent-nav';
+import { Breadcrumbs } from '@/components/reports/breadcrumbs';
+import { ReportCard } from '@/components/reports/report-card';
+import { ReportDetail } from '@/components/reports/report-detail-new';
 import {
   HoverCard,
   HoverCardContent,
@@ -14,8 +16,6 @@ import type { MDXComponents } from 'mdx/types';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs } from '@/components/reports/breadcrumbs';
-import { AdjacentNav } from '@/components/reports/adjacent-nav';
 
 export function generateStaticParams() {
   const slugParams = reportsSource.generateParams();
@@ -87,8 +87,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
       .filter((report) => report.data.published !== false)
       .sort(
         (a, b) =>
-          new Date(b.data.date).getTime() -
-          new Date(a.data.date).getTime()
+          new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
       );
 
     return (
@@ -137,15 +136,20 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
   const MDX = page.data.body;
 
-  const allReports = reportsSource.getPages(language).sort(
-    (a, b) =>
-      new Date(b.data.date).getTime() -
-      new Date(a.data.date).getTime()
-  );
+  const allReports = reportsSource
+    .getPages(language)
+    .sort(
+      (a, b) =>
+        new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+    );
 
   const currentIndex = allReports.findIndex((r) => r.url === page.url);
-  const nextReport = currentIndex > 0 ? allReports[currentIndex - 1] : undefined;
-  const prevReport = currentIndex < allReports.length - 1 ? allReports[currentIndex + 1] : undefined;
+  const nextReport =
+    currentIndex > 0 ? allReports[currentIndex - 1] : undefined;
+  const prevReport =
+    currentIndex < allReports.length - 1
+      ? allReports[currentIndex + 1]
+      : undefined;
 
   return (
     <ReportDetail
@@ -164,16 +168,24 @@ export default async function ReportPage({ params }: ReportPageProps) {
       }
       adjacentNav={
         <AdjacentNav
-          prev={prevReport ? {
-            title: prevReport.data.title,
-            url: prevReport.url,
-            date: prevReport.data.date
-          } : undefined}
-          next={nextReport ? {
-            title: nextReport.data.title,
-            url: nextReport.url,
-            date: nextReport.data.date
-          } : undefined}
+          prev={
+            prevReport
+              ? {
+                  title: prevReport.data.title,
+                  url: prevReport.url,
+                  date: prevReport.data.date,
+                }
+              : undefined
+          }
+          next={
+            nextReport
+              ? {
+                  title: nextReport.data.title,
+                  url: nextReport.url,
+                  date: nextReport.data.date,
+                }
+              : undefined
+          }
         />
       }
     >

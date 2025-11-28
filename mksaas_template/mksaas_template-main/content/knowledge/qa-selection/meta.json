@@ -2,7 +2,5 @@
   "title": "问答精选",
   "description": "高质量问答、常见问题、解决方案",
   "icon": "MessageCircle",
-  "pages": [
-    "2025-11-19-gemini-3-p"
-  ]
+  "pages": ["2025-11-19-gemini-3-p"]
 }

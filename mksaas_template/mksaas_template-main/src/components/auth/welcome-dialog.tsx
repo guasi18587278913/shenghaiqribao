@@ -1,5 +1,8 @@
 'use client';
 
+import { Confetti } from '@/components/magicui/confetti';
+import { ShimmerButton } from '@/components/magicui/shimmer-button';
+import { SparklesText } from '@/components/magicui/sparkles-text';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -7,9 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { SparklesText } from '@/components/magicui/sparkles-text';
-import { ShimmerButton } from '@/components/magicui/shimmer-button';
-import { Confetti } from '@/components/magicui/confetti';
 import { cn } from '@/lib/utils';
 import { Sparkles, XIcon } from 'lucide-react';
 import React, { useEffect, useState, useRef } from 'react';
@@ -76,107 +76,107 @@ export function WelcomeDialog({
 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
-        className={cn(
-          'max-w-lg p-0 overflow-hidden border-0',
-          // 毛玻璃效果 - 苹果风格
-          'bg-white/80 dark:bg-gray-900/80',
-          'backdrop-blur-2xl backdrop-saturate-150',
-          // 边框和阴影
-          'ring-1 ring-gray-200/50 dark:ring-gray-800/50',
-          'shadow-2xl shadow-gray-500/10 dark:shadow-black/30',
-          // 动画效果
-          'transition-all duration-500',
-          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-        )}
-      >
-        {/* 关闭按钮 */}
-        <button
-          onClick={() => onOpenChange(false)}
           className={cn(
-            'absolute top-4 right-4 z-10',
-            'flex h-8 w-8 items-center justify-center',
-            'rounded-full',
-            'bg-gray-100/80 dark:bg-gray-800/80',
-            'backdrop-blur-sm',
-            'hover:bg-gray-200/80 dark:hover:bg-gray-700/80',
-            'transition-all duration-200',
-            'ring-1 ring-gray-200/50 dark:ring-gray-700/50'
+            'max-w-lg p-0 overflow-hidden border-0',
+            // 毛玻璃效果 - 苹果风格
+            'bg-white/80 dark:bg-gray-900/80',
+            'backdrop-blur-2xl backdrop-saturate-150',
+            // 边框和阴影
+            'ring-1 ring-gray-200/50 dark:ring-gray-800/50',
+            'shadow-2xl shadow-gray-500/10 dark:shadow-black/30',
+            // 动画效果
+            'transition-all duration-500',
+            isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           )}
         >
-          <XIcon className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-        </button>
+          {/* 关闭按钮 */}
+          <button
+            onClick={() => onOpenChange(false)}
+            className={cn(
+              'absolute top-4 right-4 z-10',
+              'flex h-8 w-8 items-center justify-center',
+              'rounded-full',
+              'bg-gray-100/80 dark:bg-gray-800/80',
+              'backdrop-blur-sm',
+              'hover:bg-gray-200/80 dark:hover:bg-gray-700/80',
+              'transition-all duration-200',
+              'ring-1 ring-gray-200/50 dark:ring-gray-700/50'
+            )}
+          >
+            <XIcon className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          </button>
 
-        {/* 装饰性渐变背景 */}
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-tr from-pink-400/20 to-orange-400/20 blur-3xl" />
-        </div>
+          {/* 装饰性渐变背景 */}
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl" />
+            <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-tr from-pink-400/20 to-orange-400/20 blur-3xl" />
+          </div>
 
-        {/* 内容区域 */}
-        <div className="relative">
-          {/* Header - 精致的标题区域 */}
-          <DialogHeader className="space-y-4 p-8 pb-6">
-            {/* 图标装饰 */}
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg shadow-blue-500/30">
-              <Sparkles className="h-8 w-8 text-white" />
-            </div>
+          {/* 内容区域 */}
+          <div className="relative">
+            {/* Header - 精致的标题区域 */}
+            <DialogHeader className="space-y-4 p-8 pb-6">
+              {/* 图标装饰 */}
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg shadow-blue-500/30">
+                <Sparkles className="h-8 w-8 text-white" />
+              </div>
 
-            {/* 标题 - 千人千面 - 带闪烁星星效果 */}
-            <DialogTitle className="text-center">
-              <SparklesText
-                className="text-2xl font-bold"
-                colors={{
-                  first: '#3b82f6',
-                  second: '#a855f7',
-                }}
-                sparklesCount={8}
+              {/* 标题 - 千人千面 - 带闪烁星星效果 */}
+              <DialogTitle className="text-center">
+                <SparklesText
+                  className="text-2xl font-bold"
+                  colors={{
+                    first: '#3b82f6',
+                    second: '#a855f7',
+                  }}
+                  sparklesCount={8}
+                >
+                  你好，{userName}！
+                </SparklesText>
+              </DialogTitle>
+            </DialogHeader>
+
+            {/* 内容区域 - 毛玻璃卡片 */}
+            <div className="px-8 pb-8">
+              <div
+                className={cn(
+                  'rounded-2xl p-6',
+                  // 内层毛玻璃效果
+                  'bg-white/50 dark:bg-gray-800/50',
+                  'backdrop-blur-sm',
+                  'ring-1 ring-gray-200/50 dark:ring-gray-700/50',
+                  'shadow-inner'
+                )}
               >
-                你好，{userName}！
-              </SparklesText>
-            </DialogTitle>
-          </DialogHeader>
-
-          {/* 内容区域 - 毛玻璃卡片 */}
-          <div className="px-8 pb-8">
-            <div
-              className={cn(
-                'rounded-2xl p-6',
-                // 内层毛玻璃效果
-                'bg-white/50 dark:bg-gray-800/50',
-                'backdrop-blur-sm',
-                'ring-1 ring-gray-200/50 dark:ring-gray-700/50',
-                'shadow-inner'
-              )}
-            >
-              <div className="space-y-4">
-                {/* 消息内容 */}
-                <div className="text-sm leading-relaxed text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                  {displayMessage}
+                <div className="space-y-4">
+                  {/* 消息内容 */}
+                  <div className="text-sm leading-relaxed text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                    {displayMessage}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* 行动按钮 - 闪光按钮效果 */}
-            <div className="mt-6 flex justify-center">
-              <ShimmerButton
-                onClick={() => onOpenChange(false)}
-                className="px-8 py-3 text-base font-medium"
-                shimmerColor="#ffffff"
-                shimmerSize="0.1em"
-                shimmerDuration="2s"
-                borderRadius="12px"
-                background="linear-gradient(to right, #3b82f6, #a855f7)"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <Sparkles className="h-5 w-5" />
-                  开始探索
-                </span>
-              </ShimmerButton>
+              {/* 行动按钮 - 闪光按钮效果 */}
+              <div className="mt-6 flex justify-center">
+                <ShimmerButton
+                  onClick={() => onOpenChange(false)}
+                  className="px-8 py-3 text-base font-medium"
+                  shimmerColor="#ffffff"
+                  shimmerSize="0.1em"
+                  shimmerDuration="2s"
+                  borderRadius="12px"
+                  background="linear-gradient(to right, #3b82f6, #a855f7)"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <Sparkles className="h-5 w-5" />
+                    开始探索
+                  </span>
+                </ShimmerButton>
+              </div>
             </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
     </React.Fragment>
   );
 }

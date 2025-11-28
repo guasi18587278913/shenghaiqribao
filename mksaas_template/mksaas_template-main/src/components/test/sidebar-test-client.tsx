@@ -16,15 +16,27 @@ interface SidebarTestClientProps {
 
 type VariantType = 'current' | 'a' | 'b' | 'c' | 'd';
 
-export function SidebarTestClient({ locale, knowledgeCategories }: SidebarTestClientProps) {
-  const [selectedVariant, setSelectedVariant] = useState<VariantType>('current');
+export function SidebarTestClient({
+  locale,
+  knowledgeCategories,
+}: SidebarTestClientProps) {
+  const [selectedVariant, setSelectedVariant] =
+    useState<VariantType>('current');
 
   const variants = [
-    { id: 'current' as const, name: '当前方案', description: '展开/收起,文章列表小字体' },
+    {
+      id: 'current' as const,
+      name: '当前方案',
+      description: '展开/收起,文章列表小字体',
+    },
     { id: 'a' as const, name: '方案A', description: '默认全收起,按需展开' },
     { id: 'b' as const, name: '方案B', description: '只显示分类,无二级' },
     { id: 'c' as const, name: '方案C', description: 'Hover悬浮弹出' },
-    { id: 'd' as const, name: '方案D 推荐', description: '自动收起其他+限制数量' },
+    {
+      id: 'd' as const,
+      name: '方案D 推荐',
+      description: '自动收起其他+限制数量',
+    },
   ];
 
   return (
@@ -109,16 +121,19 @@ export function SidebarTestClient({ locale, knowledgeCategories }: SidebarTestCl
         <main className="flex-1 p-8">
           <div className="max-w-4xl">
             <h2 className="text-xl font-semibold mb-4">
-              预览区域 - {variants.find(v => v.id === selectedVariant)?.name}
+              预览区域 - {variants.find((v) => v.id === selectedVariant)?.name}
             </h2>
 
             <div className="prose prose-slate dark:prose-invert max-w-none">
               <p>
-                这是主内容区域。左侧是侧边栏的{variants.find(v => v.id === selectedVariant)?.name}。
+                这是主内容区域。左侧是侧边栏的
+                {variants.find((v) => v.id === selectedVariant)?.name}。
               </p>
 
               <h3>设计特点:</h3>
-              <p>{variants.find(v => v.id === selectedVariant)?.description}</p>
+              <p>
+                {variants.find((v) => v.id === selectedVariant)?.description}
+              </p>
 
               <h3>测试说明:</h3>
               <ul>

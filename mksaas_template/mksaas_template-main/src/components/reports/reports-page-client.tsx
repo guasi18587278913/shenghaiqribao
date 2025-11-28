@@ -92,9 +92,7 @@ export function ReportsPageClient({
               {/* Title Section */}
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {subtitle}
-                </p>
+                <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
               </div>
 
               {/* Date Selector - Future enhancement */}
@@ -143,10 +141,7 @@ export function ReportsPageClient({
                   {/* Reports for this date */}
                   <div className="space-y-4">
                     {reportsForDate.map((report) => (
-                      <DailyReportCard
-                        key={report.id}
-                        report={report}
-                      />
+                      <DailyReportCard key={report.id} report={report} />
                     ))}
                   </div>
                 </div>

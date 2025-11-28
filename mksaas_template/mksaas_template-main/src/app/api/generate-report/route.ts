@@ -1,5 +1,5 @@
 import { generateReportFiles } from '@/actions/generate-report';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 /**
  * Generate Report API Route

@@ -3,11 +3,11 @@
  * Three-stage filtering and content generation
  */
 
-import { generateText } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import type { AIProcessingResult, TopicCategory } from '@/types/daily-report';
 import { createDeepSeek } from '@ai-sdk/deepseek';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { generateText } from 'ai';
 import type { ParsedMessage } from './message-parser';
-import type { TopicCategory, AIProcessingResult } from '@/types/daily-report';
 
 // Initialize AI providers
 const deepseek = createDeepSeek({
@@ -72,8 +72,8 @@ ${batch.map((msg, idx) => `${idx + 1}. [${msg.senderName}]: ${msg.content.substr
       const batchScores = text
         .trim()
         .split(',')
-        .map(s => Number.parseInt(s.trim(), 10))
-        .filter(n => !Number.isNaN(n));
+        .map((s) => Number.parseInt(s.trim(), 10))
+        .filter((n) => !Number.isNaN(n));
 
       // Add valuable messages
       batchScores.forEach((score, idx) => {
@@ -87,14 +87,14 @@ ${batch.map((msg, idx) => `${idx + 1}. [${msg.senderName}]: ${msg.content.substr
     } catch (error) {
       console.error('Stage 2 AI screening error:', error);
       // On error, include all messages from this batch as uncertain
-      batch.forEach(msg => {
+      batch.forEach((msg) => {
         valuable.push(msg);
         scores.push(2);
       });
     }
 
     // Rate limiting delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   return { valuable, scores };
@@ -111,11 +111,14 @@ export async function stage3TopicGeneration(
 
 以下是今天群内的有价值讨论（共${messages.length}条消息）：
 
-${messages.map((msg, idx) =>
-  `消息${idx + 1} [${msg.senderName} ${msg.timestamp.toLocaleTimeString('zh-CN')}]:
+${messages
+  .map(
+    (msg, idx) =>
+      `消息${idx + 1} [${msg.senderName} ${msg.timestamp.toLocaleTimeString('zh-CN')}]:
 ${msg.content.substring(0, 300)}
 ---`
-).join('\n')}
+  )
+  .join('\n')}
 
 请将这些消息聚类成3-8个核心话题，并为每个话题生成：
 1. 简洁的标题（15字以内）
@@ -195,7 +198,7 @@ ${topics.map((t, i) => `${i + 1}. ${t.title} (${t.category})`).join('\n')}
     return text.trim();
   } catch (error) {
     console.error('Daily summary generation error:', error);
-    return `今天社群共讨论了${topics.length}个核心话题，涵盖${topics.map(t => t.category).join('、')}等方面。`;
+    return `今天社群共讨论了${topics.length}个核心话题，涵盖${topics.map((t) => t.category).join('、')}等方面。`;
   }
 }
 
@@ -210,7 +213,9 @@ export async function processMessagesWithAI(
   // Stage 2: AI screening with DeepSeek
   console.log('Stage 2: AI screening...');
   const { valuable: valuableMessages } = await stage2AIScreening(messages);
-  console.log(`Stage 2 complete: ${valuableMessages.length} valuable messages found`);
+  console.log(
+    `Stage 2 complete: ${valuableMessages.length} valuable messages found`
+  );
 
   // Stage 3: Topic generation with GPT-4
   console.log('Stage 3: Generating topics...');

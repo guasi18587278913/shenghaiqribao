@@ -11,7 +11,9 @@ interface SidebarTestPageProps {
  *
  * 用于测试和对比不同的侧边栏设计方案
  */
-export default async function SidebarTestPage({ params }: SidebarTestPageProps) {
+export default async function SidebarTestPage({
+  params,
+}: SidebarTestPageProps) {
   const { locale } = await params;
 
   // Get knowledge base categories

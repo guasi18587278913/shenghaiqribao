@@ -7,8 +7,8 @@
  * TODO: Implement message parsing functionality
  */
 
-import { nanoid } from 'nanoid';
 import type { MessageType } from '@/types/daily-report';
+import { nanoid } from 'nanoid';
 
 export interface ParsedMessage {
   id: string;
@@ -31,7 +31,8 @@ const SYSTEM_KEYWORDS = [
 ];
 
 const ATTACHMENT_TOKENS = ['[图片]', '[视频]', '[语音]', '[文件]', '[小程序]'];
-const DATE_LINE_REGEX = /^(\d{4}[\/-]\d{1,2}[\/-]\d{1,2})\s+(\d{1,2}:\d{2}(?::\d{2})?)\s+(.+?)[：:](.*)$/;
+const DATE_LINE_REGEX =
+  /^(\d{4}[\/-]\d{1,2}[\/-]\d{1,2})\s+(\d{1,2}:\d{2}(?::\d{2})?)\s+(.+?)[：:](.*)$/;
 const HTML_TAG_REGEX = /<[^>]+>/g;
 
 function normalizeLines(text: string) {
@@ -64,7 +65,8 @@ export function parseWeChatExport(
   groupName: string,
   format: 'txt' | 'html' = 'txt'
 ): ParsedMessage[] {
-  const text = format === 'html' ? exportText.replace(HTML_TAG_REGEX, '') : exportText;
+  const text =
+    format === 'html' ? exportText.replace(HTML_TAG_REGEX, '') : exportText;
   const lines = normalizeLines(text);
   const messages: ParsedMessage[] = [];
   let current: ParsedMessage | null = null;
@@ -105,7 +107,9 @@ export function parseWeChatExport(
   return messages;
 }
 
-export function mergeConsecutiveMessages(messages: ParsedMessage[]): ParsedMessage[] {
+export function mergeConsecutiveMessages(
+  messages: ParsedMessage[]
+): ParsedMessage[] {
   if (messages.length === 0) return [];
 
   const sorted = [...messages].sort(

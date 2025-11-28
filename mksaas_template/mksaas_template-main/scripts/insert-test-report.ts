@@ -53,7 +53,8 @@ async function main() {
     {
       title: 'Cursor 使用技巧分享',
       category: 'tech-tools',
-      summary: '今天社群里有小伙伴分享了 Cursor 的几个高级用法，包括如何配置自定义 Rules、如何使用 Composer 模式进行大规模重构、以及如何结合 Claude Code 提升开发效率。这些技巧可以显著提升 AI 编程的体验。',
+      summary:
+        '今天社群里有小伙伴分享了 Cursor 的几个高级用法，包括如何配置自定义 Rules、如何使用 Composer 模式进行大规模重构、以及如何结合 Claude Code 提升开发效率。这些技巧可以显著提升 AI 编程的体验。',
       content: `## 核心技巧
 
 ### 1. 自定义 Rules
@@ -72,7 +73,8 @@ async function main() {
     {
       title: 'Stripe 支付集成最佳实践',
       category: 'tech-tools',
-      summary: '分享了 Stripe 支付集成的完整流程，包括订阅管理、Webhook 处理、测试环境配置等。特别强调了 Webhook 验证的重要性，避免安全漏洞。',
+      summary:
+        '分享了 Stripe 支付集成的完整流程，包括订阅管理、Webhook 处理、测试环境配置等。特别强调了 Webhook 验证的重要性，避免安全漏洞。',
       importance: 5,
       tags: ['Stripe', '支付', 'SaaS'],
       sortOrder: 1,
@@ -80,7 +82,8 @@ async function main() {
     {
       title: 'AI 产品出海的三个关键点',
       category: 'overseas-experience',
-      summary: '资深出海开发者总结的三个关键点：1) 选择合适的目标市场，2) 解决支付和合规问题，3) 建立用户反馈循环。其中支付问题最为关键，需要提前规划。',
+      summary:
+        '资深出海开发者总结的三个关键点：1) 选择合适的目标市场，2) 解决支付和合规问题，3) 建立用户反馈循环。其中支付问题最为关键，需要提前规划。',
       importance: 5,
       tags: ['出海', 'AI产品', '经验分享'],
       editorNote: '这是非常实用的经验总结，推荐所有准备出海的朋友仔细阅读。',
@@ -89,7 +92,8 @@ async function main() {
     {
       title: '如何选择代理服务',
       category: 'network-proxy',
-      summary: '对比了几种常见的代理服务，分析了性价比、稳定性、速度等因素。推荐新手从性价比高的服务开始，后期根据需求升级。',
+      summary:
+        '对比了几种常见的代理服务，分析了性价比、稳定性、速度等因素。推荐新手从性价比高的服务开始，后期根据需求升级。',
       importance: 3,
       tags: ['代理', '网络', '工具'],
       sortOrder: 3,
@@ -97,7 +101,8 @@ async function main() {
     {
       title: 'Next.js 15 新特性解析',
       category: 'industry-trends',
-      summary: 'Next.js 15 正式发布，带来了多项重大更新，包括 React 19 支持、Turbopack 稳定版、更快的开发服务器等。这次更新对 SSR 性能有显著提升。',
+      summary:
+        'Next.js 15 正式发布，带来了多项重大更新，包括 React 19 支持、Turbopack 稳定版、更快的开发服务器等。这次更新对 SSR 性能有显著提升。',
       importance: 4,
       tags: ['Next.js', 'React', '前端'],
       sortOrder: 4,

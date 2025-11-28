@@ -16,7 +16,10 @@ const BASE = path.join(process.cwd(), 'content', 'knowledge');
 const DRY = !process.argv.includes('--write');
 const MAX_LEN = 10;
 
-function parseFrontmatter(text: string): { fm: Record<string, string>; body: string } {
+function parseFrontmatter(text: string): {
+  fm: Record<string, string>;
+  body: string;
+} {
   const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!m) return { fm: {}, body: text };
   const fmLines = m[1].split('\n');
@@ -44,11 +47,17 @@ function fallbackFromBody(body: string): string {
       !l.startsWith('>') &&
       !l.startsWith('---') &&
       !l.startsWith('#') &&
-      !/本文摘自|\[更多|\[查看原日报/.test(l),
+      !/本文摘自|\[更多|\[查看原日报/.test(l)
   );
   if (candidates.length === 0) return '';
-  let pick = candidates.find((l) => l.startsWith('- ') || l.startsWith('• ')) || candidates[0];
-  let s = pick.replace(/^[•\-]\s*/, '').replace(/[*`_~]/g, '').replace(/\s+/g, ' ').trim();
+  const pick =
+    candidates.find((l) => l.startsWith('- ') || l.startsWith('• ')) ||
+    candidates[0];
+  let s = pick
+    .replace(/^[•\-]\s*/, '')
+    .replace(/[*`_~]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
   s = normalizeTitle(s);
   if (s.length > MAX_LEN) s = s.slice(0, MAX_LEN);
   return s;
@@ -88,7 +97,8 @@ async function main() {
     const files = (await fs.readdir(catDir)).filter((f) => f.endsWith('.mdx'));
     for (const f of files) {
       const res = await processFile(path.join(catDir, f));
-      if (res) changes.push({ ...res, file: path.join(c, path.basename(res.file)) });
+      if (res)
+        changes.push({ ...res, file: path.join(c, path.basename(res.file)) });
     }
   }
   console.log(`Retitle ALL: ${DRY ? 'DRY' : 'WRITE'}`);
@@ -103,4 +113,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

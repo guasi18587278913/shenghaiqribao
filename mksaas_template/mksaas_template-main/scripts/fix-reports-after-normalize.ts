@@ -14,7 +14,7 @@ const WRITE = process.argv.includes('--write');
 async function fixFile(p: string) {
   const raw = await fs.readFile(p, 'utf-8');
   const lines = raw.split(/\r?\n/);
-  let i = 0;
+  const i = 0;
   let changed = false;
 
   // 1) ensure frontmatter closing '---'
@@ -66,11 +66,12 @@ async function main() {
     const changed = await fixFile(p);
     if (changed) cnt++;
   }
-  console.log(`Repair reports: ${WRITE ? 'WRITE' : 'DRY'} changed=${cnt}/${files.length}`);
+  console.log(
+    `Repair reports: ${WRITE ? 'WRITE' : 'DRY'} changed=${cnt}/${files.length}`
+  );
 }
 
 main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

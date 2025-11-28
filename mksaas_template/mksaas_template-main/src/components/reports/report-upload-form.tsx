@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { parseReportMarkdown } from '@/lib/report-parser';
-import { Loader2, Upload, Eye } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Eye, Loader2, Upload } from 'lucide-react';
 import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -57,7 +57,10 @@ export function ReportUploadForm() {
           date,
           title,
           description,
-          tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+          tags: tags
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean),
         },
         markdown,
         topics,
@@ -126,9 +129,7 @@ export function ReportUploadForm() {
             onChange={(e) => setTags(e.target.value)}
             placeholder="Cursor, Claude, 支付"
           />
-          <p className="text-xs text-muted-foreground">
-            多个标签用逗号分隔
-          </p>
+          <p className="text-xs text-muted-foreground">多个标签用逗号分隔</p>
         </div>
 
         {/* Markdown 内容 */}
@@ -203,8 +204,12 @@ export function ReportUploadForm() {
           💡 使用提示
         </h3>
         <ul className="list-inside list-disc space-y-1 text-sm text-blue-800 dark:text-blue-200">
-          <li>使用 <code>##</code> 标记每个话题的标题</li>
-          <li>在标题中用 <code>|</code> 或 <code>【】</code> 标记分类</li>
+          <li>
+            使用 <code>##</code> 标记每个话题的标题
+          </li>
+          <li>
+            在标题中用 <code>|</code> 或 <code>【】</code> 标记分类
+          </li>
           <li>系统会自动识别分类并推荐归档位置</li>
           <li>预览页面可以人工调整每个话题的分类和设置</li>
           <li>确认无误后再发布到网站</li>

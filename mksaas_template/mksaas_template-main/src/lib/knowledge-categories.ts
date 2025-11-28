@@ -66,14 +66,14 @@ export async function getKnowledgeCategories(): Promise<KnowledgeCategory[]> {
 
     // Count MDX files in the category directory (excluding meta.json)
     const files = fs.readdirSync(categoryPath);
-    const mdxFiles = files.filter(file => file.endsWith('.mdx'));
+    const mdxFiles = files.filter((file) => file.endsWith('.mdx'));
     const count = mdxFiles.length;
 
     // Get icon name
     const iconName = meta.icon || 'Folder';
 
     // Extract article information from MDX files
-    const articles: KnowledgeArticle[] = mdxFiles.map(file => {
+    const articles: KnowledgeArticle[] = mdxFiles.map((file) => {
       const articleSlug = file.replace('.mdx', '');
       const articleTitle = articleSlug; // Use filename as title for now
 

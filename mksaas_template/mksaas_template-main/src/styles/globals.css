@@ -510,7 +510,9 @@ aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium {
 }
 
 /* 第一个分类标题减少顶部间距 */
-aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:first-of-type {
+aside
+  nav
+  p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:first-of-type {
   margin-top: 0.5rem !important;
 }
 
@@ -527,7 +529,10 @@ aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
-.dark aside nav p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:hover {
+.dark
+  aside
+  nav
+  p.inline-flex.items-center.gap-2.mb-2.px-2.text-sm.font-medium:hover {
   background: rgba(0, 0, 0, 0.3) !important;
   border-color: rgba(255, 255, 255, 0.15) !important;
   border-left-color: hsl(var(--primary)) !important;

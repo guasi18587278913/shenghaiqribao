@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
+import Link from 'next/link';
 
 interface BreadcrumbsProps {
   items: {
@@ -10,8 +10,14 @@ interface BreadcrumbsProps {
 
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-4 flex items-center text-sm text-muted-foreground">
-      <Link href="/" className="flex items-center hover:text-foreground transition-colors">
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-4 flex items-center text-sm text-muted-foreground"
+    >
+      <Link
+        href="/"
+        className="flex items-center hover:text-foreground transition-colors"
+      >
         <Home className="h-4 w-4" />
       </Link>
       {items.map((item, index) => (

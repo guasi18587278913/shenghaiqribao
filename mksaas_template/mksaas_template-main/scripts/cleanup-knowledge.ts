@@ -15,8 +15,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import process from 'process';
-import { normalizeTitle } from '../src/lib/report-parser';
 import { STATIC_CATEGORIES, slugify } from '../src/config/knowledge-categories';
+import { normalizeTitle } from '../src/lib/report-parser';
 
 const KNOWLEDGE_DIR = path.join(process.cwd(), 'content', 'knowledge');
 
@@ -50,7 +50,10 @@ async function readText(p: string) {
   }
 }
 
-function parseFrontmatter(text: string): { fm: Record<string, string>; body: string } {
+function parseFrontmatter(text: string): {
+  fm: Record<string, string>;
+  body: string;
+} {
   const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!m) return { fm: {}, body: text };
   const fmLines = m[1].split('\n');
@@ -86,12 +89,17 @@ async function processCategory(categorySlug: string) {
   const catDir = path.join(KNOWLEDGE_DIR, categorySlug);
   const entries = await fs.readdir(catDir, { withFileTypes: true });
   const files = entries
-    .filter((e) => e.isFile() && (e.name.endsWith('.mdx') || e.name.endsWith('.zh.mdx')))
+    .filter(
+      (e) =>
+        e.isFile() && (e.name.endsWith('.mdx') || e.name.endsWith('.zh.mdx'))
+    )
     .map((e) => e.name);
 
   const metaPath = path.join(catDir, 'meta.json');
   const metaRaw = await readText(metaPath);
-  let meta: MetaJson = metaRaw ? (JSON.parse(metaRaw) as MetaJson) : { pages: [] };
+  const meta: MetaJson = metaRaw
+    ? (JSON.parse(metaRaw) as MetaJson)
+    : { pages: [] };
   const originalPages = new Set(meta.pages);
   const catInfo = pickCategoryInfo(categorySlug);
 
@@ -130,9 +138,13 @@ async function processCategory(categorySlug: string) {
     // Rename if base name (slug) mismatches normalized title slug
     const datePrefix = extractDatePrefix(name);
     const ext = ensureExt(name);
-    const baseSlug = slugify(normalized || oldTitle || name.replace(/\.zh?\.mdx$/, ''));
+    const baseSlug = slugify(
+      normalized || oldTitle || name.replace(/\.zh?\.mdx$/, '')
+    );
     const targetName =
-      datePrefix != null ? `${datePrefix}-${baseSlug}${ext}` : `${baseSlug}${ext}`;
+      datePrefix != null
+        ? `${datePrefix}-${baseSlug}${ext}`
+        : `${baseSlug}${ext}`;
 
     let renamed = false;
     if (targetName !== name) {
@@ -228,9 +240,16 @@ async function main() {
     console.log(`- ${r.category}`);
     for (const ch of r.changes) {
       const titlePart =
-        ch.oldTitle !== ch.newTitle ? `title: "${ch.oldTitle}" -> "${ch.newTitle}"` : '';
-      const namePart = ch.oldName !== ch.newName ? `name: "${ch.oldName}" -> "${ch.newName}"` : '';
-      console.log(`  · ${ch.file} ${[titlePart, namePart].filter(Boolean).join(' | ')}`);
+        ch.oldTitle !== ch.newTitle
+          ? `title: "${ch.oldTitle}" -> "${ch.newTitle}"`
+          : '';
+      const namePart =
+        ch.oldName !== ch.newName
+          ? `name: "${ch.oldName}" -> "${ch.newName}"`
+          : '';
+      console.log(
+        `  · ${ch.file} ${[titlePart, namePart].filter(Boolean).join(' | ')}`
+      );
     }
   }
 
@@ -243,4 +262,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-

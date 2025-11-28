@@ -82,8 +82,11 @@ async function checkDatabaseConnections() {
     } else {
       console.log('⚠️  Found long-running queries:');
       for (const row of queryResults) {
-        console.log(`  - PID: ${row.pid}, Duration: ${row.duration}, State: ${row.state}`);
-        const queryText = typeof row.query === 'string' ? row.query : String(row.query || '');
+        console.log(
+          `  - PID: ${row.pid}, Duration: ${row.duration}, State: ${row.state}`
+        );
+        const queryText =
+          typeof row.query === 'string' ? row.query : String(row.query || '');
         console.log(`    Query: ${queryText.substring(0, 100)}...`);
       }
     }
@@ -94,7 +97,6 @@ async function checkDatabaseConnections() {
     console.log('- Database connection is working');
     console.log('- Connection pool is configured with max: 1 connection');
     console.log('- No connection pool exhaustion detected');
-
   } catch (error) {
     console.error('❌ Error checking database connections:');
     console.error(error);
@@ -108,7 +110,9 @@ async function checkDatabaseConnections() {
         console.log('3. Database is under heavy load');
       } else if (error.message.includes('too many connections')) {
         console.log('\n❌ Connection pool exhausted!');
-        console.log('Your Supabase database has reached the maximum connection limit.');
+        console.log(
+          'Your Supabase database has reached the maximum connection limit.'
+        );
         console.log('Solutions:');
         console.log('1. Close idle connections');
         console.log('2. Upgrade your Supabase plan');

@@ -8,6 +8,112 @@
 @source '../../node_modules/fumadocs-ui/dist/**/*.js';
 
 /* ============================================
+   搜索结果高亮 - 跳转到目标位置时的高亮效果
+   ============================================ */
+
+/* 标题高亮效果 - 通过 JS 添加的类 */
+.search-highlight-target {
+  animation: highlight-pulse 3s ease-out;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.2) 0%,
+    hsl(var(--primary) / 0.08) 100%
+  ) !important;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem !important;
+  margin-left: -1rem !important;
+  margin-right: -1rem !important;
+  border-left: 4px solid hsl(var(--primary)) !important;
+}
+
+/* 标题 :target 高亮 - 浏览器原生支持 */
+h1:target,
+h2:target,
+h3:target,
+h4:target,
+h5:target,
+h6:target {
+  animation: highlight-pulse 3s ease-out;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.2) 0%,
+    hsl(var(--primary) / 0.08) 100%
+  );
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem !important;
+  margin-left: -1rem !important;
+  margin-right: -1rem !important;
+  border-left: 4px solid hsl(var(--primary));
+}
+
+/* 文本高亮效果 - 搜索匹配的文本 */
+.search-highlight-text {
+  background: linear-gradient(
+    135deg,
+    hsl(48 100% 60% / 0.6) 0%,
+    hsl(48 100% 70% / 0.4) 100%
+  );
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+  animation: text-highlight-pulse 2s ease-out;
+  box-shadow: 0 0 8px hsl(48 100% 50% / 0.4);
+}
+
+/* 深色模式下的文本高亮 */
+.dark .search-highlight-text {
+  background: linear-gradient(
+    135deg,
+    hsl(48 100% 40% / 0.5) 0%,
+    hsl(48 100% 50% / 0.3) 100%
+  );
+  color: hsl(var(--foreground));
+}
+
+/* 高亮脉冲动画 */
+@keyframes highlight-pulse {
+  0% {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.35) 0%,
+      hsl(var(--primary) / 0.2) 100%
+    );
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.25) 0%,
+      hsl(var(--primary) / 0.12) 100%
+    );
+    box-shadow: 0 0 10px hsl(var(--primary) / 0.2);
+  }
+  100% {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.2) 0%,
+      hsl(var(--primary) / 0.08) 100%
+    );
+    box-shadow: none;
+  }
+}
+
+/* 文本高亮脉冲动画 */
+@keyframes text-highlight-pulse {
+  0% {
+    box-shadow: 0 0 15px hsl(48 100% 50% / 0.6);
+    transform: scale(1.05);
+  }
+  50% {
+    box-shadow: 0 0 10px hsl(48 100% 50% / 0.4);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 8px hsl(48 100% 50% / 0.4);
+    transform: scale(1);
+  }
+}
+
+/* ============================================
    自定义 Prose 样式 - 中文阅读优化
    使用 Tailwind v4 兼容语法
    ============================================ */
@@ -178,7 +284,10 @@
     }
 
     /* 行首标签高亮（兼容旧稿：结论/注意/建议/步骤 等行首标签） */
-    & :where(li > strong:first-child, p > strong:first-child):not(:where([class~="not-prose"] *)) {
+    &
+      :where(li > strong:first-child, p > strong:first-child):not(
+        :where([class~="not-prose"] *)
+      ) {
       display: inline-block;
       background: rgba(250, 204, 21, 0.18);
       padding: 0.05em 0.3em;
@@ -234,14 +343,16 @@
       letter-spacing: -0.015em;
       margin: 2rem 0 1.25rem 0;
       padding: 1rem 1.25rem;
-      background: linear-gradient(135deg,
+      background: linear-gradient(
+        135deg,
         hsl(var(--primary) / 0.08) 0%,
-        hsl(var(--primary) / 0.04) 100%);
+        hsl(var(--primary) / 0.04) 100%
+      );
       border: 1px solid hsl(var(--primary) / 0.2);
       border-left: 4px solid hsl(var(--primary));
       border-radius: 0.75rem;
-      box-shadow: 0 1px 3px 0 hsl(var(--primary) / 0.05),
-                  0 4px 12px -2px hsl(var(--primary) / 0.08);
+      box-shadow: 0 1px 3px 0 hsl(var(--primary) / 0.05), 0 4px 12px -2px
+        hsl(var(--primary) / 0.08);
     }
 
     /* 兼容老稿模式 2：段落后紧跟列表，多用于“节标题 + 列表”的结构 */
@@ -252,14 +363,16 @@
       letter-spacing: -0.015em;
       margin: 2rem 0 1.25rem 0;
       padding: 1rem 1.25rem;
-      background: linear-gradient(135deg,
+      background: linear-gradient(
+        135deg,
         hsl(var(--primary) / 0.08) 0%,
-        hsl(var(--primary) / 0.04) 100%);
+        hsl(var(--primary) / 0.04) 100%
+      );
       border: 1px solid hsl(var(--primary) / 0.2);
       border-left: 4px solid hsl(var(--primary));
       border-radius: 0.75rem;
-      box-shadow: 0 1px 3px 0 hsl(var(--primary) / 0.05),
-                  0 4px 12px -2px hsl(var(--primary) / 0.08);
+      box-shadow: 0 1px 3px 0 hsl(var(--primary) / 0.05), 0 4px 12px -2px
+        hsl(var(--primary) / 0.08);
     }
   }
 
@@ -298,7 +411,11 @@
       margin-bottom: 1rem;
       margin-top: 3rem;
       padding-bottom: 0;
-      background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.75) 100%);
+      background: linear-gradient(
+        135deg,
+        hsl(var(--foreground)) 0%,
+        hsl(var(--foreground) / 0.75) 100%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -323,7 +440,7 @@
       margin-top: 3.5rem !important;
       padding-left: 1rem !important;
       position: relative !important;
-      
+
       /* 极简风格：仅保留左侧强调色竖线 */
       border-left: 4px solid hsl(var(--primary)) !important;
       color: hsl(var(--foreground)) !important;
@@ -350,7 +467,6 @@
       position: relative;
       font-style: italic;
     }
-
 
     & :where(h3):not(:where([class~="not-prose"] *)) {
       font-size: 1.5rem; /* 24px */
@@ -468,7 +584,10 @@
       transition: all 0.2s ease;
     }
 
-    & :where(code):not(:where([class~="not-prose"] *)):not(:where(pre *)):hover {
+    &
+      :where(code):not(:where([class~="not-prose"] *)):not(
+        :where(pre *)
+      ):hover {
       background-color: hsl(var(--muted) / 0.8);
       border-color: hsl(var(--border));
     }
@@ -486,26 +605,36 @@
 
     /* Code block - 精致卡片风格 */
     & :where(pre):not(:where([class~="not-prose"] *)) {
-      background: linear-gradient(135deg, hsl(var(--muted) / 0.8) 0%, hsl(var(--muted) / 0.6) 100%);
+      background: linear-gradient(
+        135deg,
+        hsl(var(--muted) / 0.8) 0%,
+        hsl(var(--muted) / 0.6) 100%
+      );
       border: 1px solid hsl(var(--border));
       border-radius: 0.75rem;
       padding: 1.5rem;
       margin-top: 2rem;
       margin-bottom: 2rem;
       overflow-x: auto;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.03);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px
+        rgb(0 0 0 / 0.03);
       transition: all 0.3s ease;
     }
 
     & :where(pre):not(:where([class~="not-prose"] *)):hover {
       border-color: hsl(var(--border) / 0.8);
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px
+        rgb(0 0 0 / 0.05);
     }
 
     /* Blockquote - Notion 风格 */
     & :where(blockquote):not(:where([class~="not-prose"] *)) {
       border-left: 4px solid hsl(var(--primary) / 0.8);
-      background: linear-gradient(90deg, hsl(var(--muted) / 0.5) 0%, hsl(var(--muted) / 0.2) 100%);
+      background: linear-gradient(
+        90deg,
+        hsl(var(--muted) / 0.5) 0%,
+        hsl(var(--muted) / 0.2) 100%
+      );
       font-style: normal;
       padding: 1.25rem 1.75rem;
       margin-top: 2rem;
@@ -517,7 +646,7 @@
 
     /* Quote icon decoration */
     & :where(blockquote):not(:where([class~="not-prose"] *))::before {
-      content: '\201C';
+      content: "\201C";
       position: absolute;
       top: -0.25rem;
       left: 1rem;
@@ -566,11 +695,16 @@
       overflow: hidden;
       margin-top: 2rem;
       margin-bottom: 2rem;
-      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.03), 0 1px 2px -1px rgb(0 0 0 / 0.03);
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.03), 0 1px 2px -1px
+        rgb(0 0 0 / 0.03);
     }
 
     & :where(thead):not(:where([class~="not-prose"] *)) {
-      background: linear-gradient(135deg, hsl(var(--muted) / 0.8) 0%, hsl(var(--muted) / 0.6) 100%);
+      background: linear-gradient(
+        135deg,
+        hsl(var(--muted) / 0.8) 0%,
+        hsl(var(--muted) / 0.6) 100%
+      );
     }
 
     & :where(th):not(:where([class~="not-prose"] *)) {
@@ -610,7 +744,8 @@
     /* Images - 精致卡片 */
     & :where(img):not(:where([class~="not-prose"] *)) {
       border-radius: 0.75rem;
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px
+        rgb(0 0 0 / 0.05);
       margin-top: 2rem;
       margin-bottom: 2rem;
       border: 1px solid hsl(var(--border) / 0.5);
@@ -618,7 +753,8 @@
     }
 
     & :where(img):not(:where([class~="not-prose"] *)):hover {
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.06);
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px
+        rgb(0 0 0 / 0.06);
       transform: translateY(-2px);
     }
 
@@ -628,7 +764,8 @@
       margin-bottom: 3rem;
       border: none;
       height: 1px;
-      background: linear-gradient(90deg,
+      background: linear-gradient(
+        90deg,
         hsl(var(--border) / 0) 0%,
         hsl(var(--border)) 50%,
         hsl(var(--border) / 0) 100%
@@ -849,7 +986,8 @@
       margin-bottom: 2.5rem;
       border: none;
       height: 1px;
-      background: linear-gradient(90deg,
+      background: linear-gradient(
+        90deg,
         hsl(var(--border) / 0.2) 0%,
         hsl(var(--primary) / 0.1) 50%,
         hsl(var(--border) / 0.2) 100%
@@ -1051,7 +1189,7 @@
 
   /* Callout 标题样式 - Medium 风格 */
   .my-6.flex.flex-row .not-prose.mb-2.font-medium {
-    font-family: Georgia, 'Times New Roman', serif !important;
+    font-family: Georgia, "Times New Roman", serif !important;
     font-weight: 600 !important;
     font-size: 1.125rem !important;
     letter-spacing: -0.015em !important;
@@ -1062,7 +1200,7 @@
 
   /* Callout 内容文本 - Medium 风格 */
   .my-6.flex.flex-row .prose-no-margin {
-    font-family: Georgia, 'Times New Roman', serif !important;
+    font-family: Georgia, "Times New Roman", serif !important;
     color: hsl(var(--foreground) / 0.85) !important;
   }
 
@@ -1108,7 +1246,7 @@
 
   /* Callout 代码样式 - Medium 风格 */
   .my-6.flex.flex-row .prose-no-margin code {
-    font-family: 'Menlo', 'Monaco', 'Courier New', monospace !important;
+    font-family: "Menlo", "Monaco", "Courier New", monospace !important;
     background: hsl(var(--muted)) !important;
     padding: 0.2em 0.4em !important;
     border-radius: 3px !important;
@@ -1165,13 +1303,14 @@
     position: relative;
   }
   .callout-style-2 .callout-info::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: 12px;
     padding: 2px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -1344,7 +1483,7 @@
     border-left: 4px solid #292929;
     padding: 20px 24px;
     margin: 24px 0;
-    font-family: 'Georgia', serif;
+    font-family: "Georgia", serif;
     line-height: 1.8;
   }
   .dark .callout-style-9 .callout-info {
@@ -1356,7 +1495,7 @@
     border-left: 4px solid #c69026;
     padding: 20px 24px;
     margin: 24px 0;
-    font-family: 'Georgia', serif;
+    font-family: "Georgia", serif;
     line-height: 1.8;
   }
 
@@ -1370,13 +1509,17 @@
     overflow: hidden;
   }
   .callout-style-10 .callout-info::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50%;
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 70%
+    );
     animation: rotate 20s linear infinite;
   }
   .callout-style-10 .callout-warning {
@@ -1389,8 +1532,12 @@
   }
 
   @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   /* 所有方案的通用文本样式 */
@@ -1481,7 +1628,11 @@
     font-weight: 600;
     padding: 10px 16px;
     margin-bottom: 8px;
-    background: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--primary) / 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.1) 0%,
+      hsl(var(--primary) / 0.05) 100%
+    );
     border-radius: 8px;
     color: hsl(var(--foreground));
   }
@@ -1532,13 +1683,17 @@
   }
 
   .sidebar-style-5 .sidebar-separator::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.3) 100%);
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--primary) / 0.3) 100%
+    );
     border-radius: 0 2px 2px 0;
   }
 
@@ -1564,7 +1719,11 @@
     letter-spacing: 0.05em;
     padding: 6px 14px;
     margin-bottom: 8px;
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--primary) / 0.7) 100%
+    );
     color: white;
     border-radius: 16px;
     display: inline-block;
@@ -1714,12 +1873,20 @@
 
   /* 方案 3: 渐变色主题 */
   .optimization-style-3 .section-header {
-    background: linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--primary) / 0.1) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.2) 0%,
+      hsl(var(--primary) / 0.1) 100%
+    );
     border-color: hsl(var(--primary) / 0.3);
   }
 
   .optimization-style-3 .sidebar-item.active {
-    background: linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.15) 0%,
+      hsl(var(--primary) / 0.05) 100%
+    );
     color: hsl(var(--primary));
     font-weight: 600;
   }
@@ -1777,7 +1944,11 @@
 
   /* 方案 7: 彩色分类 */
   .optimization-style-7 .daily-section .section-header {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.15) 0%,
+      rgba(59, 130, 246, 0.05) 100%
+    );
     border-color: rgba(59, 130, 246, 0.3);
   }
 
@@ -1790,7 +1961,11 @@
   }
 
   .optimization-style-7 .knowledge-section .section-header {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(34, 197, 94, 0.15) 0%,
+      rgba(34, 197, 94, 0.05) 100%
+    );
     border-color: rgba(34, 197, 94, 0.3);
   }
 

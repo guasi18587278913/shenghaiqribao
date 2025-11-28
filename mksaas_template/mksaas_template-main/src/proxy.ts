@@ -110,14 +110,18 @@ export default async function proxy(req: NextRequest) {
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
     // Get locale from the URL or use default locale
-    const locale = getLocaleFromPathname(nextUrl.pathname, LOCALES) || DEFAULT_LOCALE;
+    const locale =
+      getLocaleFromPathname(nextUrl.pathname, LOCALES) || DEFAULT_LOCALE;
 
     console.log(
       '<< proxy end, not logged in, redirecting to login, callbackUrl',
       callbackUrl
     );
     return NextResponse.redirect(
-      new URL(`/${locale}/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+      new URL(
+        `/${locale}/auth/login?callbackUrl=${encodedCallbackUrl}`,
+        nextUrl
+      )
     );
   }
 
@@ -137,7 +141,10 @@ function getPathnameWithoutLocale(pathname: string, locales: string[]): string {
 /**
  * Get the locale from the pathname (e.g. /zh/dashboard to zh)
  */
-function getLocaleFromPathname(pathname: string, locales: string[]): string | null {
+function getLocaleFromPathname(
+  pathname: string,
+  locales: string[]
+): string | null {
   const localePattern = new RegExp(`^/(${locales.join('|')})(/|$)`);
   const match = pathname.match(localePattern);
   return match ? match[1] : null;

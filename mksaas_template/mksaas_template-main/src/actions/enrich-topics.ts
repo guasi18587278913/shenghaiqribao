@@ -3,8 +3,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { slugify } from '@/config/knowledge-categories';
-import { generateText } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { generateText } from 'ai';
 
 interface TopicInput {
   title: string;
@@ -99,7 +99,7 @@ function tokenize(s: string): Set<string> {
       .toLowerCase()
       .replace(/[#`*_>~|[\](){}/\\\-.,!?，。；、“”‘’：:…]/g, ' ')
       .split(/\s+/)
-      .filter((w) => w && w.length >= 2),
+      .filter((w) => w && w.length >= 2)
   );
 }
 
@@ -114,7 +114,7 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 async function findRelatedCandidates(
   title: string,
   content: string,
-  index: { title: string; url: string; file: string }[],
+  index: { title: string; url: string; file: string }[]
 ) {
   const tokens = tokenize(`${title} ${content.slice(0, 400)}`);
   const scored = index
@@ -129,7 +129,9 @@ async function findRelatedCandidates(
   return scored;
 }
 
-export async function enrichTopics(topics: TopicInput[]): Promise<EnrichedTopic[]> {
+export async function enrichTopics(
+  topics: TopicInput[]
+): Promise<EnrichedTopic[]> {
   const index = await readKnowledgeIndex();
 
   if (!topics || topics.length === 0) return [];
@@ -140,7 +142,7 @@ export async function enrichTopics(topics: TopicInput[]): Promise<EnrichedTopic[
       suggestedTitle: fallbackTitle(t.title, t.content),
       tags: [],
       related: await findRelatedCandidates(t.title, t.content, index),
-    })),
+    }))
   );
 
   if (!openrouter) {
@@ -153,7 +155,7 @@ export async function enrichTopics(topics: TopicInput[]): Promise<EnrichedTopic[
     const items = topics
       .map(
         (t, i) =>
-          `话题${i}：\n原始标题: ${t.title}\n内容节选: ${t.content.slice(0, 400)}`,
+          `话题${i}：\n原始标题: ${t.title}\n内容节选: ${t.content.slice(0, 400)}`
       )
       .join('\n\n');
     const prompt = `${system}\n示例返回: {"topics":[{"index":0,"title":"Claude Code 快速上手","tags":["AI编程","入门"]}]}\n\n${items}`;
@@ -181,11 +183,18 @@ export async function enrichTopics(topics: TopicInput[]): Promise<EnrichedTopic[
           suggestedTitle = suggestedTitle.slice(0, 10);
         }
         const tags: string[] = Array.isArray(ai?.tags)
-          ? ai.tags.slice(0, 4).map((x: any) => String(x).trim()).filter(Boolean)
+          ? ai.tags
+              .slice(0, 4)
+              .map((x: any) => String(x).trim())
+              .filter(Boolean)
           : [];
-        const related = await findRelatedCandidates(suggestedTitle || t.title, t.content, index);
+        const related = await findRelatedCandidates(
+          suggestedTitle || t.title,
+          t.content,
+          index
+        );
         return { suggestedTitle, tags, related };
-      }),
+      })
     );
     return enriched;
   } catch (e) {
