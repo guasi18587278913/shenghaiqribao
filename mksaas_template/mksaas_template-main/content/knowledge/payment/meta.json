@@ -3,6 +3,9 @@
   "description": "海外支付方式、虚拟卡申请、订阅管理",
   "icon": "CreditCard",
   "pages": [
+    "2025-11-29-mvp-支付接口选择",
+    "2025-11-29-cursor-计费异",
+    "2025-11-28-stripe业务地址",
     "2025-11-26-gemini",
     "unregistered-site-payment",
     "creem-payment",
