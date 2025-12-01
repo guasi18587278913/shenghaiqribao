@@ -3,6 +3,8 @@
   "description": "Cursor、Claude Code、GitHub 等开发工具配置",
   "icon": "Code",
   "pages": [
+    "2025-11-30-cursor-cli",
+    "2025-11-30-agent开发web",
     "2025-11-28-cursor调试数据",
     "2025-11-28-gpt-51-co",
     "工具选型路线图",
