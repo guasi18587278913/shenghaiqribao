@@ -132,7 +132,7 @@ export function CommentSection({ targetType, targetId }: CommentSectionProps) {
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
             <p className="mb-4 text-muted-foreground">登录后参与讨论</p>
             <Button asChild variant="outline">
-              <Link href="/login">
+              <Link href="/auth/login">
                 <LogIn className="mr-2 h-4 w-4" />
                 去登录
               </Link>
