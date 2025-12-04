@@ -160,8 +160,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
       breadcrumbs={
         <Breadcrumbs
           items={[
-            { label: '首页', href: '/' },
-            { label: '日报', href: '/reports' },
+            { label: '首页', href: '/reports' },
             { label: page.data.date, href: page.url },
           ]}
         />

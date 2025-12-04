@@ -3,6 +3,7 @@
   "description": "项目规划、开发流程、部署上线",
   "icon": "Rocket",
   "pages": [
+    "2025-12-03-mvp策略从小场景",
     "项目开发部署常见问题",
     "supabase-neon-database",
     "2025-11-26-ai-创意项",
