@@ -3,6 +3,7 @@
   "description": "Cursor、Claude Code、GitHub 等开发工具配置",
   "icon": "Code",
   "pages": [
+    "2025-12-04-cursor-屏蔽冗",
     "2025-12-02-ai编程小步迭代优",
     "2025-11-30-cursor-cli",
     "2025-11-30-agent开发web",
