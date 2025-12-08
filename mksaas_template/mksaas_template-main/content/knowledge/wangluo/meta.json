@@ -1,0 +1,13 @@
+{
+  "title": "网络与代理",
+  "description": "网络环境配置、代理选择、IP 风险检测",
+  "icon": "Globe",
+  "defaultOpen": false,
+  "pages": [
+    "网络代理与网络环境配置实操",
+    "claudecode网络配置",
+    "网络排查与最佳实践",
+    "comet及其他替代方案",
+    "新手高频坑位"
+  ]
+}

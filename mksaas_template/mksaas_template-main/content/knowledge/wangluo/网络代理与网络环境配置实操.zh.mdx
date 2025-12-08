@@ -1,0 +1,180 @@
+---
+title: 网络代理与网络环境配置实操
+description: 网络环境配置、代理选择、IP 风险检测
+category: 网络与代理
+tags: ["设备配置"]
+importance: 3
+---
+
+## 网络代理工具与网络环境策略
+
+### 核心原则
+
+<Callout type="info">
+网络环境纯净度是决定账号“能否注册、能否保号”的关键。注册前先在 `scamalytics.com`、`ipjiance.com`、`ipinfo.io`、`ping0.cc`、`ip111.cn` 全面检测，风险值 0–25 为低风险，超过 40 建议直接切换网络环境。
+</Callout>
+- 确保客户端支持系统级代理（TUN）。Claude Code、Dia 浏览器等桌面应用会绕开浏览器，在未开启 TUN 时常表现为“网页能用、终端报错”。
+- 网络策略要配合账号策略：新号尽量固定在 1–2 个网络环境上，切换网络环境前先退出所有敏感服务。
+
+<Callout type="info" title="🔧 客户端与配置建议">
+- **Mac**：Surge（稳定但需订阅）、Clash Pro、Clash Verge 均内置 TUN 模式；Clash X 不支持 TUN，建议升级。
+- **Windows**：选择支持系统代理的客户端（Clash for Windows、NekoRay 等），并启用 TUN/系统代理，确保终端、WSL、VSCode 等都走网络代理工具。
+- **TUN 配置提醒**：在 Clash Verge 中右键菜单即可开启；开启后若出现断网，优先尝试切换网络环境或重启客户端。
+</Callout>
+
+### 网络环境选择与维护
+- 地区优先级：美国 > 日本/欧洲 > 其他地区。Claude Code、Dia 对香港网络环境敏感，注册阶段尽量不用。
+
+<Callout type="info">
+- 保持多线路备用：机场一般月费 20–50 元；重要网络环境准备 2–3 条备用，遇到风控及时切换。
+</Callout>
+- 住宅 IP 获取方式：
+  - 闲鱼购买住宅 IP（约 180 元/条），成功率高但需要频繁换号。
+  - 使用 OCloud 等提供住宅网络环境的服务，支持 Cursor、GPT、Claude。
+  - 自建 VPS + 住宅 IP 组合，适合长期稳定使用。
+
+<Callout type="info">
+- 玄学提醒：检测通过并不代表一定可用；一旦登录失败或提示异常，第一时间更换网络环境或客户端，而不是强行重试。
+</Callout>
+
+### ⚡ 合规与自建方案
+- **澳门手机卡**：属于合法上网方式，价格偏高，了解即可。
+- **自建 VPS**：Hostdare CKVM1、中国优化线路等适合小团队共享；搭建前确认自己有排障能力。支付可以用 Google Pay、Bybit 等渠道。
+
+### 常见模式问题
+
+<Callout type="info">
+- **全局 vs. 规则代理**：日常使用推荐“绕过大陆/分应用”模式，遇到特定域名访问异常，再把目标域名加入代理列表。长期全局代理容易触发国内服务异常。
+</Callout>
+
+<Callout type="info">
+**网络环境被识别**：当 Claude、ChatGPT 提示安全风险时，优先切换网络环境或换客户端。频繁重试同一 IP 只会放大风险。
+</Callout>
+
+## Dia 浏览器全流程
+
+Dia 是一款在浏览器中嵌入 AI 助手的 Mac 专用工具，能一边浏览网页一边让 AI 自动总结、截图提问、回答上下文问题。优点明显，但对设备与网络要求苛刻。
+
+### 硬件与网络要求
+
+<Callout type="info">
+- 仅支持 Apple Silicon（M1/M2/M3/M4）芯片的 Mac；Intel Mac 会直接提示“无效应用”。
+</Callout>
+- 系统需升级到较新版本的 macOS。
+- 网络环境必须为美国原生 IP；服务器或数据中心 IP 会报“地区受限”。
+
+### 安装与注册步骤
+1. 在启用美国网络环境的前提下访问 `[www.diabrowser.com](https://www.diabrowser.com/`) 下载客户端。
+2. 注册阶段可以使用邀请码（示例：`[diabrowser.com](https://diabrowser.com/invite/BMOABT`、`https://diabrowser.com/invite/60T0CT`），也可以直接注册。)
+
+<Callout type="info">
+3. 注意注册页的“确认密码”字段并非邀请码；两次密码需一致。
+</Callout>
+
+<Callout type="info">
+4. 双击安装包完成安装。若提示“无效”，确认是否为 Intel 芯片或系统版本过低。
+</Callout>
+5. 首次登录时保持美国原生网络环境，必要时重启客户端或电脑清理缓存。
+
+### 常见问题与解决
+- **登录白屏 / 右侧面板空白**：可能被广告或隐私规则拦截。关闭 EasyPrivacy、AdGuard Tracking Protection 等规则即可恢复。
+
+<Callout type="warning">
+- **网络环境受限**：更换到纯净的美国住宅网络环境，或重新检测当前网络环境的风险值。
+</Callout>
+
+<Callout type="warning">
+- **注册失败**：再次确认密码填写无误、网络环境纯净，并避免短时间内反复提交。
+</Callout>
+
+### ⚡ 替代方案
+- Windows 用户或网络条件受限时，可使用豆包浏览器、QQ 浏览器、ima 浏览器、Side Panel for Gemini 等工具组合。
+- Perplexity Comet 是目前公认的 Dia 替代品，支持 Windows，对网络要求更宽松（见下文）。
+
+<Callout type="info" title="付费策略与课程建议">
+- Dia 免费体验 2 天，之后 20 美元/月。小排老师建议：若投入高，可观察 ChatGPT Atlas 等官方产品动态再决定是否长期订阅。
+- 有需求的同学可以购买美国学生邮箱（闲鱼 10–20 元）作为注册辅助，但非必选项。
+</Callout>
+
+## Perplexity Comet（Dia 替代方案）
+
+- 支持 Windows，对网络环境要求不如 Dia 严格。
+- 使用邀请码 `[pplx.ai](https://pplx.ai/ytaohong82074`) 可领取 1 个月会员，体验完整功能。
+- 群友反馈体验：“对比 Dia 更稳定，也能在 Windows 上实现搜索+总结。”
+
+## Claude Code 网络配置
+
+Claude Code 依赖系统网络环境，如果终端或 VSCode 没有走代理，会出现“网页能用、编辑器连不上”的情况。
+
+### 🔧 VSCode 配置
+```json
+{
+  "http.proxy": "[127.0.0.1:7890",](http://127.0.0.1:7890",)   // 替换为实际端口
+  "http.proxyStrictSSL": false
+}
+```bash
+- 需在 VSCode 设置中手动加入上述配置，确保编辑器请求走代理。
+
+### 🔧 终端配置
+- 临时设置：
+  ```bash
+  export https_proxy=[127.0.0.1:7890](http://127.0.0.1:7890)
+  export http_proxy=[127.0.0.1:7890](http://127.0.0.1:7890)
+  ```bash
+- 永久设置：把上述变量写入 `~/.zshrc`、`~/.bashrc`。
+- Windows PowerShell 可用 `$Env:http_proxy`、`$Env:https_proxy`。
+
+<Callout type="info" title="TUN 模式的重要性">
+- 如果仍无法连接，大概率是客户端未开启 TUN 模式。Clash Verge、Clash for Windows、Surge 均可一键开启。
+</Callout>
+
+<Callout type="info">
+- 开启后注意网络环境地区：部分 TUN 网络环境默认走香港，Claude Code 会直接拒绝。
+</Callout>
+
+## 网络问题排查与最佳实践
+
+### 📌 排查清单（以 Claude Code 连不上为例）
+
+- **网络环境地区**：当前是否为美国/英国等允许地区？香港网络环境直接换掉。
+
+- **代理配置**：VSCode、终端、系统代理是否都启用？端口填写是否正确？
+
+- 
+<Callout type="warning">
+**IP 纯净度**：使用 `[ping0.cc](https://ping0.cc/`) 检测，确认是 Residential IP 且风险值低。
+</Callout>
+
+- **插件版本**：尝试升级或回退到 2.0.08、2.0.10 等稳定版本。
+
+- **账号状态**：浏览器能否顺利访问 Claude？账号是否存在风控或封禁？
+
+- **兜底操作**：新开对话 → 重启 VSCode → 重启电脑 → 切换网络环境 → 在终端直接调用 `claude` 命令测试。
+
+<Callout type="info" title="⚡ 网络环境推荐方案">
+- **基础版**：机场订阅 + 美国原生节点 + 规则代理模式，每月 20–50 元。
+- **进阶版**：自建美国 VPS + 独享 IP + Clash（启用 TUN），适合重度使用者。
+- **豪华版**：CN2 GIA 专线 + 美国住宅 IP + Surge/ClashX Pro + 智能分流，对稳定性要求极高的团队可考虑。
+</Callout>
+
+### 💡 实战案例
+- **Dia 无法登录**（考拉）：切换多个国家网络环境无效，最终更换为纯净的美国网络环境并开启 TUN 后成功。
+- **电脑频繁断网**（王道春）：使用网络代理工具 1 小时后网络断开，排查后发现是客户端冲突，重新安装并更换软件解决。
+
+<Callout type="warning">
+- **Cursor 显示 “Not Available”**：在 Cursor 设置中将 Network 协议改为 HTTP/1.1，开启客户端 TUN 模式，使用美国/英国节点并保证风险值 ≥28，问题即可解决。
+</Callout>
+
+<Callout type="info" title="日常维护建议">
+
+</Callout>
+1. 开发时始终保持代理开启，尤其是需要访问 API 或 CLI 的工具。
+
+<Callout type="warning">
+2. 对 Claude、ChatGPT 等敏感服务固定使用美国网络环境，避免频繁切换。
+</Callout>
+3. 定期检测网络环境纯净度，任何异常立即切换网络环境。
+4. 准备至少两套备用网络环境或备用客户端，出现异常时迅速切换。
+5. 自建或长期使用时，关注公网 IP 是否被封；必要时更换供应商或购买新的住宅 IP。
+
+通过上述配置与排查步骤，基本可以覆盖大多数代理、网络、网络环境相关问题，为后续账号注册、支付以及开发工具使用打下稳定基础。
