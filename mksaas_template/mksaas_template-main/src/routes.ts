@@ -86,9 +86,7 @@ export const routesNotAllowedByLoggedInUsers = [Routes.Login, Routes.Register];
 export const protectedRoutes = [
   Routes.Dashboard,
   Routes.AdminUsers,
-  Routes.Reports,
-  Routes.ReportsUpload,
-  Routes.ReportsPreview,
+
   Routes.SettingsProfile,
   Routes.SettingsBilling,
   Routes.SettingsCredits,
