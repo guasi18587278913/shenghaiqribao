@@ -20,6 +20,57 @@ import { normalizeTitle } from '@/lib/report-parser';
  * 以保证“合并优先于新建”的默认策略。
  */
 const AUTO_MERGE_THRESHOLD = 0.55; // 相似度阈值（0-1），达到则优先合并
+const PROJECT_START_DATE = '2025-10-27'; // Week 1 Start Date (Monday)
+
+/**
+ * Calculate week number and folder name
+ */
+function getWeekInfo(dateStr: string) {
+  const start = new Date(PROJECT_START_DATE);
+  const current = new Date(dateStr);
+
+  // Calculate difference in milliseconds
+  const diffTime = current.getTime() - start.getTime();
+  // Convert to days
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  const weekNum = Math.floor(diffDays / 7) + 1;
+  const folderName = `Week-${weekNum}`;
+
+  // Calculate week range (Monday to Sunday)
+  const weekStart = new Date(start);
+  weekStart.setDate(start.getDate() + (weekNum - 1) * 7);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+
+  const startMonth = weekStart.getMonth() + 1;
+  const startDay = weekStart.getDate(); // 8
+  const endDay = weekEnd.getDate(); // 14
+
+  // Week title, e.g., "12月第2周 (8-14日)"
+  // Determine which "week of the month" it is?
+  // The user uses "12月第2周".
+  // Simplified logic: Just use the month of the start date + simple counter?
+  // Or just rely on the existing title format if matching?
+  // Let's try to match the existing format: "M月第N周 (D-D日)"
+  // Determining "第N周" of the month is tricky.
+  // "12月第2周" -> Dec 8. Dec 1 was Week 1.
+
+  // Custom logic for "Week of Month":
+  const firstDayOfMonth = new Date(weekStart.getFullYear(), weekStart.getMonth(), 1);
+  const dayOfWeek = firstDayOfMonth.getDay() || 7; // 1 (Mon) - 7 (Sun)
+  // Shift to previous Monday to align weeks?
+  // Let's simply count how many Mondays have passed in this month.
+  const weekOfMonth = Math.ceil((weekStart.getDate() + (firstDayOfMonth.getDay() || 7 ) - 1) / 7);
+  // Actually, let's just use a simple week count.
+  // Dec 1 (Sun, if 2024? No 2025).
+  // Let's stick to "Month + Week X" or just "Week X (Date Range)".
+  // User's format: "12月第2周 (8-14日)"
+
+  const weekTitle = `${startMonth}月第${weekOfMonth}周 (${startDay}-${endDay}日)`;
+
+  return { folderName, weekTitle };
+}
 
 /**
  * 预处理日报 Markdown：
@@ -103,9 +154,16 @@ export async function generateReportFiles(data: {
     const contentDir = path.join(process.cwd(), 'content');
 
     // 1. 生成日报 MDX
+    // 1. Determine Week Folder
+    const { folderName, weekTitle } = getWeekInfo(data.metadata.date);
+    const weekDir = path.join(contentDir, 'reports', folderName);
+
+    // Ensure week directory exists
+    await fs.mkdir(weekDir, { recursive: true });
+
+    // 1. 生成日报 MDX
     const reportPath = path.join(
-      contentDir,
-      'reports',
+      weekDir,
       `${data.metadata.date}.mdx`
     );
     const reportContent = generateReportMDX(
@@ -116,8 +174,8 @@ export async function generateReportFiles(data: {
     await fs.writeFile(reportPath, reportContent, 'utf-8');
     results.reportFile = reportPath;
 
-    // 2. 更新 reports/meta.json
-    await updateReportsMeta(data.metadata.date);
+    // 2. 更新 meta.json (Both Week folder and Root)
+    await updateReportsMeta(data.metadata.date, folderName, weekTitle);
 
     // 3. 生成或合并知识库 MDX（只处理勾选的话题）
     for (const topic of data.approvedTopics) {
@@ -382,25 +440,48 @@ async function safeExists(p: string) {
 }
 
 /**
- * 更新 reports/meta.json
+ * Update meta.json files
  */
-async function updateReportsMeta(date: string) {
-  const metaPath = path.join(process.cwd(), 'content/reports/meta.json');
+async function updateReportsMeta(date: string, folderName: string, weekTitle: string) {
+  const contentDir = path.join(process.cwd(), 'content/reports');
+  const rootMetaPath = path.join(contentDir, 'meta.json');
+  const weekMetaPath = path.join(contentDir, folderName, 'meta.json');
 
   try {
-    const content = await fs.readFile(metaPath, 'utf-8');
-    const meta = JSON.parse(content);
-
-    // 添加新日期到 pages 数组（如果不存在）
-    if (!meta.pages.includes(date)) {
-      // 按日期降序插入
-      meta.pages = [date, ...meta.pages.filter((p: string) => p !== 'index')];
-      if (meta.pages[meta.pages.length - 1] !== 'index') {
-        meta.pages.push('index');
-      }
+    // 1. Update Week Meta
+    let weekMeta = { title: weekTitle, pages: [] as string[] };
+    try {
+      const content = await fs.readFile(weekMetaPath, 'utf-8');
+      weekMeta = JSON.parse(content);
+    } catch {
+      // New file, defaults used
     }
 
-    await fs.writeFile(metaPath, JSON.stringify(meta, null, 2), 'utf-8');
+    if (!weekMeta.pages.includes(date)) {
+      weekMeta.pages = [date, ...weekMeta.pages];
+      weekMeta.title = weekTitle; // Update title just in case
+      await fs.writeFile(weekMetaPath, JSON.stringify(weekMeta, null, 2), 'utf-8');
+    }
+
+    // 2. Update Root Meta (Ensure Week folder is listed)
+    const rootRaw = await fs.readFile(rootMetaPath, 'utf-8');
+    const rootMeta = JSON.parse(rootRaw);
+
+    if (!rootMeta.pages.includes(folderName)) {
+      // Insert Week folder, keeping 'index' at the end and date order
+      // Assuming simpler logic: Add to top if not present, but exclude 'index'
+      const pagesWithoutIndex = rootMeta.pages.filter((p: string) => p !== 'index');
+      if (!pagesWithoutIndex.includes(folderName)) {
+         // Sort weeks? They are "Week-X". "Week-7" > "Week-6".
+         // Simple unshift
+         pagesWithoutIndex.unshift(folderName);
+         // Optional: Sort pagesWithoutIndex by Week number descending?
+         // pagesWithoutIndex.sort((a, b) => ...);
+      }
+      rootMeta.pages = [...pagesWithoutIndex, 'index'];
+      await fs.writeFile(rootMetaPath, JSON.stringify(rootMeta, null, 2), 'utf-8');
+    }
+
   } catch (error) {
     console.error('Failed to update reports meta:', error);
     throw error;
