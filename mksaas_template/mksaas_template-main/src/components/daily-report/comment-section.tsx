@@ -7,8 +7,7 @@ import { authClient } from '@/lib/auth-client';
 import type { Comment, CommentTargetType } from '@/types/daily-report';
 import { formatDistanceToNow } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
-import { LogIn, MessageSquare, Send } from 'lucide-react';
-import Link from 'next/link';
+import { MessageSquare, Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -128,17 +127,7 @@ export function CommentSection({ targetType, targetId }: CommentSectionProps) {
               </div>
             </div>
           </>
-        ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-            <p className="mb-4 text-muted-foreground">登录后参与讨论</p>
-            <Button asChild variant="outline">
-              <Link href="/auth/login">
-                <LogIn className="mr-2 h-4 w-4" />
-                去登录
-              </Link>
-            </Button>
-          </div>
-        )}
+        ) : null}
       </div>
 
       {/* Comments List */}
