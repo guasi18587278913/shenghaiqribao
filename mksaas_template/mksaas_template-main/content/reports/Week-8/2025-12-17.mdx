@@ -1,0 +1,121 @@
+---
+title: 12-17 AI产品出海日报
+description: 今日深海圈圈友重点讨论了出海基础设施（Vercel/Neon）的支付风控与限流陷阱，深入交流了 Cursor 和 V0 等昂贵工具的“平替”或降本工作流，并分享了如何解决 AI 编程工具（Antigravity/Cursor）在本地环境出现的“罢工”或卡顿问题。
+date: "2025-12-17"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 1. 基础设施避坑：免费的最贵，支付风控趋严
+
+大家在基础设施的使用上分享了几个“血泪”教训，核心共识是**免费套餐在生产环境极不稳定**，且海外服务的风控正在收紧。
+
+* **Vercel 免费版限流熔断：**
+
+  * **现象：** 有圈友的站点流量突增（日活1000左右），导致 Vercel 直接暂停服务（"This deployment is temporarily paused"），没有缓冲期。
+
+  * **教训：** 免费资源一旦超限会立即断服，恢复服务需要升级到 Pro 版（$20/月）。圈友感叹“免费才是世界上最贵的”，建议有业务量的站点尽早付费，或自行配置防刷逻辑（如使用 Turnstile，但需注意用户体验）。
+
+* **Neon 与 Stripe 支付风控：**
+
+  * **现象：** Neon 的 Stripe 支付验证非常严格，账单地址不匹配会导致支付失败，甚至直接锁卡/暂停服务。
+
+  * **建议：** 支付时务必确保账单信息准确，准备好备用支付方案。
+
+* **Supabase 数据库连接异常：**
+
+  * 圈友确认了近期 Supabase 存在连接数激增的 Bug，官方已修复并邮件确认，遇到类似问题的圈友可关注服务监控。
+
+### 2. 工具降本与提效：V0与Cursor的省钱攻略
+
+针对 AI 开发工具昂贵的订阅费，圈友们摸索出了一套组合拳方案：
+
+* **V0 的高性价比替代思路：**
+
+  * **痛点：** V0 很好用但 $20 的额度消耗极快。
+
+  * **替代方案：**
+
+    1. 尝试 **bolt.new** 或蹭免费额度；
+
+    2. **工作流优化：** 直接在 Starter Kit（样板代码）的基础上，结合需求文档和原型图，让 AI 在 VSCode/Cursor 中写代码，跳过 V0 生成原型的步骤。
+
+    3. **模型降级：** 遇到非核心逻辑，可用 DeepSeek 等便宜大模型顶替 GPT-4。
+
+* **Cursor 的低价渠道：**
+
+  * 部分圈友觉得 $50 的套餐性价比低，推荐使用第三方的中转服务（如圈友提及的“CC中转”），价格约为官方的 1.9 折。
+
+* **OpenAI 新动态：**
+
+  * OpenAI 发布了新的图片生成模型 **Hazelnut**（较强）和 **Chestnut**，GPT image 1.5 已上线，但圈友反馈目前效果似乎仍未超越 Flux（“香蕉”）。
+
+### 3. AI 调教实战：解决“过度规划”与环境卡死
+
+在实际编码过程中，大家对 AI 工具的“脾气”进行了针对性调优：
+
+* **Antigravity/Gemini 的“磨叽”问题：**
+
+  * **现象：** Gemini 3 Pro 模式下，AI 倾向于先写 Plan（计划）而不直接写代码，即便提示“直接干”也无效。
+
+  * **解法：**
+
+    1. 修改右上角的 **Review Policy**（自定义规则）；
+
+    2. **顺势而为：** 让 AI 先把计划写入 `plan.md` 文档，确认后再执行编码，效果反而更好。
+
+* **Starter Kit 的“过度设计”：**
+
+  * **现象：** 使用模板开发时，AI 经常建议补充大量未启用的支付/登录方式以求“健壮性”，浪费时间。
+
+  * **共识：** 现阶段 AI 的规范往往是累赘。建议忽略冗余建议，先跑通 MVP 核心功能，后续再迭代。
+
+* **Cursor 本地环境卡死：**
+
+  * **现象：** 修改 Bug 时本地服务频繁打不开，需反复杀进程重启。
+
+  * **排查：** 可能是终端开启过多导致。建议将 Dev 终端控制为一个，固定端口（如 3000），避免 AI 自动开启多个服务进程。
+
+***
+
+### 4. 精选资源与工具
+
+* **\[支付] Whop.com**
+
+  * 圈友推荐的一个新的支付 API 渠道，适合探索。
+
+* **\[工具] Antigravity 内置浏览器技巧**
+
+  * E2E 自动化测试时，可通过设置规则默认白名单，避免每次手动点击允许。
+
+* **\[教程] 香港办卡指南**
+
+  * 圈友总结的香港办卡实战流程与避坑总结。
+
+  * [点击查看飞书文档](https://ai.feishu.cn/wiki/AzLmwzkCWi9NHbkdZXOcmB2qn2d?from=from_copylink)
+
+* **\[新闻] OpenAI 开放 ChatGPT App 变现**
+
+  * 个人开发者现在也可以通过 ChatGPT App 进行变现了，利好独立开发者。
+
+  * [点击查看微信文章](https://mp.weixin.qq.com/s?__biz=MzkzMTcyMTgxNg==\&mid=2247504363\&idx=1\&sn=17015d99df1413ec77c3737c3f257a06\&chksm=c34ccfd1229d1cfbd56374697858e893b9654540e07ee69ca877d0462909ccb9efc3921d5320\&mpshare=1\&scene=1\&srcid=1217u2c4zihZu0tzUSCrFcpt\&sharer_shareinfo=212c7caa94c84ef20ee2157eb4f9074a\&sharer_shareinfo_first=212c7caa94c84ef20ee2157eb4f9074a#rd)
+
+* **\[课程] 深海圈二期结营直播**
+
+  * AI 产品出海高强度学习期结营链接。
+
+  * [点击查看直播/回放](https://appamvpb5mq9834.h5.xet.citv.cn/v4/course/alive/l_694127cee4b0694ca159d152?app_id=appamvpb5mq9834\&alive_mode=0\&pro_id=p_68f21a10e4b0694c5b3e1ed9\&type=2\&state=a0764775f06a82a1be51e50e4c9795d2_YL0Ydr\&resource_id=l_694127cee4b0694ca159d152\&resource_type=4\&payment_type=\&product_id=p_68f21a10e4b0694c5b3e1ed9\&available=1\&available_product=0\&share_user_id=u_67ac0a821387b_VkWuJRXn8f\&share_type=5\&scene=%E5%88%86%E4%BA%AB\&share_scene=1\&entry=2\&entry_type=2002)
+
+***
+
+### 📝 总结：今日关键Takeaway
+
+1. **付费买稳定：** 生产环境尽量避免使用 Vercel 等平台的免费套餐，一旦超量直接断服，得不偿失。
+
+2. **顺应 AI 逻辑：** 当 AI 执意要写 Plan 时，与其对抗不如让其生成文档，既满足了 AI 的推理链路，也方便人工 Review。
+
+3. **灵活降本：** V0 和 Cursor 原价较高，善用 Starter Kit + DeepSeek 或第三方渠道可以大幅降低开发成本。
+
+4. **环境管理：** Cursor 开发时注意控制终端数量和端口占用，避免“灵异”卡顿。
+
