@@ -1,0 +1,100 @@
+---
+title: 01-07 AI产品出海日报
+description:  今日群内最大的“羊毛”情报是关于利用老兵认证漏洞免费获取一年 ChatGPT Plus 的方法；技术侧重点讨论了 OpenCode 的 LSP 能力及多模型协作的编程流；此外，针对 Google/Antigravity 订阅失败和 GPT 客户端“降智”问题，群友们总结了详细的避坑指南。
+date: "2026-01-07"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 🚀 重点情报：ChatGPT Plus“0元购”与新工具
+
+**1. 免费获取一年 ChatGPT Plus 会员（灰色地带）**
+群内流传出一份利用“老兵认证（Veterans Claim）”漏洞免费获取一年 Plus 会员的教程。**注意：此方法利用了特定身份验证漏洞，存在封号或失效风险，仅做信息同步。**
+
+* **操作简述：** 准备新号 -> 访问特定验证页面（veterans-claim） -> 获取验证链接 -> 进入指定的 Discord 频道输入指令完成验证 -> 刷新页面绑卡（支持国内 Visa 或虚拟卡）即可扣款 0 元订阅。
+
+* *补充：群友提示验证环节也可在闲鱼寻找相关服务。*
+
+**2. 字节 Manus 竞品亮相**
+有群友分享了字节跳动推出的 Manus 竞品 **Anygen**，目前处于内测阶段，需要邀请码注册。据反馈，该工具在生成能力上试图对标现有头部产品。
+
+**3. 金融 AI 产品的新机会**
+关于 AI 创业方向，群内讨论了面向散户的金融工具。大家普遍认为金融市场离钱最近，付费意愿高，如 **ValueScan** 这类项目。但针对 A 股市场的工具开发存在明显的“红线”风险，需要极强的合规资质，建议开发者“摸着红线过河”或转向加密货币/美股市场。
+
+***
+
+### 🛠 技术实战：AI 编程工作流与 OpenCode
+
+**1. 多模型“组合拳”工作流**
+针对单一模型能力的局限，资深群友总结了一套高性价比的混合开发流程：
+
+* **GLM (智谱)：** 负责补位和基础任务；
+
+* **Gemini 3：** 专门负责前端代码生成；
+
+* **Claude (Sonnet/Opus)：** 负责后端逻辑编写及 Code Review（代码审查）；
+
+* **GPT-4.7/Codex：** 也是主力选项，有反馈称 GPT-4.7 的指令遵从能力已接近 Sonnet 4.5，且 Codex 模型耐用、成本低。
+
+**2. OpenCode 配置与 LSP 能力**
+关于开源编程工具 **OpenCode**，群内确认了其具备 **LSP (Language Server Protocol)** 能力，能够像 Claude Code 一样读取和理解代码库，不再单纯依赖外部 MCP 工具。
+
+* **显示问题：** 若在 IDE 终端显示不全，建议拉宽窗口。
+
+* **封号风险：** 讨论指出 OpenCode 若适配官方 Auth（认证），使用 Claude 渠道（cc）存在较高的封号风险，而其他两家模型相对安全。
+
+**3. 知识库对接**
+关于“如何将飞书 Wiki 作为知识库投喂给 Codex”，群友建议利用字节系的 **火山方舟（Volcano Ark）**，其自带知识库 API，能较好地解决企业文档与编程工具的互通问题。
+
+***
+
+### ⚠️ 避坑指南：账号订阅与网络故障排查
+
+**1. Google/Antigravity 订阅失败**
+多位群友遇到 Google 账号无法订阅 Antigravity 或 Gemini 会员的问题（页面打不开或报错）。
+
+* **原因分析：** 可能是账号年龄未验证（未满18岁）、IP 节点被风控、或该账号曾领取过免费权益。
+
+* **解决方案：**
+
+  * 访问 Google Support 链接验证账号年龄；
+
+  * 将 Chrome 设为默认浏览器并开启“Turn”模式（全局代理）；
+
+  * 最彻底的方法是更换干净的 IP 节点并注册全新的 Google 账号。
+
+**2. GPT 客户端“降智”与网络延迟**
+近期普遍反馈 GPT 手机端和电脑端 App 响应极慢或变笨（降智），而网页版相对正常。
+
+* **现象：** 客户端思考很久才回答，或直接报错。
+
+* **OpenRouter 限制：** 使用 API 调用 GPT 模型时，OpenRouter 会识别 IP，部分官方服务商（如 OpenAI 直接提供）会拒绝服务，而第三方 Provider 则可能通过。
+
+* **热点连接问题：** 电脑连手机热点无法使用 ChatGPT，建议手机和电脑同时开启代理工具。
+
+***
+
+### 🔗 精选资源与链接
+
+* **Anygen (Manus 竞品/含邀请码)：** [https://www.anygen.io/home](https://www.anygen.io/home?invitation_code=AINP2EA82SRZINP)
+
+* **林悦己 AI 提示词视频（抖音）：** [https://v.douyin.com/CSLMgtDC0KY/](https://v.douyin.com/CSLMgtDC0KY/)
+
+* **ValueScan (金融分析工具参考)：** [https://www.valuescan.io/](https://www.valuescan.io/)
+
+* **Google 账号年龄验证：** [https://support.google.com/accounts/answer/10071085?hl=en](https://support.google.com/accounts/answer/10071085?hl=en)
+
+* **Google AI 计划管理：** [https://one.google.com/ai](https://one.google.com/ai)
+
+***
+
+### 📝 每日总结
+
+1. **羊毛需谨慎：** 免费一年的 ChatGPT Plus 教程利用了身份验证漏洞，虽可操作但有道德和封号风险，建议自行评估。
+
+2. **模型需组合：** 不要迷信单一模型，用 Gemini 写前端、Claude 写后端的“混合双打”是目前的降本增效优选。
+
+3. **客户端不稳定：** 近期 GPT 官方客户端（App）网络波动大，遇到卡顿建议直接切换至网页版。
+
+4. **OpenCode 潜力：** 确认具备 LSP 能力，可作为 Claude Code 的平替工具，但需注意 API 来源的安全性。
