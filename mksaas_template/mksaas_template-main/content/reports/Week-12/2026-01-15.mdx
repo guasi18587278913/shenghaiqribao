@@ -1,0 +1,84 @@
+---
+title: 01-15 AI产品出海日报
+description: 本日群聊的核心议题非常实战：重点解决了近期海外订阅支付难的问题，摸索出了一套利用招行 Visa 卡联动 Apple Pay 的稳妥方案。此外，针对 AI 辅助编程工具 Antigravity 突发的连接报错问题，群内也给出了经过验证的修复手段，并讨论了 IDE 工具 TRAE 的最新权益。
+date: "2026-01-15"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 💳 支付实战：招行 Visa + Apple Pay 解决海外订阅
+
+针对近期海外服务（如 Claude、ChatGPT、Gemini 等）支付风控严格、代充溢价高的问题，群友们实测并总结了一套低成本、高成功率的\*\*“正规军”支付方案\*\*。
+
+* **核心工具：** 招商银行 Visa 全币种国际信用卡（黑卡免年费，白金卡需资产达标）+ 美区 Apple ID。
+
+* **新利好：** 据反馈，该卡自 1 月 15 日起支持绑定 Apple Pay，覆盖了绝大多数海外支付场景。
+
+* **关键操作路径（避坑指南）：**
+
+  * **不要直接订阅：** 绑定 Apple Pay 后，直接在 App 或网页订阅服务（如 Claude）极大概率会被拒付或风控。
+
+  * **正确姿势（曲线救国）：**
+
+    1. 使用 Safari 浏览器访问苹果官网礼品卡页面（apple.com/shop/gift-cards）；
+
+    2. 给自己购买美区礼品卡，付款方式选择 **Apple Pay**（调用招行 Visa）；
+
+    3. 收到兑换码后充值进美区 Apple ID 余额；
+
+    4. 利用余额进行订阅扣款。
+
+* **备选方案：** 也有群友反馈，通过 Google Pay 将地址修改为美国地址、语言切换为中文，也有概率成功消费。
+
+### 🛠️ 故障修复：Antigravity Tools 连接报错
+
+多位群友反映常用的反代工具 Antigravity Tools 突然出现连接错误，即便开启 TUN 模式或更换节点也无法解决。
+
+* **原因分析：** 疑似遭遇了 Google 今日新出现的风控策略，或者是本地历史数据/配置文件出现了“污染”。
+
+* **有效解决方案：**
+
+  1. 彻底删除工具的配置文件、聊天历史记录等本地数据；
+
+  2. 重启 Antigravity 客户端（核心步骤）；
+
+  3. 部分用户反馈此方法成功“救活”了工具。
+
+### 🤖 工具情报：TRAE 更新与 AI 编程技巧
+
+* **TRAE 更新：** 字节旗下的 IDE 工具 TRAE 的 Solo Coder 模式已支持 Skills 功能（隐性支持，无显性按钮）。
+
+  * **限制：** 目前似乎暂不支持 Claude 模型，默认使用 Max 模式（消耗快速问答次数/Token）。
+
+  * **羊毛：** 新用户目前有 600 次免费快速问答额度（约合 10 美刀），实测可用于代码 Review，效果尚可。
+
+* **直播预告：** 针对 AI 编程（Bolt / Cursor / Claude Code）的组合使用及报错定位，今晚将有专门的实战复盘与“省钱技巧”分享。
+
+### 📢 其他动态
+
+* **招募需求：** 群内有成员正在寻找后端程序员，负责知识版权网页后台建设（付费项目）。
+
+* **模型闲聊：** 大家简短讨论了不同模型的“性格”，例如 Gemini 被认为更契合部分用户的沟通习惯。
+
+***
+
+### 🔗 资源与链接
+
+* **教程文档：** [Claude Code + CC-Switch + Antigravity Tools 组合使用指南](https://mp.weixin.qq.com/s?__biz=MzA5NzgzNjE1Ng==\&mid=2247483750\&idx=1\&sn=ffd9dea2ddcebb2ec0dc99a32768603d)
+
+* **工具资讯：** [TRAE SOLO 已支持 Skills！](https://mp.weixin.qq.com/s/69EJIJtPICDTmbm3PlA9bQ)
+
+* **课程/直播：** [码叔编程：新手编程避坑指南与实战复盘](https://appamvpb5mq9834.h5.xet.citv.cn/v4/course/alive/l_6964b03fe4b0694ca16b4232?app_id=appamvpb5mq9834\&alive_mode=0\&pro_id=p_68f21a10e4b0694c5b3e1ed9)
+
+* **实用网址：** [Google Pay 设置页（用于改地址/语言）](https://myaccount.google.com/payments-and-subscriptions)
+
+***
+
+### 📝 总结
+
+1. **支付有路：** 招行 Visa + Apple Pay 买礼品卡是目前订阅美区服务最稳妥的方案，**不要直接刷卡订阅**。
+
+2. **报错必看：** Antigravity 突然用不了，请尝试清理本地配置并重启，大概率是风控导致的缓存问题。
+
+3. **工具更新：** TRAE 开始支持 Skills，且有免费额度，适合想“白嫖” GPT 能力进行代码审查的用户。
