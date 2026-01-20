@@ -1,0 +1,116 @@
+---
+title: 01-19 AI产品出海日报
+description: 今日社群讨论技术浓度极高，重点聚焦于 AI 小程序备案的血泪经验、Claude Code/Codex 的最新配置技巧以及移动端编程的新尝试。同时，深海圈启动了新一期“航海”选题调研，Stripe 收款与 MVP 落地成为热门需求。
+date: "2026-01-19"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 🚀 技术实战：Claude Code 配置与移动端编程
+
+**1. Claude Code/Codex 效率提升与指令变更**
+
+* **Ultrathink 指令失效：** 多位群友确认 `ultrathink` 触发最大推理能力的指令已被官方弃用。现在的解决方案是手动设置环境变量。
+
+  * **操作方法：** 使用命令 `export MAX_THINKING_TOKENS=63999`，然后运行 `claude --dangerously-skip-permissions`。
+
+* **性能感知：** 大家普遍反馈近期 Codex 响应速度显著变快，Token 消耗似乎有所优化（得益于 LSP 将代码 AST 化，减少了无关 Token 的读取）。
+
+* **移动端编程新姿势：** 刘小排分享了在手机上通过 Termux 等工具运行 Claude Code 和 Codex 的方案，实现了“走路也能编程”的设想。不过有群友反馈使用 Happy Codex 时遇到了 `-32001 Request timed out` 的报错，可能需要网络环境调试。
+
+**2. Next.js 开发新资源**
+
+* **Skills 规范库：** 助教分享了一个专门针对 Next.js 的 Claude Skills 规范库，能有效提升代码生成的健壮性，建议写 Next.js 的同学接入使用。
+
+**3. Google/Gemini 账号风控讨论**
+
+* **Antigravity 报错：** 有群友在使用 antigravity tool 管理 Gemini Pro 账号时，遇到多思考一会儿就报错的问题。
+
+* **排查思路：**
+
+  * **节点问题：** 建议挂链式代理，保持 IP 稳定；
+
+  * **家庭组权限：** 确认主账号是否开启了 Google One 共享；
+
+  * **工具风控：** 社区有反馈 antigravity tool 可能被谷歌风控，建议暂时停用或安装 `Antigravity Cockpit` 插件尝试解决。
+
+***
+
+### ⚠️ 合规与支付：AI 小程序备案与 PayPal 接入
+
+**1. AI 小程序过审“血泪史”**
+
+* **核心教训：** 做 AI 类小程序，**一定要提早进行互联网信息服务备案**。
+
+* **正确流程：**
+
+  1. 先提交互联网信息服务备案（最快约 5 天）；
+
+  2. 备案通过后，在小程序后台设置中增加“服务类目”，并上传备案通过截图；
+
+  3. 最后才提交小程序代码审核。
+
+* **避坑提醒：** 如果没有完成上述步骤直接送审，极大概率会被无限打回。目前国内对 AI 类小程序审核非常严格，虽有“付费快速过审”的说法，但走正规流程更稳妥。
+
+**2. PayPal 个人账户接入差异**
+
+* **接入实操：** 有群友在接入 PayPal 个人账户时发现，与 Stripe 不同，PayPal 似乎不需要预先创建用户订单，可以直接在代码中编写逻辑。刘小排指出，如果学通了课程里的 Stripe (Creem) 接入，PayPal 本质上是一样的，无需专门教程。
+
+***
+
+### 🚢 社区动态：新航海调研与产品发布
+
+**1. “深海圈航海”选题大调研**
+
+* 桑桑发起了新一期实战课程（航海）的意向接龙，涵盖“Stripe 收款全流程”、“3天完成 MVP”、“Reddit 引流”、“AI Agent 开发”等多个方向。
+
+* **热门方向：** 从接龙情况看，**Stripe 收款、垂直产品复刻开发、Reddit 引流、AI Agent 开发**是目前大家最痛点和感兴趣的方向。
+
+**2. 群友产品发布 (Build in Public)**
+
+* **Couple AI：** 群友 JsonChao 的新 AI 工具站 Couple AI 在 Product Hunt 上线，邀请大家体验支持。
+
+* **纹身网站：** 群友 Newbie 制作了一个纹身相关网站，并在群内成功链接到专业纹身师进行需求验证和痛点交流。
+
+***
+
+### 🔗 资源与工具推荐
+
+* **\[GitHub] Next.js Claude Skills**
+
+  * https://github.com/wsimmonds/claude-nextjs-skills
+
+  * *说明：提升 Next.js 代码生成的健壮性。*
+
+* **\[GitHub] Eigent (Claude Cowork 开源替代)**
+
+  * https://github.com/eigent-ai/eigent?tab=readme-ov-file
+
+  * *说明：类似 Claude Cowork 的开源框架，适合想自己部署玩的同学。*
+
+* **\[文章] 手机上使用 Claude Code 教程**
+
+  * https://mp.weixin.qq.com/s/7J... (链接已简化)
+
+  * *说明：刘小排分享的移动端编程方案。*
+
+* **\[域名] Spaceship 域名优惠码**
+
+  * https://www.spaceship.com/promos/?tab=domains
+
+* **\[工具] Couple AI (Product Hunt)**
+
+  * https://www.producthunt.com/products/couple-ai
+
+***
+
+### 📝 总结
+
+1. **开发注意：** 正在用 Claude Code 的同学，请更新 `ultrathink` 的环境变量配置，以免指令失效。
+
+2. **合规前置：** 打算做国内 AI 小程序的，务必先搞定 ICP 备案，不要抱侥幸心理，否则会卡在审核上很久。
+
+3. **行动项：** 对“深海圈航海”感兴趣的群友，请关注群内接龙，选出自己最急需解决的卡点（如支付、流量或开发）。
+
+
