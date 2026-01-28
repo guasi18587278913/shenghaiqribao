@@ -1,0 +1,89 @@
+---
+title: 01-27 AI产品出海日报
+description: 本日社群讨论技术浓度较高，重点聚焦在 AI 开发环境的稳定性（Claude 封号/报错、VS Code 插件问题）与 基础设施配置（Cloudflare 报错、支付收款渠道）。同时，关于 AI Agent 开发工具 Agentation 也有了第一手的使用测评。
+date: "2026-01-27"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 1. 技术维稳：Claude 防封策略与近期异常
+
+针对近期 Claude 账号高频封禁的问题，群内展开了关于“Google AI Ultra + Antigravity”方案的深度讨论。
+
+* **防封方案验证：** 有成员分享并验证了一套利用 Google AI Ultra 订阅来规避 Claude 封号的方法。多位成员反馈，相比不稳定的 Pro 账号，该方案在过去一个月内表现相对稳定，适合团队共享使用。
+
+* **新出现的隐忧：** 尽管方案总体有效，但近期开始有反馈指出 **Antigravity** 出现不稳定迹象，具体表现为频繁报错（Error）和重试（Retry），准备尝试该方案的群友需留意此风险。
+
+* **VS Code 插件登录故障：** 有开发者反映在 VS Code 中使用 Claude Code 插件时遇到死循环：点击登录跳转网页授权成功，但 VS Code 端无响应，仍显示未登录状态。此问题目前尚无明确解法，可能与本地环境或插件版本有关。
+
+### 2. 部署避坑：Cloudflare Workers 报错与选型
+
+关于使用 Cloudflare Workers 部署项目时出现的 **Error 1102**，群内专家给出了明确的排查方向和选型建议：
+
+* **报错原因：** 1102 错误通常是因为 CPU 时间超限。Cloudflare Workers 免费版限制 CPU 时间为 **10ms**，付费版（$5/月）为 **30s**。
+
+* **同步 vs 异步：** 如果是异步任务，免费版勉强够用；如果是同步处理，很容易超时。
+
+* **选型建议：**
+
+  * **API 中转/轻量任务：** 付费版 Workers 足够使用，且不需要维护服务器。
+
+  * **重计算任务：** 如果涉及视频转码（ffmpeg）等复杂计算，必须上 VPS（云服务器）。
+
+  * **网络加速：** VPS 访问慢可以通过套一层 Cloudflare 中转来解决。
+
+### 3. 搞钱基础设施：支付与收款渠道
+
+围绕独立开发者常用的 Creem 平台及小程序变现，大家交换了实操经验：
+
+* **Creem 收款提现：**
+
+  * **银行卡推荐：** 推荐使用香港银行卡（如 **众安银行 ZA Bank**、**天星银行**）接收打款。不推荐使用 Wise（可能有风控或费率问题）。
+
+  * **Webhook 故障：** 有群友遇到 Creem 订单生成但未发积分的问题，排查发现是 Webhook 推送失败。尽管 AI 提示可能是 Cloudflare 拦截，但更有可能是代码层面的异常处理未做好，建议优先自查代码逻辑。
+
+* **小程序虚拟支付：** 针对国内小程序无法直接加入购买/付费引导的问题（iOS 虚拟支付限制），群友建议参考成熟产品的做法，通过引导至私域或特定路径绕行解决。
+
+### 4. 工具测评：Agentation 使用体验
+
+群友分享了 AI 开发工具 **Agentation** 的使用感受，适合需要打磨细节的开发者尝试。
+
+* **优点：** 整体体验不错，适合辅助开发。
+
+* **缺点/坑点：**
+
+  * **理解能力偏差：** 当一次性要求修改多个元素时，AI 容易理解错误，需分步指令。
+
+  * **Token 消耗：** 极其消耗 Token。使用 GLM 模型时，120 次额度瞬间耗尽。
+
+  * **建议：** 推荐搭配 **Codex** 使用，额度更友好，性价比更高。
+
+### 5. 其他动态与资源
+
+* **模型八卦：** 市场传言智谱 GLM 4.8 或 5.0 即将发布；Kimi 2.5 已支持多模态。
+
+* **日报勘误：** 关于 Lennys 开发者福利包的价格，确认为 $$200-$$350 档位，此前日报提及的 $100 为早期特定用户的购买价，非普适价格。
+
+***
+
+### 🔗 提到的资源与链接
+
+* **\[工具] Agentation：** [https://agentation.dev/install](https://agentation.dev/install) （AI 辅助编程工具）
+
+* **\[文章] Claude 防封方案：** 《不会封号的Claude Code使用方法！已稳定测试一个月...》（群友验证通过，但需警惕近期报错）[查看文章](https://mp.weixin.qq.com/s?__biz=MzI1MTUxNzgxMA==&mid=2247500368&idx=1&sn=2d8b7e327f3b01f489e7f317d12da77d&chksm=e8960d692d867158bfc6568d53ad7838b4d22494a215f34f0ff99162269bd63444b79fe78d7e&mpshare=1&scene=1&srcid=0127rGO2JjJ0sQQ3JS4G4CtF&sharer_shareinfo=541bb96ab3f4a468af20b43be50d0cf6&sharer_shareinfo_first=541bb96ab3f4a468af20b43be50d0cf6#rd)
+
+* **\[文档] Cloudflare Error 1102 说明：** [https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1102/](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1102/)
+
+***
+
+### 📝 总结：今日要点
+
+1. **Claude 稳中有变：** Google Ultra 方案虽目前最稳，但 Antigravity 报错增多，入场需谨慎。
+
+2. **CF Workers 限制：** 遇到 1102 报错先看是不是免费版超时（10ms），API 转发建议直接上付费版。
+
+3. **收款路径共识：** 接收海外平台打款，众安银行等港卡是首选，避坑 Wise。
+
+4. **工具省钱技巧：** 用 Agentation 开发时，为了钱包着想，请切换到 Codex 模型。
+
