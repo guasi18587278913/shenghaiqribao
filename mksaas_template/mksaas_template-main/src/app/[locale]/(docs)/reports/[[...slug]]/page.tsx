@@ -191,11 +191,15 @@ export default async function ReportPage({ params }: ReportPageProps) {
       <MDX
         components={getMDXComponents({
           a: ({ href, ...props }: { href?: string; [key: string]: any }) => {
+            const normalizedHref =
+              typeof href === 'string' && href.startsWith('/r/')
+                ? `/${locale}${href}`
+                : href;
             const found = reportsSource.getPageByHref(href ?? '', {
               dir: page.file?.dirname,
             });
 
-            if (!found) return <Link href={href} {...props} />;
+            if (!found) return <Link href={normalizedHref} {...props} />;
 
             return (
               <HoverCard>
