@@ -1,0 +1,97 @@
+---
+title: 02-03 AI产品出海日报
+description: 今日技术讨论浓度极高：Claude 官方接口的大面积崩溃引发了对 Sonnet 5 即将发布的强烈猜测；开发工具领域，Codex 推出了被誉为“目前最强”的交互式计划模式。此外，群友们深度对比了 SuperGrok、Gemini 和 ChatGPT 在实时信息检索与编程辅助上的优劣，并分享了 Chrome 原生 AI 侧边栏的开启技巧。
+date: "2026-02-03"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 🚀 焦点新闻：Claude 5 传闻与服务异常
+
+今日 Claude 出现大范围服务异常（500 Error），包括官方对话界面和新会话功能，仅 API 中转和部分旧会话勉强可用。
+
+* **社区推测：** 结合近期关于“Claude 5 史诗级泄露”的消息，大家普遍猜测这是官方正在部署 Sonnet 5 或进行重大更新的前兆。
+
+* **现状：** “Claude code”报错，官方插件在新会话中崩溃，建议大家稍安勿躁，静待更新。
+
+### 🛠️ 工具评测：Codex 更新与 Chrome AI 侧边栏
+
+**1. Codex App 新版 CLI (0.94.0) 获高赞**
+
+* **核心亮点：** 计划模式（Plan Mode）迎来重大更新。与以往仅问三个固定问题不同，新版会像“AskUserQuestion”一样，先收集背景 -> 提问 -> 再收集 -> 生成高质量计划。
+
+* **用户评价：** 被群友称为“目前用过最好的计划模式实现”，交互感极强。
+
+* **平台提示：** Codex App 目前主打 macOS 桌面端（非移动端），界面交互直观，适合小白上手。有用户期待未来能增加类似 Claude Artifacts 的功能。
+
+**2. Chrome 浏览器原生支持 Gemini 侧边栏**
+
+* **功能：** Google Chrome 开始支持原生的 Gemini 侧边栏，体验对标 Dia 浏览器，有助于提升学习效率。
+
+* **开启门槛：** 目前仅对美国地区开放。国内用户想体验需要配置较复杂的网络环境（全局美国节点 + 干净 IP + 账号归属地支持）。
+
+* **替代方案：** 如果搞不定 Chrome 原生配置，可以使用 GPT Atlas 或 SuperGrok 等工具作为替代。
+
+### ⚔️ 模型实战：SuperGrok vs Gemini vs ChatGPT
+
+群内资深玩家对几大主流模型在“日常开发与信息检索”场景下的表现进行了对比，总结出以下组合打法：
+
+* **SuperGrok (信息源)：**
+
+  * **优势：** 实时性最强（背靠 Twitter 数据），适合搜索热门技术话题和最新资讯，信息比 GPT 新且“讲人话”。
+
+  * **成本：** 咸鱼约 95 元/月，API 搜索约 5 美刀/千次。
+
+  * **短板：** 生成的方案需要人工二次判断。
+
+* **Google Gemini (写作与 UI)：**
+
+  * **优势：** 适合辅助写作、UI 设计草稿以及大白话翻译。
+
+  * **建议：** 日常使用购买 Google 家庭组或商业版（business.gemini.google）性价比更高，避免学生号额度不足的问题。
+
+* **ChatGPT (老牌)：**
+
+  * **槽点：** 现在的网络信息不够新，个性化 Profile 调整经常让人崩溃。
+
+* **推荐工作流：** 用 SuperGrok/Google 搜索最新信息 -> 用 Gemini 打草稿/做 UI 原型 -> 用 Sonnet 精修代码 -> 用 Codex 进行 Review。
+
+### 💡 实用 Tips 与资源
+
+* **网站隐私协议速成：** 独立开发者上线网站时，无需专门找律师，直接让 AI 生成一份 Markdown 格式的隐私协议，挂在网站 Footer 即可。
+
+* **Claude 网络报错解决：** 使用“反重力”等工具时若频繁遇到 Claude 网络 Error，通常是节点问题，切换网络环境或改用 Gemini 可解。
+
+* **Apple ID 美区共享：** 仅下载免费软件可使用共享账号（某宝有售），但更新软件麻烦且有安全风险；长期使用建议自行注册或购买商业版。
+
+### 📅 线下活动：OpenClaw 面基
+
+* **活动预告：** 围绕 OpenClaw 项目，上海和北京地区将举办线下交流会（上海已开启报名）。
+
+* **参与者：** 刘小排等社区活跃成员将出席，主要进行技术交流和“交朋友”。
+
+***
+
+### 🔗 附：今日重点资源链接
+
+* **Claude 5 泄露分析文章：**
+  [Claude 5史诗级泄露，史上最强编程模型评测炸裂！核心秘密曝光](https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==\&mid=2652670576\&idx=1\&sn=92072dc66c0452bd163bf3d8949c3fe3\&chksm=f05ec3c92789149921f54833f9511f8694580f3f9180a9a90236acbb323a9712b5fdb766e5da\&mpshare=1\&scene=1\&srcid=020310Mh9Vhs8jU8asV1m2V2\&sharer_shareinfo=046a7bc6f3da484e45f2202110ca1158\&sharer_shareinfo_first=046a7bc6f3da484e45f2202110ca1158#rd)
+
+* **Chrome AI 开启教程：**
+  [教程：手把手教你启用 Chrome AI 功能](https://mp.weixin.qq.com/s/eAs8Mf8RrrCgrmIZ-maP2A)
+
+* **OpenClaw 线下活动报名：**
+  [送你的 OpenClaw 来交朋友 🦞](https://mp.weixin.qq.com/s?t=pages/image_detail\&scene=1&__biz=MjM5NDk5MTA0MQ==\&mid=2652329858\&idx=1\&sn=e2fd713d952f1d731b3ef23b3115cf6c\&from_masonry=1\&sharer_shareinfo_first=e6b89ab47f743803dac16c4635e3df2e\&sharer_shareinfo=e6b89ab47f743803dac16c4635e3df2e#wechat_redirect)
+
+* **AI Coding 经验分享 (OpenClawd作者)：**
+  https://steipete.me/posts/2025/shipping-at-inference-speed
+
+* **Google Gemini 商业版地址：**
+  business.gemini.google
+
+***
+
+**🔚 总结：**
+今天的核心在于\*\*“工具迭代”**与**“信息差”\*\*。Claude 的潜在更新和 Codex 的新模式都指向更智能的开发辅助；而善用 Grok 和 Chrome 原生 AI 功能，则是提升信息获取效率的关键。建议开发者重点关注 Codex 的 CLI 更新，并提前准备好网络环境以迎接可能的 Sonnet 5。
+
