@@ -1,0 +1,100 @@
+---
+title: 02-07 AI产品出海日报
+description: 今日社群讨论非常硬核，重点围绕 刘小排发布的新开源产品 以及 Claude Code (CC) / OpenClaw 的深度实战技巧 展开。大家不仅分享了如何解决高阶模型消耗过快的问题，还针对开发环境（IDE、账号风控）总结了一套切实可行的解决方案。
+date: "2026-02-07"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 🚀 重磅新品：Brainstorming Online 发布
+
+群主刘小排发布了基于 OpenClaw 开发的开源产品 **Brainstorming Online**。
+
+* **核心功能：** 帮助 Vibe Coding 的新手将脑海中模糊的想法，转化为专业的专业需求文档（PRD）。
+
+* **设计灵感：** 源自 Claude Code + AskUserQuestion 的交互模式以及 Brainstorming Skill 的内核。
+
+* **特点：** 在线使用、免注册、免安装，完全开源。
+
+* **相关资源：**
+
+  * 在线体验：https://brainstorming.dev
+
+  * 源码仓库：https://github.com/OpenClaw-OPCC/brainstorming-dev
+
+***
+
+### 🛠 Claude Code (CC) 与模型实战技巧
+
+**1. 模式与体验槽点**
+
+* **Plan 模式避坑：** 多位成员反馈 CC 的 Plan 模式体验不佳。主要问题包括：文档修改速度慢、难以进行方案探讨（Chat about this 选项常不开启）、默认只接受既定方案、以及文件存储在 `~/.claude` 目录下导致修改困难。
+
+* **模型版本更新：** 关于使用 4.6 版本（Opus等高阶模型），用户可以通过直接向 CC 发送指令要求使用 4.6，系统会引导操作，之后即可自动调用。
+
+**2. 成本控制与模型推荐**
+
+* **高耗能预警：** 运行高阶模型（如 Opus 4.6）消耗极大，有成员反映“1小时烧完5小时限额”。
+
+* **替代方案：**
+
+  * **性价比之选：** 推荐 Antigravity Pro 里的 **Gemini 3 Flash**，兼顾智能、速度和成本。
+
+  * **无限制/特定场景：** **Grok** 被推荐用于对“道德感限制”要求较低的场景；**即梦2** 在视频生成方面获得极高评价（甚至被认为强于 Sora）；Claude 额度不足时可用 Qwen oauth 应急。
+
+  * **任务拆解：** 建议简单任务切换简单模型，或者多账号轮换使用。
+
+**3. 部署优化建议**
+
+* 针对部署时 Token 消耗过大的问题，建议不要在本地机器直接 Build。
+
+* **最佳实践：** 利用 **GitHub Actions、ghcr.io** 配合 **Dokploy** 进行 Docker 部署。建议新手让 AI 解释这几个关键词并生成自动化流程，能大幅降低本地消耗。
+
+***
+
+### 🔧 开发环境与疑难杂症排查
+
+**1. IDE 选择：VS Code vs Cursor**
+
+* **争议焦点：** 关于 Cursor 无法将 Codex 放入右侧边栏及窗口关闭问题。
+
+* **老手建议：** 推荐尽早适应 **VS Code**，自由度更高；Cursor 适合新手过渡。
+
+**2. 账号与工具风控解决方案**
+
+* **Antigravity/工具登录失败：** 多人遇到登录无反应或报错。
+
+  * **排查路径：** 换代理 -> 重启 -> 重装 -> **绑定手机号**。
+
+  * **最终结论：** 近期风控升级，必须绑定手机号。若无可用号码，建议通过家人或接码平台（甚至闲鱼）解决。
+
+  * **参考教程：** https://cloud.lingyunlab.com/s/PwTr
+
+* **Resend 邮件封号：** 通常与绑定的域名被判定滥用有关，建议用 AI 辅助撰写申诉邮件，或尝试更换域名/网站申请。
+
+* **Google 403 / Cowork 启动失败：** 基本确认为网络环境问题（梯子/节点），Chat 能用但 Cowork 报错是因为两者链路不同，需排查终端网络代理设置。
+
+***
+
+### 📰 其他动态与资源
+
+* **文章分享：** 关于 Claude Code 和 OpenClaw 区别的深度思考。
+
+  * 链接：[Claude Code和OpenClaw有什么区别？](https://mp.weixin.qq.com/s?__biz=MzI1MTUxNzgxMA==\&mid=2247501121\&idx=1\&sn=5903e200136ae8417fcef0fe8397ee07\&chksm=e8da0cddaaad100ce8b06961eccebdaebf1e792e3b364f792ed27bdc8667c35a34521d836a88\&mpshare=1\&scene=1\&srcid=0207uhXCLeM7k6hBD36INhHi\&sharer_shareinfo=a3c356187b3970413c8418e1aeb010d9\&sharer_shareinfo_first=a3c356187b3970413c8418e1aeb010d9#rd)
+
+* **微信输入法更新：** Mac 版 2.0 已支持语音输入（Windows 版暂不确定）。
+
+* **实战捷报：** 有群友利用 Demo 产品在小红书成功出首单，验证了 MVP（最小可行性产品）模式的可行性。
+
+***
+
+### 📝 总结：今日关键Takeaway
+
+1. **新品安利：** 有想法写不出文档？快去试用免费开源的 **Brainstorming Online**。
+
+2. **避坑指南：** Antigravity 登录不上请**绑定手机号**；部署应用请用 **GitHub Actions** 节省额度。
+
+3) **模型策略：** Claude Opus 太贵就换 Gemini Flash，视频生成首选即梦2。
+
+4) **环境建议：** 长期开发建议回归 VS Code，网络报错优先检查终端代理设置。
