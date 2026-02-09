@@ -74,13 +74,59 @@ function getWeekInfo(dateStr: string) {
 
 /**
  * 预处理日报 Markdown：
+ * - 规范化 URL：修复被 Markdown 过度转义的链接（如 \&、\_），并将“链接：URL”统一转成 Markdown 超链接
  * - 将 '---' 分节的首行转为 '## ' 标题
  * - 将“段落+列表”的段落标题转为 '## '（仅生成时使用，不改源）
  * - 自动强调关键提示词：结论/注意/建议/步骤（行首）
  * - 支持 ==高亮== 语法，转换为 <mark>
  */
+function transformOutsideCode(
+  markdown: string,
+  transform: (plainText: string) => string
+): string {
+  const fencedSegments = markdown.split(/(```[\s\S]*?```)/g);
+
+  return fencedSegments
+    .map((segment) => {
+      if (/^```[\s\S]*```$/.test(segment)) return segment;
+
+      const inlineCodeSegments = segment.split(/(`[^`\n]+`)/g);
+      return inlineCodeSegments
+        .map((part) => (/^`[^`\n]+`$/.test(part) ? part : transform(part)))
+        .join('');
+    })
+    .join('');
+}
+
+function normalizeSingleUrl(url: string): string {
+  return url
+    .replace(/\\([^\s])/g, '$1')
+    .replace(/&amp;/gi, '&')
+    .trim();
+}
+
+function normalizeMarkdownLinks(input: string): string {
+  return transformOutsideCode(input, (plainText) => {
+    let text = plainText;
+
+    // 将“链接：URL / 网址：URL”统一改为 Markdown 链接，避免渲染器只识别半截 URL。
+    text = text.replace(
+      /(^[ \t]*(?:[-*+]\s+)?(?:\*{1,2})?(?:链接|网址)[:：](?:\*{1,2})?\s*)(https?:\/\/[^\s)>]+)\s*$/gm,
+      (_m, prefix, url) => `${prefix}[点击查看原文](${normalizeSingleUrl(url)})`
+    );
+
+    // 修复 URL 中被错误转义的字符（例如 \&、\_）。
+    text = text.replace(
+      /https?:\/\/[^\s)>\u3002\uff0c\uff1b\uff1a\uff09]+/g,
+      (url) => normalizeSingleUrl(url)
+    );
+
+    return text;
+  });
+}
+
 function preprocessMarkdownForReport(input: string): string {
-  let md = input;
+  let md = normalizeMarkdownLinks(input);
 
   // 1) 支持 ==高亮== 转 <mark>高亮</mark>
   md = md.replace(/==([^=\n]+)==/g, (_m, p1) => `<mark>${p1}</mark>`);
@@ -181,14 +227,19 @@ export async function generateReportFiles(data: {
     for (const topic of data.approvedTopics) {
       if (!topic.addToKnowledge || !topic.categorySlug) continue;
 
+      const normalizedTopic: ApprovedTopicData = {
+        ...topic,
+        content: normalizeMarkdownLinks(topic.content),
+      };
+
       try {
         // 若选择了合并目标，则尝试把内容合并进现有文档
-        if (topic.mergeTargetUrl) {
+        if (normalizedTopic.mergeTargetUrl) {
           const merged = await mergeIntoExistingKnowledge(
-            topic.mergeTargetUrl,
+            normalizedTopic.mergeTargetUrl,
             {
-              title: topic.title,
-              content: topic.content,
+              title: normalizedTopic.title,
+              content: normalizedTopic.content,
               date: data.metadata.date,
             }
           );
@@ -205,11 +256,11 @@ export async function generateReportFiles(data: {
         }
 
         // 服务端兜底：即使没有前端指定合并目标，也尝试寻找相似文档优先合并
-        if (!topic.mergeTargetUrl) {
+        if (!normalizedTopic.mergeTargetUrl) {
           const index = await readKnowledgeIndex();
           const candidates = await findRelatedCandidates(
-            normalizeTitle(topic.title),
-            topic.content,
+            normalizeTitle(normalizedTopic.title),
+            normalizedTopic.content,
             index
           );
           if (
@@ -217,8 +268,8 @@ export async function generateReportFiles(data: {
             candidates[0].score >= AUTO_MERGE_THRESHOLD
           ) {
             const merged = await mergeIntoExistingKnowledge(candidates[0].url, {
-              title: topic.title,
-              content: topic.content,
+              title: normalizedTopic.title,
+              content: normalizedTopic.content,
               date: data.metadata.date,
             });
             if (merged.success && merged.filePath) {
@@ -231,12 +282,12 @@ export async function generateReportFiles(data: {
         // 默认：新建独立知识库文档
         const fileName = generateKnowledgeFileName(
           data.metadata.date,
-          topic.title
+          normalizedTopic.title
         );
         const knowledgeDir = path.join(
           contentDir,
           'knowledge',
-          topic.categorySlug
+          normalizedTopic.categorySlug
         );
 
         // 确保目录存在
@@ -244,16 +295,16 @@ export async function generateReportFiles(data: {
 
         const filePath = path.join(knowledgeDir, fileName);
         const content = generateKnowledgeMDX(
-          topic,
+          normalizedTopic,
           data.metadata,
-          topic.categoryName
+          normalizedTopic.categoryName
         );
 
         await fs.writeFile(filePath, content, 'utf-8');
         results.knowledgeFiles.push(filePath);
 
         // 更新分类的 meta.json
-        await updateKnowledgeMeta(topic.categorySlug, fileName);
+        await updateKnowledgeMeta(normalizedTopic.categorySlug, fileName);
       } catch (error) {
         console.error(
           `Failed to generate knowledge file for ${topic.title}:`,
@@ -386,7 +437,8 @@ async function mergeIntoExistingKnowledge(
       return { success: true, filePath }; // 已合并过
     }
 
-    const section = `\n\n${dateHeader}\n\n### ${safeTitle}\n> 摘自 [${payload.date} 日报](/reports/${payload.date})\n\n${payload.content}\n`;
+    const normalizedContent = normalizeMarkdownLinks(payload.content);
+    const section = `\n\n${dateHeader}\n\n### ${safeTitle}\n> 摘自 [${payload.date} 日报](/reports/${payload.date})\n\n${normalizedContent}\n`;
 
     const merged = original.trimEnd() + section + '\n';
     await fs.writeFile(filePath, merged, 'utf-8');
