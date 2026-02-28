@@ -1,3 +1,4 @@
+import type { Viewport } from 'next';
 import { Analytics } from '@/analytics/analytics';
 import {
   fontBricolageGrotesque,
@@ -5,6 +6,12 @@ import {
   fontNotoSansMono,
   fontNotoSerif,
 } from '@/assets/fonts';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
 import AffonsoScript from '@/components/affiliate/affonso';
 import PromotekitScript from '@/components/affiliate/promotekit';
 import { TailwindIndicator } from '@/components/layout/tailwind-indicator';
