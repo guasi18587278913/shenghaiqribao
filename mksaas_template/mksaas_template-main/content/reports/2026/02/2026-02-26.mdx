@@ -1,0 +1,68 @@
+---
+title: 02-26 AI产品出海日报
+description: 本期重点关注一套将书籍转化为AI Agent技能的实战工作流，以及Claude长文本管理技巧。此外还涉及OpenClaw创始人的早期趣闻及多模型博弈决策方法。
+date: "2026-02-26"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 💡 AI 实战工作流：从“拆书”到“蜂群”决策
+
+
+群友分享了一套利用AI辅助复杂决策的完整闭环，核心在于将书籍理论转化为可执行的 Agent Skill：
+
+1. **拆书成技（Book to Skill）：** 将高质量的决策类书籍拆解为独立的 Skill，结合个人笔记（如Obsidian中的积累），通过 Claude code 接入。
+1. **多模型博弈（小排老师方法）：** 在决策创业方向时，让 GPT 负责市场调研，让 Gemini 扮演“魔鬼代言人”进行反驳，以此进行辩论。
+1. **蜂群思维（Agent Team）：** 当单纯辩论无法得出结论时，动用 Agent Team 调用拆解好的 Skill。
+* **实战案例：** 在评估某创业方向时，Agent 并没有纠结于“做不做”，而是引导用户先去**小红书、闲鱼**发帖验证真实需求，并利用关键词规划器搜索流量。这直接将“瞎预测”转变为“验证真实需求”。
+* **开源资源：** 该决策 Skills 和拆书思路已开源（见文末资源）。
+
+### 🛠️ 技术讨论：Claude 上下文管理与环境隔离
+
+
+针对大家在使用 Claude 网页版时遇到的“上下文过长导致卡顿、发散”问题，群友总结了两种有效策略：
+
+* **压缩总结法：** 在开启新窗口前，先让当前 AI 对之前的聊天内容做一份高浓度的总结（压缩），在新对话中带入这份总结。
+* **文档迭代法（推荐）：**
+* 每次讨论前定好目标。
+* 要求 AI 将讨论结果实时生成/更新为一个文档。
+* 当 Token 超限或卡顿时，将最新文档下载下来，在新的对话窗口上传并继续讨论。
+
+此外，有群友反馈近期 Gemini 响应速度变慢，简单的回复也需要较长时间思考，建议尝试重新登录解决。
+
+
+### 🗣️ 行业八卦：OpenClaw 创始人与榜单往事
+
+
+围绕一篇关于 OpenClaw 创始人吐槽 Google Gemini 的文章，群内延伸出了一些有趣的行业背景：
+
+* **榜单轶事：** 刘小排透露，在 OpenClaw 成立之前，其创始人曾与他在同一个 AI 消费榜单上。按金额算刘小排是榜一，但按 Token 消耗量算对方更高（当时对方主要使用 Sonnet 模型），侧面印证了其在技术探索上的高频投入。
+* **Gemini 争议：** 群内对 Gemini 的未来发展存在分歧，部分观点认为其团队（Antigravity）的管理风格可能影响了产品的稳定性与竞争力。
+
+### 🚀 社区动态
+
+* **流量增长案例：** 刘小排回归并在多个群内分享了近期流量增长的复盘文章，强调好产品配合“自传播”策略（如“小龙虾”工具）的威力。
+
+***
+
+
+### 🔗 精选资源与链接
+
+* **[GitHub] AI决策辅助工具：** 包含决策 skills 和拆书 skills 的开源项目。
+  https://github.com/apple-ouyang/book-to-skill
+* **[文章] 流量增长复盘：** “你最近干了什么了 流量涨这么多！！”
+  https://mp.weixin.qq.com/s?__biz=MzI1MTUxNzgxMA==&mid=2247501188&idx=1&sn=7d508e7b5f98fea63cf4f5d5d3d99454&chksm=e8b055e74c6908b91bebe3d8db8f5cca6dc9d5d66dd147126e56ea1bb80604e113a7d5feb06a&mpshare=1&scene=1&srcid=0226A06RbmKSIIf7ihp9bxA4&sharer_shareinfo=20b800fe1fbb94598dbc98c13de69961&sharer_shareinfo_first=20b800fe1fbb94598dbc98c13de69961#rd
+* **[文章] OpenClaw创始人访谈：** 吐槽Gemini自信“100%能跑”结果崩溃的故事。
+  https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2651276369&idx=1&sn=e892f9bcb121372ce34286f00a65ffd1&chksm=bc43ee07912067bc237cdc0991c0ca6ac386e895e26bef29c7411f4a828b16bba5584bedd482&mpshare=1&scene=1&srcid=0226H5fT59IoF9Qcop7dgGUW&sharer_shareinfo=0341324774a3b9ff81f0e4f348d3c0be&sharer_shareinfo_first=0341324774a3b9ff81f0e4f348d3c0be#rd
+* **[小红书] AI应用案例：** 用AI当上皇帝的第3天体验。
+  https://www.xiaohongshu.com/discovery/item/6998638f000000000d0092fe?app_platform=android&ignoreEngage=true&app_version=9.16.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CByHyY65lLGtF5cyAVKUDUXaaizKR3PGJjEsz2ELQ4ETM%3D&author_share=1&xhsshare=&shareRedId=ODk3NTg2PTs2NzUyOTgwNjc1OTk7Rz5C&apptime=1772086614&share_id=6ef96e729d2146a3a784a18a51eb1b7c&share_channel=wechat
+
+***
+
+
+### 📝 总结
+
+1. **决策新范式：** 遇到纠结的决策，尝试将书本理论转化为 Agent Skill，引导自己去市场上（闲鱼/小红书）验证需求，而不是空想。
+1. **长文本技巧：** 使用 Claude 进行长任务时，养成“边聊边改文档”的习惯，用文档作为不同会话间的“记忆硬盘”。
+1. **行业观察：** OpenClaw 的崛起并非偶然，其创始人早期便是高强度的 LLM 深度用户。
