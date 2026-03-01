@@ -1,0 +1,91 @@
+---
+title: 02-28 AI产品出海日报
+description: 今日群聊主要围绕 AI Agent 工具（主要是 OpenClaw/小龙虾与 Claude Code）的实战部署与进阶玩法展开。从基础的 VPS 环境配置、权限绕过，深入到多 Agent 相互运维的“自愈”架构，并引发了一场关于“Token 更是燃料而非圣物”的深度讨论。
+date: "2026-02-28"
+author: AI产品出海社群
+published: true
+tags: []
+---
+
+### 群聊日报：OpenClaw(小龙虾)进阶配置、多Agent“自愈”架构与Token“燃料论”
+
+**日期：** 2026-02-28
+
+今日群聊主要围绕 AI Agent 工具（主要是 OpenClaw/小龙虾与 Claude Code）的**实战部署**与**进阶玩法**展开。从基础的 VPS 环境配置、权限绕过，深入到多 Agent 相互运维的“自愈”架构，并引发了一场关于“Token 更是燃料而非圣物”的深度讨论。
+
+### 🛠️ 技术实战：OpenClaw 与 CC 的部署调优
+
+**1. 部署环境共识：VPS + Docker**
+大家普遍认为，相比于在 Windows 上折腾，使用海外 VPS 配合 Docker 部署 OpenClaw（小龙虾）是更优解。Windows 环境被认为“乱七八糟的问题多，容易浪费精力”，而 Linux 环境（如 Ubuntu）更适合 Agent 运行。
+
+* **权限问题：** 为了让 Agent（如 Claude Code）能顺利修改配置或执行任务，VPS 上通常需要 Root 权限。有群友指出，“反正 VPS 上都是 Root 权限，坏了就重装”，不必过分纠结权限隔离，实用优先。
+
+**2. 免确认模式（Bypass）配置**
+为了避免 Claude Code (CC) 执行每一步操作都弹窗询问，大家分享了修改 ~/.claude/settings.json 的方法。
+
+* **核心配置：** 将 defaultMode 设置为 bypassPermissions，并在 permissions 中允许 Bash、File Edit 等操作。
+
+* **注意：** 如果使用 npm 安装可能仍会弹窗，建议检查安装方式；部分用户通过 ACL 开放 Root 目录并添加 Sudo 权限来解决非 Root 用户的执行问题。
+
+**3. ACP 与 Codex 的正确调用姿势**
+
+* **Codex 会话启动：** 使用 /acp spawn codex 并非切换模型，而是临时启动一个 Codex 会话，任务结束后会自动切回主模型。
+
+* **浏览器支持：** 对于需要 GUI 浏览器的操作，推荐在 VPS 上安装 Ubuntu Desktop + Edge，或者使用 Xvfb 虚拟桌面。
+
+### 💡 核心观点：Token 是燃料，不是圣物
+
+**1. “Token 燃料论”**
+今日讨论中最具启发性的观点认为：**不要把 Token 当作珍贵的圣物，而要把它当作燃料去“烧”。**
+
+* **ROI 思维：** 只有通过大量消耗 Token，才能炼出真正的数据、方法和产品。不敢烧 Token，就永远困在“我配不配”的焦虑中。
+
+* **量变到质变：** 购买高级账号（如 200 刀额度）会改变使用心态——从“省着通过”变成“拼命想它还能干什么”。初期产出的可能是一堆垃圾，但经过多次重构和迭代，价值会呈指数级上升。
+
+**2. 模型性价比选择**
+
+* 如果预算有限只能二选一，**Codex** 被认为性价比极高（既能 Coding 又能授权给小龙虾做 API）。
+
+* 理想配置是：Claude（通用性强/主脑）+ Codex（燃料/执行/Review）。
+
+### 🤖 进阶架构：多 Agent 协作与“自愈”系统
+
+有群友分享了成熟的**多 Agent（4-5只）协作体系**，展示了 AI 员工的高阶玩法：
+
+* **角色分工：** 系统中包含主管（二宝）、分析师、交易员、PM 等不同角色的 Agent。
+
+* **独立网关与互救：** 每个 Agent 拥有独立记忆和网关。关键在于引入了“运维 Agent”，负责巡检其他 Agent 的状态。
+
+* 场景示例： 如果主干活的 Agent“缺氧”或死机，运维 Agent 会介入进行救治和重启，实现了系统的初步“自愈”。
+
+* **开发模式：** 从配置到运维，全程让 Claude 自己搞定，人类只负责顶层设计和提供 Cursor“续命”。
+
+### 📚 精选资源与工具
+
+1. **文章：WEB 出海开发实践之工具应用**
+
+* **内容：** 涵盖数据库 Migration 管理、Supabase 多项目共用、Claude Code 安全模式、GitHub Actions 自动备份及域名邮箱配置。
+
+* **链接：** https://scys.com/deepsea/2001/note/6422
+
+1. **飞书 API 提额申请**
+
+* **内容：** 飞书 API 调用额度提升至 5w，可申请取消限额（截止3月底），适合国内环境接入 OpenClaw。
+
+* **链接：** https://bytedance.larkoffice.com/share/base/form/shrcniy7Xzpp1dL75aOPtvEJTZd?from=navigation
+
+1. **Aineos (案例演示)**
+
+* **内容：** 群友通过 AI 全自动复盘、开发、部署上线的演示网站。
+
+* **链接：** https://aineos.jubao.ai/
+
+### 📝 总结与行动建议
+
+1. **配置建议：** 玩 Agent 请首选 VPS + Docker 环境，不要在 Windows 上浪费时间；善用配置文件开启 Bypass 模式以提升自动化效率。
+
+1. **心态升级：** 改变对 Token 的吝啬态度，将其视为投资成本。高强度的试错和迭代是产出高价值 AI 应用的必经之路。
+
+1. **架构尝试：** 有余力的玩家可以尝试“双 Agent”互为运维的模式，提升系统的稳定性，让 AI 自己去修 AI。
+
+1. **飞书红利：** 国内用户建议抓住飞书 API 提额的窗口期，优化办公场景下的 Agent 体验。
