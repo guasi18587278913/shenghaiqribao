@@ -21,9 +21,9 @@ tags: []
 * **权限问题：** 为了让 Agent（如 Claude Code）能顺利修改配置或执行任务，VPS 上通常需要 Root 权限。有群友指出，“反正 VPS 上都是 Root 权限，坏了就重装”，不必过分纠结权限隔离，实用优先。
 
 **2. 免确认模式（Bypass）配置**
-为了避免 Claude Code (CC) 执行每一步操作都弹窗询问，大家分享了修改 ~/.claude/settings.json 的方法。
+为了避免 Claude Code（CC）执行每一步操作都弹窗询问，大家分享了修改配置文件的方法。
 
-* **核心配置：** 将 defaultMode 设置为 bypassPermissions，并在 permissions 中允许 Bash、File Edit 等操作。
+* **核心配置：** 将 defaultMode 设置为免确认模式，并在 permissions 中允许 Bash、File Edit 等操作。
 
 * **注意：** 如果使用 npm 安装可能仍会弹窗，建议检查安装方式；部分用户通过 ACL 开放 Root 目录并添加 Sudo 权限来解决非 Root 用户的执行问题。
 
@@ -62,23 +62,17 @@ tags: []
 
 ### 📚 精选资源与工具
 
-1. **文章：WEB 出海开发实践之工具应用**
+* **文章：WEB 出海开发实践之工具应用**
+  涵盖数据库 Migration 管理、Supabase 多项目共用、Claude Code 安全模式、GitHub Actions 自动备份及域名邮箱配置。
+  [点击阅读](https://scys.com/deepsea/2001/note/6422)
 
-* **内容：** 涵盖数据库 Migration 管理、Supabase 多项目共用、Claude Code 安全模式、GitHub Actions 自动备份及域名邮箱配置。
+* **飞书 API 提额申请**
+  飞书 API 调用额度提升至 5w，可申请取消限额（截止3月底），适合国内环境接入 OpenClaw。
+  [前往申请](https://bytedance.larkoffice.com/share/base/form/shrcniy7Xzpp1dL75aOPtvEJTZd?from=navigation)
 
-* **链接：** https://scys.com/deepsea/2001/note/6422
-
-1. **飞书 API 提额申请**
-
-* **内容：** 飞书 API 调用额度提升至 5w，可申请取消限额（截止3月底），适合国内环境接入 OpenClaw。
-
-* **链接：** https://bytedance.larkoffice.com/share/base/form/shrcniy7Xzpp1dL75aOPtvEJTZd?from=navigation
-
-1. **Aineos (案例演示)**
-
-* **内容：** 群友通过 AI 全自动复盘、开发、部署上线的演示网站。
-
-* **链接：** https://aineos.jubao.ai/
+* **Aineos（案例演示）**
+  群友通过 AI 全自动复盘、开发、部署上线的演示网站。
+  [查看演示](https://aineos.jubao.ai/)
 
 ### 📝 总结与行动建议
 
