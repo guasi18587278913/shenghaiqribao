@@ -1,0 +1,85 @@
+---
+title: 03-06 AI产品出海日报
+description: "今日群聊含金量极高，不仅迎来了 GPT-5.4 的发布与实测讨论，还深入探讨了如何通过“模型分级”策略省钱提效。此外，生财“AI编程深海圈”第三期正式官宣升级，增加了移动端开发内容。技术侧则集中在 OpenClaw 配置、Claude Code 节省 Token 技巧及网络规则优化上。"
+date: "2026-03-06"
+author: AI产品出海社群
+published: true
+tags: []
+---
+### 01. 重磅发布：GPT-5.4 上线与实测反馈
+
+**GPT-5.4 初步评价**
+GPT-5.4 及 Pro 版本今日发布，引发群内热议。
+
+* **能力提升：** 多位成员反馈 5.4 终于“能说人话了”，相比之前的版本，语言表达更加清晰自然，不再是生硬的汉字堆砌。
+* **与 Claude 对比：**
+* 在浅层推理、快速任务上，Claude Opus/Sonnet 依然有低延迟优势；
+* 在深度推理、复杂项目规划及 Agent 任务中，GPT-5.4 表现出更强的规划能力（“Claude 还在想，GPT 已经干完”）。
+* **兼容性：** OpenClaw 目前可通过 OAuth 授权或反向 API 支持 GPT-5.4；Codex 用户也可以直接调用。
+**高阶玩法：模型分级管理策略（省钱必看）**
+针对日益昂贵的模型费用，资深群友（Moore 助教等）提出了一套**“模型分级管理”**的高效策略，拒绝“用高管扫地”：
+
+
+---
+
+### 02. 社区动态：“AI编程深海圈”第三期启动
+
+**课程全新升级**
+“AI产品深海圈”正式更名为“**AI编程深海圈**”，将于 **3月10日** 开启报名。
+
+* **核心变化：** 内容从单纯使用工具进化为指挥 AI 开发产品。新增了 **微信小程序** 和 **APP** 等国内应用场景的实战内容。
+* **老学员权益：** 在期学员可免费学习三期更新内容；二期将于10月中下旬到期，届时开放续费。
+* **开放政策：** 本期课程允许非生财圈友直接报名。
+**志愿者与助教招募**
+目前正招募第三期志愿者（新人引路人）和助教（技术答疑）。
+
+* **福利：** 官方周边、优先链接新人人脉。
+* **注意：** 填写报名表单若遇反复验证问题，需先清理缓存（链接见下方资源区）。
+
+---
+
+### 03. 技术实战：工具配置与避坑指南
+
+**Claude Code (CC) 使用技巧**
+
+* **Token 爆炸预警：** 有群友使用 Claude Code 时 Token 消耗极快（甚至达到 7.3M 上下文）。
+* **原因：** 长期未清理上下文，导致历史记忆累积。
+* **解决：** 养成使用 /clear 命令清理上下文的习惯，或编写脚本限制。
+* **调用 Codex：** 在 CC 中调用 Codex 或 Gemini，推荐使用 GuDaStudio/commands 插件。
+**网络配置与规则优化 (Clash/Surge)**
+
+* **TUN 模式的重要性：** 多位群友反馈，不开 TUN 模式会导致部分软件（如 antigravity、模型列表加载）无法正常工作。建议常驻 TUN 模式。
+* **规则集推荐：**
+* **Loyalsoldier：** 被公认为最简单、稳健、开箱即用的方案，适合不想折腾的用户。
+* **MetaCubeX/Dat文件：** 适合喜欢自定义的高级用户，规则粒度更细，但配置相对繁琐。
+* **共识：** 对于绝大多数用户，引用成熟的在线规则集（如 Loyalsoldier）比自己手搓规则更高效。
+**前端设计工具讨论：Pencil vs. AI 直出**
+
+* **Pencil 评价：** 群友普遍认为 Pencil 虽然能出线框图，但操作繁琐（先生成-再修改-再接代码），实用性一般，“有点脱裤子放屁”。
+* **替代方案：**
+
+---
+
+### 04. 精选资源与链接
+
+* **[文章] GPT-5.4 发布解读**
+  https://mp.weixin.qq.com/s?t=pages/image_detail&scene=1&__biz=MzI1MTUxNzgxMA==&mid=2247501391&idx=1&sn=cab9b8c4bb4af6728c47a69da8766cba&from_masonry=1&sharer_shareinfo_first=4605d2e2c161aed2ce25793316ed60d9&sharer_shareinfo=4605d2e2c161aed2ce25793316ed60d9#wechat_redirect
+* **[文章] OpenClaw + GPT-5.4 订阅模式指南**
+  https://mp.weixin.qq.com/s?__biz=MzY4MzE1MzAyNg==&mid=2247485615&idx=1&sn=9a674aec4e96466186e4965cec0503ec&chksm=f28b17116cff60eea2a137b8d278c301ac9d6f1277fd557160ff6a0da44322b1573abcc2ac60&mpshare=1&scene=1&srcid=0306EBvzw7FurcZwa7QC6Jaz&sharer_shareinfo=0bf567350cd589607a27cd672c22d57b&sharer_shareinfo_first=0bf567350cd589607a27cd672c22d57b#rd
+* **[星球帖] 深海圈第三期报名详情**
+  https://t.zsxq.com/iL1zv
+* **[表单] 深海圈第三期志愿者招募**
+  https://scys.com/form/z27VzzFE
+* **[工具] 表单验证死循环修复链接**
+  https://scys.com/clean
+* **[GitHub] Clash 规则集 (Loyalsoldier)**
+  https://github.com/Loyalsoldier/clash-rules/tree/master
+* **[GitHub] CC 调用 Codex 插件**
+  https://github.com/GuDaStudio/commands
+* **[工具] 代理 API 反代工具 (CLIProxyAPI)**
+  https://github.com/router-for-me/CLIProxyAPI
+
+---
+
+### 📝 总结：今日要点
+
